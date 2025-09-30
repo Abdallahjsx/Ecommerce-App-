@@ -35,7 +35,7 @@ export default function Home() {
           🚀 Let’s crush this together, Alluvo!
         </p>
       </main>
-      <h5>the first line in development branch</h5>
+      <h5>the REAL first line in development branch</h5>
 
       <footer className="home-footer">
         © {new Date().getFullYear()} Alluvo Team — built with love, laughter,
