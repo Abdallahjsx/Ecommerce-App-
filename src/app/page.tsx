@@ -1,94 +1,45 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="home-container">
+      <main className="home-main">
+        <h1 className="home-title">
+          🎉 Hey Alluvo Family!
+        </h1>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
+        <p className="home-paragraph">
+          This Is{" "}
+          <span className="highlight">Abdallah Nasser</span>{" "}
+          speaking — your friend, a React frontend developer, and a React Native
+          mobile developer. But It is not Alluvo Team It's
+          <span className="highlight"> Alluvo Family</span> {""}
+          Started and Continue Together For A Whole Year
+        </p>
+
+        <p className="home-paragraph">
+          To my{" "}
+          <span className="friends">Alluvo friends</span>:
+          this isn’t just a graduation project—it’s our story, full of late
+          nights, laughs, bugs, fixes, and a whole lot of memories in the
+          making. We’re not just coding; we’re creating something we’ll always
+          look back at with a smile.
+        </p>
+
+        <p className="home-paragraph">
+          And a big shoutout to my{" "}
+          <span className="frontend-crew">Frontend crew</span> 💚
+          Let’s make these screens not just beautiful, but alive. Together,
+          we’ll make people feel the heart we put in every pixel.
+        </p>
+
+        <p className="home-shoutout">
+          🚀 Let’s crush this together, Alluvo!
+        </p>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      <h5>the first line in development branch</h5>
+
+      <footer className="home-footer">
+        © {new Date().getFullYear()} Alluvo Team — built with love, laughter,
+        and a ton of coffee ☕
       </footer>
     </div>
   );
