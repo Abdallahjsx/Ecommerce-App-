@@ -1,3 +1,45 @@
+## 🌱 GitHub Workflow
+
+### 📌 Branch Naming
+- **Feature** → `Feature/task-1-create-car`
+- **Bug Fix** → `Fix/bug-1-car-instance-null-exception`
+
+### 📌 Commit Messages
+**Adding**
+```
+- Add handler
+- Add repository
+- Add contract
+- Add migrations
+```
+
+**Deleting**
+```
+- Remove DTO file
+```
+
+**Editing**
+```
+- Update AddService in Repository
+```
+
+### 📌 Branch Rules
+- `master` → Production (Restricted)
+- `staging` → Pre-production (Read-only)
+- `development` → Main integration branch (all team commits)
+- Personal branches → per developer
+
+### 📌 Contribution Process
+1. Clone repo OR pull development branch
+2. Create personal branch → `Feature/...` or `Bug/...`
+3. Commit small changes frequently
+4. Checkout development, pull latest
+5. Merge development → personal branch
+6. Push changes
+7. Create Pull Request (PR)
+8. Repeat cycle
+
+---
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
