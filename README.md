@@ -1,35 +1,161 @@
-## 🌱 GitHub Workflow
+# 📝 Project Conventions
 
-### 📌 Branch Naming
+هذا الملف يحتوي على القواعد الأساسية التي يجب أن يلتزم بها كل أعضاء الفريق أثناء العمل على المشروع، لضمان تنظيم الكود وسهولة التعاون.
+
+---
+
+## 1️⃣ Naming Conventions
+
+- **React Components (inside code):** `PascalCase`  
+  Example: `UserCard`, `ProfilePage`
+
+- **Types & Interfaces:** `PascalCase`  
+  Example: `UserType`, `AuthResponse`, `ProductInterface`
+
+- **Functions:** `camalCase`  
+  Example: `getUser()`, `calculateTotalPrice()`
+
+- **Global Constants (inside code):** `UPPER_CASE`  
+   Example: `API_URL`, `TOKEN_KEY`
+- **Variables** : `camalCase`
+  Examples: `const userName = "John"`,
+  `const isLoggedIn = true`
+- **Folder Names (general):** `camelCase`
+  Example: `userService`, `authGuard`
+- **File Names For Components Files :** `PascalCase` just like the Name of the _component_ itself  
+  Example: `UserService.ts`, `AuthGuard.ts`
+
+- **Enums:** `PascalCase` for the enum name, `UPPER_CASE` for members  
+  Example:
+  ```ts
+  enum UserRole {
+    ADMIN,
+    CUSTOMER,
+    GUEST,
+  }
+  ```
+
+-**Environment Variables:** Always UPPER_CASE and prefixed with NEXT_PUBLIC if exposed to the client
+Example:
+
+```ts
+NEXT_PUBLIC_API_URL=https://example.com/api
+NEXT_PUBLIC_GOOGLE_KEY=xxxxxxx
+```
+
+# 📝 Commit Message Conventions
+
+This Part defines the rules for writing commit messages in the project.
+The goal is to keep commits **short, clear, and consistent** across all team members.
+
+---
+
+## 1️⃣ الصيغة العامة
+
+- **ACTION** → keyword (ADD, FIX, UPDATE, …)
+- **Short description** → what was changed (preferably ≤ 50 characters).
+
+---
+
+## 2️⃣ Available Actions
+
+- `ADD:` Add something new (component, file, feature)
+  Example: `ADD: userCard component`
+
+- `UPDATE:` Modify or improve something existing
+  Example: `UPDATE: navbar responsive behavior`
+
+- `FIX:` Fix an error or issue
+  Example: `FIX: login button not redirecting`
+
+- `RENAME:` Rename a file or component
+  Example: `RENAME: profilePage to userProfilePage`
+
+- `REMOVE:` Delete unused file or code
+  Example: `REMOVE: old auth service`
+
+- `REFACTOR:` Restructure code without changing behavior
+  Example: `REFACTOR: fetchData util with axios`
+
+- `STYLE:` Style-only changes (formatting, linting)
+  Example: `STYLE: format code with Prettier`
+
+- `DOCS:` Documentation changes (README, comments)
+  Example: `DOCS: update setup instructions`
+
+- `TEST:` Add or modify tests
+  Example: `TEST: add unit tests for auth service`
+
+- `CONFIG:` Update project configuration (ESLint, Prettier, tsconfig)
+  Example: `CONFIG: update ESLint rules`
+
+---
+
+- `ADD:` إضافة شيء جديد (مكون، ملف، خاصية)
+  Example : `ADD: userCard component`
+
+- `UPDATE:` تعديل أو تحسين شيء موجود
+  Example : `UPDATE: navbar responsive behavior`
+
+- `FIX:` إصلاح خطأ أو مشكلة
+  Example : `FIX: login button not redirecting`
+
+- `RENAME:` إعادة تسمية ملف أو مكون
+  Example : `RENAME: profilePage to userProfilePage`
+
+- `REMOVE:` حذف ملف أو كود غير مستخدم
+  Example : `REMOVE: old auth service`
+
+- `REFACTOR:` إعادة هيكلة الكود بدون تغيير السلوك
+  Example : `REFACTOR: fetchData util with axios`
+
+- `STYLE:` تعديلات شكلية (تنسيق، linting)
+  Example : `STYLE: format code with Prettier`
+
+- `DOCS:` تعديل أو إضافة في التوثيق (README, comments)
+  Example : `DOCS: update setup instructions`
+
+- `TEST:` إضافة أو تعديل اختبارات
+  Example : `TEST: add unit tests for auth service`
+
+- `CONFIG:` تعديل إعدادات المشروع (ESLint, Prettier, tsconfig)
+  Example : `CONFIG: update ESLint rules`
+
+---
+
+## 3️⃣ Golden Rules
+
+- ✅Start Directly With The **ACTION** (ADD... , FIX...,REMOVE...)
+- ✅ Keep the description **short and direct**.
+- ✅ Split large changes into smaller commits.
+- ❌ Avoid vague words like: `changes`, `work`, `stuff`.
+
+---
+
+## 4️⃣ GOOD EXAMPLES
+
+ADD: productCard component
+UPDATE: global styles with new theme
+FIX: hydration error in home page
+REFACTOR: dashboard layout structure
+REMOVE: unused user type
+
+# 🌱 GitHub Workflow
+
+## 📌 Branch Naming
+
 - **Feature** → `Feature/task-1-create-car`
 - **Bug Fix** → `Fix/bug-1-car-instance-null-exception`
 
-### 📌 Commit Messages
-**Adding**
-```
-- Add handler
-- Add repository
-- Add contract
-- Add migrations
-```
+## 📌 Branch Rules
 
-**Deleting**
-```
-- Remove DTO file
-```
-
-**Editing**
-```
-- Update AddService in Repository
-```
-
-### 📌 Branch Rules
 - `master` → Production (Restricted)
 - `staging` → Pre-production (Read-only)
 - `development` → Main integration branch (all team commits)
 - Personal branches → per developer
 
-### 📌 Contribution Process
+## 📌 Contribution Process
+
 1. Clone repo OR pull development branch
 2. Create personal branch → `Feature/...` or `Bug/...`
 3. Commit small changes frequently
@@ -40,9 +166,23 @@
 8. Repeat cycle
 
 ---
+
+# General Rule 
+
+Every **shared component, function, or service** must have clear comments or documentation explaining:
+
+- **What it does**
+- **Inputs / parameters**
+- **Outputs / return values**
+- **Any assumptions or important notes**
+
+This ensures that anyone in the team can understand and use the code without confusion.
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Getting Started
 
 First, run the development server:
 
