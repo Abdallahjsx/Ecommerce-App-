@@ -23,7 +23,9 @@
 - **Folder Names (general):** `camelCase`
   Example: `userService`, `authGuard`
 - **File Names For Components Files :** `PascalCase` just like the Name of the _component_ itself  
-  Example: `UserService.ts`, `AuthGuard.ts`
+   Example: `UserService.ts`, `AuthGuard.ts`
+- **File Names (GENERAL ) :**`camelCase`
+  Example: `auth`, `utils`
 
 - **Enums:** `PascalCase` for the enum name, `UPPER_CASE` for members  
   Example:
@@ -167,7 +169,7 @@ REMOVE: unused user type
 
 ---
 
-# General Rule 
+# General Rule
 
 Every **shared component, function, or service** must have clear comments or documentation explaining:
 
