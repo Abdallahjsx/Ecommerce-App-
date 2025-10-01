@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {poppinsFont,interFont,cinzelDecorativeFont} from "../config/fonts"
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-
+import { theme } from "../config/theme";
+import { ThemeProvider } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import "../styles/globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,9 +17,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+    <html lang="en" className={`${poppinsFont.variable} ${interFont.variable} ${cinzelDecorativeFont.variable}`}>
+      <body >
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={theme}> {children}</ThemeProvider>
+          <CssBaseline />
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
