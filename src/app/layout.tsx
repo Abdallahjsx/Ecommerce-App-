@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import {poppinsFont,interFont,cinzelDecorativeFont} from "../config/fonts"
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { theme } from "../config/theme";
-import { ThemeProvider } from "@mui/material";
-import { CssBaseline } from "@mui/material";
+import { ThemeProvider, CssBaseline } from "@mui/material";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
