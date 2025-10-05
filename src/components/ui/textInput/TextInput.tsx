@@ -2,15 +2,15 @@
 
 import { TextField, InputAdornment, Box, Typography, useTheme } from "@mui/material";
 import Image from "next/image";
-import calendarIcon from "@/icons/calendar.svg"; // موجود في src/icons/calendar.svg
+import eyeIcon from "../../../../public/assets/icons/eye.svg"; // موجود في src/icons/eye.svg
 
-export interface DateInputProps {
+export interface TextInputProps {
   label: string;
   placeholder?: string;
   error?: string;
 }
 
-export default function DateInput({ label, placeholder = "DD/MM/YYYY", error }: DateInputProps) {
+export default function TextInput({ label, placeholder, error }: TextInputProps) {
   const theme = useTheme();
 
   return (
@@ -38,7 +38,7 @@ export default function DateInput({ label, placeholder = "DD/MM/YYYY", error }: 
         {label}
       </Typography>
 
-      {/* Input with static Calendar Icon */}
+      {/* Input with static Eye Icon */}
       <TextField
         placeholder={placeholder}
         error={!!error}
@@ -63,7 +63,7 @@ export default function DateInput({ label, placeholder = "DD/MM/YYYY", error }: 
           },
           "& input": {
             padding: theme.tokens.inputs.padding,
-            paddingRight: `${theme.tokens.icons.calendar.width + 20}px`, // مساحة للأيقونة
+            paddingRight: `${theme.tokens.icons.eye.width + 20}px`, // ديناميكي حسب حجم الأيقونة
             fontSize: theme.tokens.inputs.fontSize,
             color: theme.tokens.typographyColors.body,
           },
@@ -76,10 +76,10 @@ export default function DateInput({ label, placeholder = "DD/MM/YYYY", error }: 
           endAdornment: (
             <InputAdornment position="end">
               <Image
-                src={calendarIcon}
-                alt="calendar icon"
-                width={theme.tokens.icons.calendar.width}
-                height={theme.tokens.icons.calendar.height}
+                src={eyeIcon}
+                alt="eye icon"
+                width={theme.tokens.icons.eye.width}
+                height={theme.tokens.icons.eye.height}
               />
             </InputAdornment>
           ),
@@ -111,3 +111,5 @@ export default function DateInput({ label, placeholder = "DD/MM/YYYY", error }: 
     </Box>
   );
 }
+
+

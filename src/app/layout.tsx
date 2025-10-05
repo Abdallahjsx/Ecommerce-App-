@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import {poppinsFont,interFont,cinzelDecorativeFont} from "../config/fonts"
+import { poppinsFont, interFont, cinzelDecorativeFont } from "../config/fonts";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-import { theme } from "../config/theme";
-import { ThemeProvider, CssBaseline } from "@mui/material";
+import ThemeProviderWrapper from "@/providers/themeProviderWrapper";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
@@ -16,11 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppinsFont.variable} ${interFont.variable} ${cinzelDecorativeFont.variable}`}>
-      <body >
+    <html
+      lang="en"
+      className={`${poppinsFont.variable} ${interFont.variable} ${cinzelDecorativeFont.variable}`}
+    >
+      <body>
         <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}> {children}</ThemeProvider>
-          <CssBaseline />
+          <ThemeProviderWrapper> {children}</ThemeProviderWrapper>
         </AppRouterCacheProvider>
       </body>
     </html>

@@ -2,15 +2,15 @@
 
 import { TextField, InputAdornment, Box, Typography, useTheme } from "@mui/material";
 import Image from "next/image";
-import eyeIcon from "@/icons/eye.svg"; // موجود في src/icons/eye.svg
+import calendarIcon from "../../../../public/assets/icons/calendar.svg"; // موجود في src/icons/calendar.svg
 
-export interface TextInputProps {
+export interface DateInputProps {
   label: string;
   placeholder?: string;
   error?: string;
 }
 
-export default function TextInput({ label, placeholder, error }: TextInputProps) {
+export default function DateInput({ label, placeholder = "DD/MM/YYYY", error }: DateInputProps) {
   const theme = useTheme();
 
   return (
@@ -38,7 +38,7 @@ export default function TextInput({ label, placeholder, error }: TextInputProps)
         {label}
       </Typography>
 
-      {/* Input with static Eye Icon */}
+      {/* Input with static Calendar Icon */}
       <TextField
         placeholder={placeholder}
         error={!!error}
@@ -63,7 +63,7 @@ export default function TextInput({ label, placeholder, error }: TextInputProps)
           },
           "& input": {
             padding: theme.tokens.inputs.padding,
-            paddingRight: `${theme.tokens.icons.eye.width + 20}px`, // ديناميكي حسب حجم الأيقونة
+            paddingRight: `${theme.tokens.icons.calendar.width + 20}px`, // مساحة للأيقونة
             fontSize: theme.tokens.inputs.fontSize,
             color: theme.tokens.typographyColors.body,
           },
@@ -76,10 +76,10 @@ export default function TextInput({ label, placeholder, error }: TextInputProps)
           endAdornment: (
             <InputAdornment position="end">
               <Image
-                src={eyeIcon}
-                alt="eye icon"
-                width={theme.tokens.icons.eye.width}
-                height={theme.tokens.icons.eye.height}
+                src={calendarIcon}
+                alt="calendar icon"
+                width={theme.tokens.icons.calendar.width}
+                height={theme.tokens.icons.calendar.height}
               />
             </InputAdornment>
           ),
@@ -111,5 +111,3 @@ export default function TextInput({ label, placeholder, error }: TextInputProps)
     </Box>
   );
 }
-
-

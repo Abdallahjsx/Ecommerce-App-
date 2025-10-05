@@ -1,7 +1,7 @@
-"use client";
-
 import { createTheme } from "@mui/material/styles";
 import { TokensColorType } from "@/types";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import React from "react";
 
 declare module "@mui/material/styles" {
   interface Theme {
@@ -333,4 +333,3 @@ export const theme = createTheme({
     },
   },
 });
-
