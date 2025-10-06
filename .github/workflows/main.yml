@@ -1,26 +1,30 @@
 name: Build & Deploy Next.js Static Export to MonsterASP.NET
+
 on:
   push:
     branches:
-      - staging
+      - staging     # 👈 change to 'main' if you want to deploy production
+
 jobs:
   build_deploy:
     runs-on: windows-latest
+
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Node.js
+      - name: 🧾 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          
-      - name: Install dependencies
+
+      - name: 📦 Install Dependencies
         run: npm ci
-        
-      - name: Build and Export Next.js
+
+      - name: 🏗️ Build and Export Next.js
         run: npm run build
-        
-      - name: Prepare publish folder
+
+      - name: 🗂️ Prepare publish folder
         shell: cmd
         run: |
           echo 📦 Preparing static export for deployment...
@@ -32,8 +36,8 @@ jobs:
             echo ❌ Error: out directory not found
             exit 1
           )
-          
-      - name: Deploy via WebDeploy
+
+      - name: 🚀 Deploy via WebDeploy
         uses: rasmusbuchholdt/simply-web-deploy@2.1.0
         with:
           website-name: ${{ secrets.WEBSITE_NAME }}
