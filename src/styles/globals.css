@@ -1,4 +1,7 @@
-/* Container */
-body{
-  margin: 0
+* {
+  margin: 0;
+}
+a {
+  text-decoration: none;
+  cursor: pointer;
 }
