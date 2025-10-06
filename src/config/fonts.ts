@@ -11,5 +11,6 @@ export const interFont=Inter({
 })
 export const cinzelDecorativeFont=Cinzel_Decorative({
   weight:["400","700",],
+  subsets:['latin'],
   variable: "--font-cinzel", 
 })
