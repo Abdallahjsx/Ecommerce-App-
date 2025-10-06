@@ -3,7 +3,7 @@ name: Build & Deploy Next.js Static Export to MonsterASP.NET
 on:
   push:
     branches:
-      - staging   # change to 'main' if you deploy from main branch
+      - staging     # 👈 change to 'main' if you want to deploy production
 
 jobs:
   build_deploy:
