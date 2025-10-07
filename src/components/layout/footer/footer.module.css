@@ -6,6 +6,7 @@
     align-items: center;
     margin-bottom: 0px;
     padding-bottom: 31px;
+    padding-top: 48px;
 }
 .lightVector {
   position: absolute;
@@ -62,6 +63,7 @@
 }
 .navs .column a{
 transition: all 0.2 ease;
+
 }
 .navs .column a:hover{
 color: #47c0d2;

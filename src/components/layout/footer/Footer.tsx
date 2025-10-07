@@ -97,38 +97,12 @@ export default function Footer() {
               Discover products you love, explore exciting offers, and make
               every purchase fun, easy, and rewarding.
             </p>
-            {/* <ul className="social app-row justify-content-start p-0">
-              <li>
-                <a href="#">
-                  <img
-                    src="../images/Icons/ic_baseline-whatsapp.svg"
-                    alt="whatsapp"
-                  />
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <img
-                    src="../images/Icons/carbon_logo-instagram.svg"
-                    alt="instagram"
-                  />
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <img
-                    src="../images/Icons/mingcute_youtube-line.svg"
-                    alt="youtube"
-                  />
-                </a>
-              </li>
-            </ul> */}
           </section>
           <section className={styles.navs}>
             <div className={styles.column}>
               <Typography
                 variant="link"
-                color="black"
+                color="#111827"
                 style={{ marginBottom: 8 }}
               >
                 Company
@@ -149,7 +123,7 @@ export default function Footer() {
                   variant="navCol"
                   component={"a"}
                   href="#"
-                  color="black"
+                  color="#212C2B"
                 >
                   {val}
                 </Typography>
@@ -159,7 +133,7 @@ export default function Footer() {
             <div className={styles.column}>
               <Typography
                 variant="link"
-                color="black"
+                color="#111827"
                 style={{ marginBottom: 8 }}
               >
                 Order & Shopping Help
@@ -170,7 +144,7 @@ export default function Footer() {
                   variant="navCol"
                   component={"a"}
                   href="#"
-                  color="black"
+                  color="#212C2B"
                 >
                   {val}
                 </Typography>
@@ -180,7 +154,7 @@ export default function Footer() {
             <div className={styles.column}>
               <Typography
                 variant="link"
-                color="black"
+                color="#111827"
                 style={{ marginBottom: 8 }}
               >
                 Support
@@ -191,7 +165,7 @@ export default function Footer() {
                   variant="navCol"
                   component={"a"}
                   href="#"
-                  color="black"
+                  color="#212C2B"
                 >
                   {val}
                 </Typography>
@@ -201,7 +175,7 @@ export default function Footer() {
             <div className={styles.column}>
               <Typography
                 variant="link"
-                color="black"
+                color="#111827"
                 style={{ marginBottom: 8 }}
               >
                 Legal
@@ -212,7 +186,7 @@ export default function Footer() {
                   variant="navCol"
                   component={"a"}
                   href="#"
-                  color="black"
+                  color="#212C2B"
                 >
                   {val}
                 </Typography>
@@ -222,7 +196,7 @@ export default function Footer() {
             <div className={styles.column}>
               <Typography
                 variant="link"
-                color="black"
+                color="#111827"
                 style={{ marginBottom: 8 }}
               >
                 Contact Us
@@ -231,7 +205,7 @@ export default function Footer() {
                 <img src={Phone.src} />
                 <Typography
                   variant="navCol"
-                  color="black"
+                  color={t.tokens.typographyColors.body}
                   style={{ fontSize: 16 }}
                 >
                   19000
