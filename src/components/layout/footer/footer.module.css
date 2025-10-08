@@ -1,0 +1,95 @@
+.footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0px;
+    padding-bottom: 31px;
+    padding-top: 48px;
+}
+
+.ourAppLinks{
+      position: relative;
+      margin-top: 24px;
+      width: 100%;
+      display: flex;
+      gap: 24px;
+      justify-content: center ;
+      align-items: start ;
+      margin-bottom: 32px;
+}
+
+.footerContent{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+
+
+}
+ .info{
+    max-width: 330px;
+    align-self: flex-start;
+}
+.navs{
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    justify-content: space-between;
+}
+.navs .column a{
+transition: all 0.2 ease;
+}
+.navs .column a:hover{
+color: #47c0d2;
+}
+.social{
+    display: flex;
+    gap: 14px;
+}
+.column{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.circle{
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    align-content: center;
+    text-align: center;
+    cursor: pointer;
+}
+.navCol{
+    font-size:14 !important;
+    font-weight:400 !important;
+}
+@media (min-width:1050px ) {
+    .navs{
+        flex-direction: row;
+    }
+    .info{
+        align-self: flex-start;
+    }
+}
+.lightVector{
+    position: absolute;
+    top: -20;
+    filter: blur(20px);
+    height: 100px;
+    background:
+    linear-gradient(180deg, rgba(0, 110, 126, 0.2) 0%, rgba(0, 21, 143, 0) 50.29%);
+    mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    z-index: 0;
+}
+.main{
+    z-index: 10;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+

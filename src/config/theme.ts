@@ -1,6 +1,5 @@
 import { createTheme } from "@mui/material/styles";
 import { TokensColorType } from "@/types";
-import { ThemeProvider, CssBaseline } from "@mui/material";
 import React from "react";
 
 declare module "@mui/material/styles" {
@@ -105,10 +104,16 @@ declare module "@mui/material/styles" {
     titleLarge?: React.CSSProperties;
     titleMedium?: React.CSSProperties;
     titleSmall?: React.CSSProperties;
+    titleSpecial?: React.CSSProperties;
     bodyLarge?: React.CSSProperties;
     bodyMedium?: React.CSSProperties;
     captionLarge?: React.CSSProperties;
     captionMedium?: React.CSSProperties;
+    link?: React.CSSProperties;
+    captionSmall?: React.CSSProperties;
+    appDownload?: React.CSSProperties;
+    navCol?: React.CSSProperties;
+
   }
 }
 
@@ -117,10 +122,15 @@ declare module "@mui/material/Typography" {
     titleLarge: true;
     titleMedium: true;
     titleSmall: true;
+    titleSpecial:true;
     bodyLarge: true;
     bodyMedium: true;
     captionLarge: true;
     captionMedium: true;
+    link:true;
+    captionSmall:true;
+    appDownload:true;
+    navCol:true;
   }
 }
 
@@ -246,6 +256,10 @@ export const theme = createTheme({
     titleLarge: { fontFamily: "var(--font-poppins)", fontSize: 36, fontWeight: 700, lineHeight: 1.2 },
     titleMedium: { fontFamily: "var(--font-poppins)", fontSize: 28, fontWeight: 600, lineHeight: 1.2 },
     titleSmall: { fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 600, lineHeight: 1.2 },
+    titleSpecial:{   fontFamily: "var(--font-cinzel)",fontSize: 24,fontWeight: 400,
+    background: "linear-gradient(90deg, #1B2351 0%, #47C0D2 100%)",WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    textShadow: "0px 4px 4px #00000040"},
     bodyLarge: { fontFamily: "var(--font-poppins)", fontSize: 32, fontWeight: 700, lineHeight: 1.2 },
     bodyMedium: {
       fontFamily: "Inter, sans-serif",
@@ -256,6 +270,9 @@ export const theme = createTheme({
     },
     captionLarge: { fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 700, lineHeight: 1.2 },
     captionMedium: { fontFamily: "var(--font-poppins)", fontSize: 12, fontWeight: 600, lineHeight: 1.2 },
+    captionSmall: { fontFamily: "var(--font-poppins)", fontSize: 8, fontWeight: 400, lineHeight: 1.2,color:"black" },
+    link:{fontFamily: "var(--font-inter)",fontSize:16,fontWeight:500,cursor:"pointer"},
+   
   },
 
   

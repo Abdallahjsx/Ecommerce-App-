@@ -2,7 +2,7 @@
 
 import { TextField, InputAdornment, Box, Typography, useTheme } from "@mui/material";
 import Image from "next/image";
-import eyeIcon from "../../../../public/assets/icons/eye.svg"; // موجود في src/icons/eye.svg
+import eyeIcon from "../../../../public/assets/icons/eye-icon.svg"; // موجود في src/icons/eye.svg
 
 export interface TextInputProps {
   label: string;

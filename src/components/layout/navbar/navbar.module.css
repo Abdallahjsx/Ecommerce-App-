@@ -1,0 +1,78 @@
+.header{
+    z-index: 10;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: 0;
+    margin-bottom: 120px;
+    height: 80px;
+    padding: 0px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 2px 4px -2px #1018281A;
+    transition: all 0.2s ease;
+}
+.header:hover{
+   box-shadow: 0px 4px 6px -1px #1018281A;
+}
+.links{
+    height: 100%;   
+}
+.links ul{
+  display: flex;
+  list-style: none;
+  gap: 32px;
+  height: 100%;
+  justify-content: space-between;
+  margin: auto;
+}
+
+.links ul li{
+height: 100%;
+align-content: center;
+transition: all 0.2s ease;
+border-bottom: 3px solid transparent;
+
+}
+.links ul li:has(.link:hover) {
+  border-bottom: 3px solid black;
+}
+.link{
+  transition: all 0.2s ease;
+}
+.roundedImg{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: rgb(252, 234, 237);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    cursor: pointer;
+}
+
+.circle{
+    width: 15;
+    height: 15;
+    border-radius: 50%;
+    background-color: #47C0D2;
+    font-family: var(--font-inter);
+    font-weight:400;
+    font-size: 10px;
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0px;
+}
+.icon path{
+    transition: fill 0.2s ease;
+}
+.icon:hover  path {
+  fill: #47c0d2;
+}
