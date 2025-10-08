@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "./footer.module.css";
 import { useTheme, Typography, Box, Link } from "@mui/material";
-import Apple from "../../../../public/assets/images/apple.png";
+import Apple from "../../../../public/assets/images/Apple.png";
 import GooglePlay from "../../../../public/assets/images/google-play.png";
 import Logo from "../../../../public/assets/images/logo.png";
 import Facebook from "../../../../public/assets/icons/facebook-icon.svg";
