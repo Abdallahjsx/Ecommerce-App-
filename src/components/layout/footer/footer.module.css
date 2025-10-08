@@ -6,6 +6,7 @@
     margin-bottom: 0px;
     padding-bottom: 31px;
     padding-top: 48px;
+    overflow-x: hidden;
 }
 
 .ourAppLinks{
@@ -22,14 +23,13 @@
 .footerContent{
     display: flex;
     align-items: flex-start;
-    justify-content: flex-start;
+   
     width: 100%;
-
-
 }
- .info{
+.info{
     max-width: 330px;
     align-self: flex-start;
+
 }
 .navs{
     display: flex;
@@ -40,6 +40,7 @@
 .navs .column a{
 transition: all 0.2 ease;
 }
+
 .navs .column a:hover{
 color: #47c0d2;
 }
