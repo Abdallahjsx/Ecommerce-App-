@@ -10,14 +10,16 @@ export default function Page() {
   return (
     <main >
       <NavBar/>
-      <Box display="flex" flexDirection="column" gap={4} style={{ padding: "40px" }}>
+      {/* <SideBar/> */}
+      <Box sx={{minHeight:600}}></Box>
+      {/* <Box display="flex" flexDirection="column" gap={4} style={{ padding: "40px" }}>
         <Gradient_Button size="large">SIGN IN</Gradient_Button>
         <Gradient_Button size="large">LOG IN</Gradient_Button>
 
         <TextInput label="First Name" placeholder="Enter your first name" />
 
         <DateInput label="Birthday" />
-      </Box>
+      </Box> */}
       <Footer/>
     </main>
   );

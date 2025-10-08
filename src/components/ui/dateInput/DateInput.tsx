@@ -2,7 +2,7 @@
 
 import { TextField, InputAdornment, Box, Typography, useTheme } from "@mui/material";
 import Image from "next/image";
-import calendarIcon from "../../../../public/assets/icons/calendar.svg"; // موجود في src/icons/calendar.svg
+import calendarIcon from "../../../../public/assets/icons/calendar-icon.svg"; // موجود في src/icons/calendar.svg
 
 export interface DateInputProps {
   label: string;

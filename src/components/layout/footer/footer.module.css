@@ -1,5 +1,4 @@
 .footer{
-    padding: 0px 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,62 +7,38 @@
     padding-bottom: 31px;
     padding-top: 48px;
 }
-.lightVector {
-  position: absolute;
-  width: min(746px, 70vw);
-  height: 2px;
-   left: calc(50% - min(866px, 80vw) / 2);
-  top: -40.28px;
-  transform: translateX(-50%);
-  background: linear-gradient(
-    90deg,
-    rgba(25, 0, 123, 0) 0%,
-    rgba(25, 0, 123, 1) 50%,
-    rgba(25, 0, 123, 0) 100%
-  );
-  border: none;
-  z-index: 1;
-}
+
 .ourAppLinks{
       position: relative;
       margin-top: 24px;
-       width: 100%;
+      width: 100%;
       display: flex;
       gap: 24px;
-      justify-content: center;
-      align-items: center;
+      justify-content: center ;
+      align-items: start ;
       margin-bottom: 32px;
 }
- .linkBox{
-    padding: 8px 29px;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    border-radius: 8px;
- }
-.footerContent{
 
+.footerContent{
     display: flex;
-    justify-content: space-between;
-    /* align-items: center; */
-    /* background-color: red; */
+    align-items: flex-start;
+    justify-content: flex-start;
     width: 100%;
-    min-height: 352px;
+
+
 }
-.footerContent .info{
+ .info{
     max-width: 330px;
+    align-self: flex-start;
 }
 .navs{
     display: flex;
+    flex-direction: column;
     gap: 28px;
     justify-content: space-between;
-    margin-left: 128px;
 }
 .navs .column a{
 transition: all 0.2 ease;
-
 }
 .navs .column a:hover{
 color: #47c0d2;
@@ -71,13 +46,11 @@ color: #47c0d2;
 .social{
     display: flex;
     gap: 14px;
-
 }
 .column{
     display: flex;
     flex-direction: column;
     gap: 16px;
-
 }
 .circle{
     width: 39px;
@@ -87,3 +60,36 @@ color: #47c0d2;
     text-align: center;
     cursor: pointer;
 }
+.navCol{
+    font-size:14 !important;
+    font-weight:400 !important;
+}
+@media (min-width:1050px ) {
+    .navs{
+        flex-direction: row;
+    }
+    .info{
+        align-self: flex-start;
+    }
+}
+.lightVector{
+    position: absolute;
+    top: -20;
+    filter: blur(20px);
+    height: 100px;
+    background:
+    linear-gradient(180deg, rgba(0, 110, 126, 0.2) 0%, rgba(0, 21, 143, 0) 50.29%);
+    mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    z-index: 0;
+}
+.main{
+    z-index: 10;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+

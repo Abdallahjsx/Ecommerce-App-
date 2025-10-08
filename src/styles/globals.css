@@ -1,7 +1,33 @@
 * {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: "Inter", Arial, sans-serif;
+  background-color: #f9fafb;
+  color: #111827;
+  line-height: 1.5;
+}
+
+button {
+  font-family: inherit;
 }
 a {
   text-decoration: none;
   cursor: pointer;
 }
+
+
+/*xs: أقل من 600px
+
+sm: من 600 إلى 900px
+
+md: من 900 إلى 1200px
+
+lg: من 1200 إلى 1536px
+
+xl: أكبر من 1536px */

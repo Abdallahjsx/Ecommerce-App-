@@ -1,4 +1,9 @@
 .header{
+    z-index: 10;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
     margin: 0;
     margin-bottom: 120px;
     height: 80px;
@@ -6,16 +11,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0px 4px 6px -1px #1018281A;
+    box-shadow: 0px 2px 4px -2px #1018281A;
+    transition: all 0.2s ease;
+}
+.header:hover{
+   box-shadow: 0px 4px 6px -1px #1018281A;
 }
 .links{
     height: 100%;   
 }
 .links ul{
-   display: flex;
-   list-style: none;
-   gap: 32px;
-   height: 100%;
+  display: flex;
+  list-style: none;
+  gap: 32px;
+  height: 100%;
   justify-content: space-between;
   margin: auto;
 }

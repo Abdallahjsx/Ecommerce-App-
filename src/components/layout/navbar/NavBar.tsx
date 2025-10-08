@@ -1,26 +1,59 @@
 "use client";
-import { Button, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Avatar, Box, Typography, IconButton } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/material";
+import SideBarList from "../sideBar/SideBarList";
 import styles from "./navbar.module.css";
 import BellIcon from "@/iconsComponents/BellIcon";
 import BagIcon from "@/iconsComponents/BagIcon";
-import User from "../../../../public/assets/images/user-img.jpg";
+import Shape from "../../../../public/assets/images/nav-bar-shape.png";
+import Side from "../../../../public/assets/icons/side-icon.svg";
 
 export default function NavBar() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [shown, setShown] = useState(false);
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    setWidth(window.innerWidth);
+  }, []);
   const t = useTheme();
   return (
-    <header
+    <Box
       className={styles.header}
       style={{ backgroundColor: t.tokens.backgroundColors.main }}
+      padding={["16px 28px", "16px 28px", "0px 80px"]}
     >
-      <div className="app-row gap-3">
-        <Typography component={"a"} href="#">
-          <Typography variant="titleSpecial" >Alluvo</Typography>
+      <img
+        src={Shape.src}
+        alt=""
+        style={{ position: "absolute", right: "0px", pointerEvents: "none" }}
+      />
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <IconButton
+          sx={{ display: ["block", "block", "none"] }}
+          onClick={() => {
+            setShown(!shown);
+          }}
+        >
+          <img
+            src={Side.src}
+            width={Side.width}
+            style={{ marginRight: "16px" }}
+            height={Side.height}
+            alt=""
+          />
+        </IconButton>
+
+        <Typography
+          component={"a"}
+          href="#"
+          sx={{ cursor: "pointer" }}
+          variant="titleSpecial"
+        >
+          Alluvo
         </Typography>
       </div>
-      <div className={styles.links}>
+      <Box className={styles.links} sx={{ display: ["none", "none", "flex"] }}>
         <ul>
           {["Home", "Shop", "Reels", "Orders", "Contact Us", "FAQS"].map(
             (l, index) => (
@@ -43,7 +76,7 @@ export default function NavBar() {
             )
           )}
         </ul>
-      </div>
+      </Box>
 
       <div className={styles.actions}>
         <div style={{ display: "flex", gap: 25, alignItems: "center" }}>
@@ -55,7 +88,7 @@ export default function NavBar() {
                   position: "relative",
                   width: "35px",
                   height: "35px",
-                  alignSelf:"flex-start"
+                  alignSelf: "flex-start",
                 }}
               >
                 <div>
@@ -71,18 +104,16 @@ export default function NavBar() {
                   border: `1px solid ${t.tokens.separatingColors.border}`,
                 }}
               >
-                <img
-                  src={User.src}
-                  alt="user-image"
-                  width={65}
-                  height={65}
-                  style={{ objectFit: "cover" }}
+                <Avatar
+                  style={{ width: "100%", height: "100%" }}
+                  src="/assets/images/user-img.png"
                 />
               </div>
             </div>
           ) : (
             <Typography
               component={"a"}
+              color={t.tokens.typographyColors.title}
               href="#"
               fontFamily={"poppins"}
               variant="subtitle1"
@@ -90,6 +121,7 @@ export default function NavBar() {
                 setLoggedIn(true);
               }}
               sx={{
+                display: ["none", "none", "block"],
                 fontSize: "16px",
                 fontWeight: 500,
                 "&:hover": {
@@ -113,10 +145,11 @@ export default function NavBar() {
               },
             }}
           >
-            ع
+            {width > 900 ? "ع" : "عربي"}
           </Typography>
         </div>
       </div>
-    </header>
+      <SideBarList shown={shown} />
+    </Box>
   );
 }
