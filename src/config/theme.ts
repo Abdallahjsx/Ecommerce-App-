@@ -265,7 +265,7 @@ export const theme = createTheme({
       eye: { width: 20, height: 20 },
       calendar: { width: 14, height: 13 },
     },
-
+/////                    <rejected>                     ////////
     alerts: {
       successBox: {
         width: "300px",
@@ -391,6 +391,7 @@ export const theme = createTheme({
       },
     },
   },
+  /////                     </rejected>                      ////////
 
   typography: {
     fontFamily: "Poppins,Inter,Cinzel_Decorative",

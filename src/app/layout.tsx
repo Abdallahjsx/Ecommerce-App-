@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { poppinsFont, interFont, cinzelDecorativeFont } from "../config/fonts";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import ThemeProviderWrapper from "@/providers/themeProviderWrapper";
-import { ToasterProvider } from "@/providers/ToasterProvider"; 
+import { ToasterProvider } from "@/providers/ToasterProvider";
 import "../styles/globals.css";
+import NavBar from "@/components/layout/navbar/NavBar";
+import Footer from "@/components/layout/footer/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,7 +27,9 @@ export default function RootLayout({
           <ThemeProviderWrapper>
             {/* ✅ نضيف الـ ToasterProvider هنا */}
             <ToasterProvider>
+              <NavBar />
               {children}
+              <Footer />
             </ToasterProvider>
           </ThemeProviderWrapper>
         </AppRouterCacheProvider>

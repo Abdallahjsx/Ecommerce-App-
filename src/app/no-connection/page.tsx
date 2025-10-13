@@ -5,25 +5,25 @@ import Image from "next/image";
 import NavBar from "@/components/layout/navbar/NavBar";
 import Footer from "@/components/layout/footer/Footer";
 import BackgroundShapeImage from "@/components/ui/BackgroundShapeImage/BackgroundShapeImage"; // ✅ نفس شكل الخلفية المستخدم في باقي الصفحات
+import {useTheme} from "@mui/material";
 
 export default function NoConnectionPage() {
+   const t = useTheme();
   return (
     <main
       style={{
         position: "relative",
         overflow: "hidden",
-        minHeight: "100vh",
-        backgroundColor: "#fff",
+        backgroundColor: t.tokens.backgroundColors.main,
         display: "flex",
         flexDirection: "column",
+        height: "100%",
       }}
     >
       {/* ===== NAVBAR ===== */}
-      <NavBar />
-
+      {/* <NavBar /> */}
       {/* ===== BACKGROUND SHAPE ===== */}
       <BackgroundShapeImage /> {/* ✅ الشكل الخلفي */}
-
       {/* ===== MAIN CONTENT ===== */}
       <Box
         sx={{
@@ -64,7 +64,7 @@ export default function NoConnectionPage() {
               justifyContent: "center",
             }}
           >
-            <Image
+            <img
               src="/assets/images/No-connection.png"
               alt="No Internet Connection"
               width={431}
@@ -75,7 +75,7 @@ export default function NoConnectionPage() {
                 width: "100%",
                 height: "100%",
               }}
-              priority
+              // priority
             />
           </Box>
         </Box>
@@ -119,15 +119,13 @@ export default function NoConnectionPage() {
               maxWidth: "500px",
             }}
           >
-            Please ensure you are connected to a stable Wi-Fi network or cellular
-            data to continue.
+            Please ensure you are connected to a stable Wi-Fi network or
+            cellular data to continue.
           </Typography>
         </Box>
       </Box>
-
       {/* ===== FOOTER ===== */}
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }
-

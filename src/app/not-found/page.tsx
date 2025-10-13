@@ -1,29 +1,25 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import Image from "next/image";
 import NavBar from "@/components/layout/navbar/NavBar";
 import Footer from "@/components/layout/footer/Footer";
 import BackgroundShapeImage from "@/components/ui/BackgroundShapeImage/BackgroundShapeImage"; // ✅ استيراد المكون
-
+import { useTheme } from "@mui/material";
 export default function NotFoundPage() {
+  const t = useTheme();
   return (
     <main
       style={{
-        position: "relative",
         overflow: "hidden",
-        minHeight: "100vh",
-        backgroundColor: "#fff",
+        height:"100%",
+        backgroundColor: t.tokens.backgroundColors.main,
         display: "flex",
         flexDirection: "column",
       }}
     >
       {/* ===== NAVBAR ===== */}
-      <NavBar />
-
       {/* ===== BACKGROUND SHAPE ===== */}
       <BackgroundShapeImage /> {/* ✅ الشكل الجديد هنا */}
-
       {/* ===== MAIN CONTENT ===== */}
       <Box
         sx={{
@@ -64,7 +60,7 @@ export default function NotFoundPage() {
               justifyContent: "center",
             }}
           >
-            <Image
+            <img
               src="/assets/images/NOT-Found.png"
               alt="Not Found"
               width={498}
@@ -105,9 +101,7 @@ export default function NotFoundPage() {
           changed, or is temporarily unavailable.
         </Typography>
       </Box>
-
       {/* ===== FOOTER ===== */}
-      <Footer />
     </main>
   );
 }
