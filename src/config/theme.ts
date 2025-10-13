@@ -25,6 +25,23 @@ declare module "@mui/material/styles" {
         eye: { width: number; height: number };
         calendar: { width: number; height: number };
       };
+      alerts?: {
+        successBox?: Record<string, any>;
+        successMessage?: Record<string, any>;
+        successIcon?: Record<string, any>;
+        successLine?: Record<string, any>;
+        infoBox?: Record<string, any>;
+        infoMessage?: Record<string, any>;
+        infoLine?: Record<string, any>;
+        errorBox?: Record<string, any>;
+        errorMessage?: Record<string, any>;
+        errorIcon?: Record<string, any>;
+        errorLine?: Record<string, any>;
+        warningBox?: Record<string, any>; // ✅ Added
+        warningMessage?: Record<string, any>; // ✅ Added
+        warningIcon?: Record<string, any>; // ✅ Added
+        warningLine?: Record<string, any>; // ✅ Added
+      };
     };
     gradients: {
       primary: string;
@@ -107,7 +124,7 @@ declare module "@mui/material/Typography" {
     titleLarge: true;
     titleMedium: true;
     titleSmall: true;
-    titleSpecial:true;
+    titleSpecial: true;
     bodyLarge: true;
     bodyMedium: true;
     captionLarge: true;
@@ -161,7 +178,7 @@ export const theme = createTheme({
       hint: "#ABADB6",
       link: "#3E548D",
       success: "#10B981",
-      info: "#136EBF",
+      info: "#4A90E2",
       warning: "#F59E0B",
       danger: "#EF4444",
       secondary: "#FE6239",
@@ -218,25 +235,142 @@ export const theme = createTheme({
       eye: { width: 20, height: 20 },
       calendar: { width: 14, height: 13 },
     },
+/////                    <rejected>                     ////////
+    alerts: {
+      successBox: {
+        width: "300px",
+        height: "56px",
+        top: "144px",
+        left: "20px",
+        gap: "10px",
+        angle: "0deg",
+        opacity: 1,
+        borderRadius: "8px",
+        padding: "16px",
+        background: "#EDFFF6",
+        boxShadow: "0px 1px 2px -1px #1018281A, 0px 1px 3px 0px #1018281A",
+      },
+      successMessage: {
+        fontSize: 16,
+        fontWeight: 500,
+        lineHeight: "24px",
+        color: "#10B981",
+      },
+      successLine: {
+        width: "100%",
+        height: "3px",
+        backgroundColor: "#10B981",
+      },
+      infoBox: {
+        width: "300px",
+        height: "56px",
+        top: "144px",
+        left: "20px",
+        gap: "10px",
+        angle: "0deg",
+        opacity: 1,
+        borderRadius: "8px",
+        padding: "16px",
+        background: "#DDEEFD",
+        boxShadow: "0px 1px 2px -1px #1018281A, 0px 1px 3px 0px #1018281A",
+      },
+      infoMessage: {
+        fontSize: 16,
+        fontWeight: 500,
+        lineHeight: "24px",
+        color: "#4A90E2",
+      },
+      infoLine: {
+        width: "100%",
+        height: "3px",
+        backgroundColor: "#4A90E2",
+      },
+
+      // ✅ Error Alert
+      errorBox: {
+        width: "300px",
+        height: "56px",
+        top: "144px",
+        left: "20px",
+        gap: "10px",
+        opacity: 1,
+        borderRadius: "8px",
+        padding: "16px",
+        background: "var(--Colors-Background-Danger, #FEE2E2)",
+        boxShadow: "0px 1px 2px -1px #1018281A, 0px 1px 3px 0px #1018281A",
+        animationTimingFunction: "cubic-bezier(0, 0, 1, 0.46)",
+        animationDuration: "3000ms",
+      },
+      errorMessage: {
+        width: "194px",
+        height: "24px",
+        fontFamily: "Inter, sans-serif",
+        fontWeight: 500,
+        fontSize: "16px",
+        lineHeight: "24px",
+        letterSpacing: "0%",
+        color: "var(--Colors-Text-Danger, #EF4444)",
+      },
+      errorIcon: {
+        width: "24px",
+        height: "24px",
+        opacity: 1,
+        color: "#EF4444",
+      },
+      errorLine: {
+        width: "300px",
+        height: "0px",
+        border: "3px solid var(--Colors-Icon-Danger, #EF4444)",
+        opacity: 1,
+      },
+
+      // ✅ Warning Alert (New)
+      warningBox: {
+        width: "300px",
+        height: "56px",
+        top: "144px",
+        left: "20px",
+        gap: "10px",
+        opacity: 1,
+        borderRadius: "8px",
+        padding: "16px",
+        background: "var(--Colors-Background-Warning, #FEF3C7)",
+        boxShadow: "0px 1px 2px -1px #1018281A, 0px 1px 3px 0px #1018281A",
+      },
+      warningMessage: {
+        width: "221px",
+        height: "24px",
+        fontFamily: "Inter, sans-serif",
+        fontWeight: 500,
+        fontSize: "16px",
+        lineHeight: "24px",
+        letterSpacing: "0%",
+        color: "var(--Colors-Text-Warning, #F59E0B)",
+      },
+      warningIcon: {
+        width: "24px",
+        height: "24px",
+        opacity: 1,
+        color: "#F59E0B",
+      },
+      warningLine: {
+        width: "300px",
+        height: "0px",
+        border: "3px solid var(--Colors-Icon-Warning, #F59E0B)",
+        opacity: 1,
+      },
+    },
   },
+  /////                     </rejected>                      ////////
 
   typography: {
     fontFamily: "Poppins,Inter,Cinzel_Decorative",
     titleLarge: { fontFamily: "var(--font-poppins)", fontSize: 36, fontWeight: 700, lineHeight: 1.2 },
     titleMedium: { fontFamily: "var(--font-poppins)", fontSize: 28, fontWeight: 600, lineHeight: 1.2 },
     titleSmall: { fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 600, lineHeight: 1.2 },
-    titleSpecial:{   fontFamily: "var(--font-cinzel)",fontSize: 24,fontWeight: 400,
-    background: "linear-gradient(90deg, #1B2351 0%, #47C0D2 100%)",WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    textShadow: "0px 4px 4px #00000040"},
+    titleSpecial:{ fontFamily: "var(--font-cinzel)", fontSize: 24, fontWeight: 400, background: "linear-gradient(90deg, #1B2351 0%, #47C0D2 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", textShadow: "0px 4px 4px #00000040" },
     bodyLarge: { fontFamily: "var(--font-poppins)", fontSize: 32, fontWeight: 700, lineHeight: 1.2 },
-    bodyMedium: {
-      fontFamily: "Inter, sans-serif",
-      fontSize: 16,
-      fontWeight: 500,
-      lineHeight: "100%",
-      textAlign: "center",
-    },
+    bodyMedium: { fontFamily: "Inter, sans-serif", fontSize: 16, fontWeight: 500, lineHeight: "100%", textAlign: "center" },
     captionLarge: { fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 700, lineHeight: 1.2 },
     captionMedium: { fontFamily: "var(--font-poppins)", fontSize: 12, fontWeight: 600, lineHeight: 1.2 },
     captionSmall: { fontFamily: "var(--font-poppins)", fontSize: 8, fontWeight: 400, lineHeight: 1.2,color:"black" },
@@ -247,7 +381,6 @@ export const theme = createTheme({
    
   },
 
-  
   buttonSizes: {
     small: { width: "127px", height: "32px", typography: "bodyMedium" },
     medium: { width: "135px", height: "40px", typography: "bodyMedium" },
@@ -258,8 +391,8 @@ export const theme = createTheme({
     outline: {
       border: "1px solid #1B2351",
       color: "#1B2351",
-      hoverBg: "rgba(27, 35, 81, 0.08)",
-      activeBg: "rgba(27, 35, 81, 0.16)",
+      hoverBg: "rgba(27,35,81,0.08)",
+      activeBg: "rgba(27,35,81,0.16)",
     },
     text: {
       color: "#1B2351",
