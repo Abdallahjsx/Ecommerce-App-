@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { poppinsFont, interFont, cinzelDecorativeFont } from "../config/fonts";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import ThemeProviderWrapper from "@/providers/themeProviderWrapper";
+import { ToasterProvider } from "@/providers/ToasterProvider"; 
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
@@ -21,7 +22,12 @@ export default function RootLayout({
     >
       <body>
         <AppRouterCacheProvider>
-          <ThemeProviderWrapper> {children}</ThemeProviderWrapper>
+          <ThemeProviderWrapper>
+            {/* ✅ نضيف الـ ToasterProvider هنا */}
+            <ToasterProvider>
+              {children}
+            </ToasterProvider>
+          </ThemeProviderWrapper>
         </AppRouterCacheProvider>
       </body>
     </html>
