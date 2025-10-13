@@ -38,6 +38,7 @@ export default function Gradient_Button({
     transition: "all 0.3s ease",
     textTransform: "none" as const,
     cursor: disabled ? "not-allowed" : "pointer",
+    opacity: disabled ? 0.6 : 1,
   };
 
   let styles = {};
@@ -101,7 +102,7 @@ export default function Gradient_Button({
       disableRipple
       disabled={disabled}
       onClick={onClick}
-      sx={{ ...baseStyle, ...styles }}
+      sx={{ ...baseStyle, ...styles, width: "100%" }}
     >
       <Typography variant={typography as TypographyProps["variant"]}>
         {children}

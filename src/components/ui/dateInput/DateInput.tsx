@@ -1,6 +1,12 @@
 "use client";
 
-import { TextField, InputAdornment, Box, Typography, useTheme } from "@mui/material";
+import {
+  TextField,
+  InputAdornment,
+  Box,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import Image from "next/image";
 import calendarIcon from "../../../../public/assets/icons/calendar-icon.svg"; // موجود في src/icons/calendar.svg
 
@@ -10,46 +16,39 @@ export interface DateInputProps {
   error?: string;
 }
 
-export default function DateInput({ label, placeholder = "DD/MM/YYYY", error }: DateInputProps) {
+export default function DateInput({
+  label,
+  placeholder = "DD/MM/YYYY",
+  error,
+}: DateInputProps) {
   const theme = useTheme();
 
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         display: "flex",
         flexDirection: "column",
         gap: "10px",
-        width: theme.tokens.inputs.width,
         opacity: 1,
+        marginBottom: 20,
+        width: "50%",
+        margin: 12,
       }}
     >
       {/* Label */}
-      <Typography
-        sx={{
-          width: theme.tokens.inputs.label.width,
-          height: theme.tokens.inputs.label.height,
-          fontFamily: theme.tokens.inputs.label.fontFamily,
-          fontSize: theme.tokens.inputs.label.fontSize,
-          fontWeight: theme.tokens.inputs.label.fontWeight,
-          lineHeight: theme.tokens.inputs.label.lineHeight,
-          color: theme.tokens.inputs.label.color,
-        }}
-      >
-        {label}
-      </Typography>
+      <Typography variant="inputLabel">{label}</Typography>
 
       {/* Input with static Calendar Icon */}
       <TextField
+        type="date"
         placeholder={placeholder}
         error={!!error}
         fullWidth
         variant="outlined"
         sx={{
           "& .MuiOutlinedInput-root": {
-            height: theme.tokens.inputs.height,
-            borderRadius: theme.tokens.inputs.borderRadius,
             backgroundColor: theme.tokens.inputsColors.background,
-            boxShadow: theme.tokens.inputs.boxShadow,
+            border:"none",
             "& fieldset": {
               borderColor: theme.tokens.inputsColors.border,
             },
@@ -62,13 +61,11 @@ export default function DateInput({ label, placeholder = "DD/MM/YYYY", error }: 
             },
           },
           "& input": {
-            padding: theme.tokens.inputs.padding,
             paddingRight: `${theme.tokens.icons.calendar.width + 20}px`, // مساحة للأيقونة
-            fontSize: theme.tokens.inputs.fontSize,
             color: theme.tokens.typographyColors.body,
           },
           "& input::placeholder": {
-            color: theme.tokens.inputsColors.placeholder,
+            color: "red",
             opacity: 1,
           },
         }}
@@ -88,26 +85,17 @@ export default function DateInput({ label, placeholder = "DD/MM/YYYY", error }: 
 
       {/* Error Message */}
       {error && (
-        <Box
+        <Typography
+          color={theme.tokens.typographyColors.danger}
+          variant="inputError"
           sx={{
-            width: theme.tokens.inputs.error.width,
-            height: theme.tokens.inputs.error.height,
-            fontFamily: theme.tokens.inputs.error.fontFamily,
-            fontWeight: theme.tokens.inputs.error.fontWeight,
-            fontSize: theme.tokens.inputs.error.fontSize,
-            lineHeight: theme.tokens.inputs.error.lineHeight,
-            color: theme.tokens.mainColors.white,
-            background: theme.tokens.typographyColors.danger,
-            borderRadius: theme.tokens.inputs.error.borderRadius,
             padding: "0 8px",
             marginTop: "4px",
-            display: "flex",
-            alignItems: "center",
           }}
         >
           {error}
-        </Box>
+        </Typography>
       )}
-    </Box>
+    </div>
   );
 }

@@ -18,7 +18,7 @@ export default function NavBar() {
   }, []);
   const t = useTheme();
   return (
-    <Box sx={{ position: "relative", zIndex: 4 }}>
+    <Box sx={{ position: "relative", zIndex: 4,border:"2px solid red"}}>
       <Box
         className={styles.header}
         style={{ backgroundColor: t.tokens.backgroundColors.main }}
@@ -118,12 +118,12 @@ export default function NavBar() {
               <Typography
                 component={"a"}
                 color={t.tokens.typographyColors.title}
-                href="#"
+                href="/login"
                 fontFamily={"poppins"}
                 variant="subtitle1"
-                onClick={() => {
-                  setLoggedIn(true);
-                }}
+                // onClick={() => {
+                //   setLoggedIn(true);
+                // }}
                 sx={{
                   display: ["none", "none", "block"],
                   fontSize: "16px",

@@ -44,6 +44,7 @@ export default function Footer() {
             className={styles.lightVector}
             sx={{ width: ["100%", "100%", "60%"] }}
           />
+          
 
           <Link
             zIndex={2}

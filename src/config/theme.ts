@@ -12,31 +12,14 @@ declare module "@mui/material/styles" {
         disabledBg: string;
         disabledText: string;
       };
-      inputs: {
+      inputStyle: {
         width: string;
         height: string;
         borderRadius: string;
         boxShadow: string;
         fontSize: string;
         padding: string;
-        label: {
-          width: string;
-          height: string;
-          fontFamily: string;
-          fontWeight: number;
-          fontSize: string;
-          lineHeight: string;
-          color: string;
-        };
-        error: {
-          width: string;
-          height: string;
-          fontFamily: string;
-          fontWeight: number;
-          fontSize: string;
-          lineHeight: string;
-          borderRadius: string;
-        };
+      
       };
       icons: {
         eye: { width: number; height: number };
@@ -109,10 +92,12 @@ declare module "@mui/material/styles" {
     bodyMedium?: React.CSSProperties;
     captionLarge?: React.CSSProperties;
     captionMedium?: React.CSSProperties;
+    inputLabel:React.CSSProperties;
+    inputError:React.CSSProperties;
     link?: React.CSSProperties;
+    lato?: React.CSSProperties;
     captionSmall?: React.CSSProperties;
-    appDownload?: React.CSSProperties;
-    navCol?: React.CSSProperties;
+
 
   }
 }
@@ -127,10 +112,12 @@ declare module "@mui/material/Typography" {
     bodyMedium: true;
     captionLarge: true;
     captionMedium: true;
+    inputLabel: true;
+    inputError: true;
     link:true;
+    lato:true;
     captionSmall:true;
-    appDownload:true;
-    navCol:true;
+ 
   }
 }
 
@@ -219,31 +206,13 @@ export const theme = createTheme({
       disabledBg: "#838AB2",
       disabledText: "#AAAAAA",
     },
-    inputs: {
+    inputStyle: {
       width: "340px",
       height: "52px",
       borderRadius: "8px",
       boxShadow: "0px 4px 4px 0px #00000040",
       fontSize: "16px",
       padding: "16px",
-      label: {
-        width: "340px",
-        height: "20px",
-        fontFamily: "Inter, sans-serif",
-        fontWeight: 400,
-        fontSize: "13px",
-        lineHeight: "100%",
-        color: "#1B2351",
-      },
-      error: {
-        width: "340px",
-        height: "24px",
-        fontFamily: "Inter, sans-serif",
-        fontWeight: 400,
-        fontSize: "10px",
-        lineHeight: "24px",
-        borderRadius: "4px",
-      },
     },
     icons: {
       eye: { width: 20, height: 20 },
@@ -271,7 +240,10 @@ export const theme = createTheme({
     captionLarge: { fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 700, lineHeight: 1.2 },
     captionMedium: { fontFamily: "var(--font-poppins)", fontSize: 12, fontWeight: 600, lineHeight: 1.2 },
     captionSmall: { fontFamily: "var(--font-poppins)", fontSize: 8, fontWeight: 400, lineHeight: 1.2,color:"black" },
+    inputLabel:{fontFamily: "var(--font-inter)",fontWeight: 400,fontSize: "13px",lineHeight: "100%",color: "#1B2351"},
+    inputError:{fontFamily: "var(--font-inter)",fontWeight: 400,fontSize: "10px",lineHeight: "24px"},
     link:{fontFamily: "var(--font-inter)",fontSize:16,fontWeight:500,cursor:"pointer"},
+    lato:{fontFamily: "var(--font-lato)",fontSize:14,fontWeight:500}
    
   },
 
@@ -296,57 +268,57 @@ export const theme = createTheme({
   },
 
   components: {
-    MuiTextField: {
-      styleOverrides: {
-        root: ({ theme }) => ({
-          width: theme.tokens.inputs.width,
-          "& .MuiOutlinedInput-root": {
-            height: theme.tokens.inputs.height,
-            borderRadius: theme.tokens.inputs.borderRadius,
-            backgroundColor: theme.tokens.inputsColors.background,
-            boxShadow: theme.tokens.inputs.boxShadow,
-            "& fieldset": {
-              borderColor: theme.tokens.inputsColors.border,
-            },
-            "&:hover fieldset": {
-              borderColor: theme.palette.primary.main,
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: theme.palette.primary.main,
-              boxShadow: "0px 4px 8px rgba(27,35,81,0.4)",
-            },
-            "& input": {
-              padding: theme.tokens.inputs.padding,
-              fontSize: theme.tokens.inputs.fontSize,
-              fontFamily: theme.typography.fontFamily,
-              color: theme.tokens.typographyColors.body,
-            },
-            "& input::placeholder": {
-              color: theme.tokens.inputsColors.placeholder,
-              opacity: 1,
-            },
-          },
-          "& .MuiInputLabel-root": {
-            width: theme.tokens.inputs.label.width,
-            height: theme.tokens.inputs.label.height,
-            fontFamily: theme.tokens.inputs.label.fontFamily,
-            fontWeight: theme.tokens.inputs.label.fontWeight,
-            fontSize: theme.tokens.inputs.label.fontSize,
-            lineHeight: theme.tokens.inputs.label.lineHeight,
-            color: theme.tokens.inputs.label.color,
-            marginBottom: theme.spacing(0.5),
-          },
-          "& .MuiFormHelperText-root": {
-            width: theme.tokens.inputs.error.width,
-            height: theme.tokens.inputs.error.height,
-            fontFamily: theme.tokens.inputs.error.fontFamily,
-            fontWeight: theme.tokens.inputs.error.fontWeight,
-            fontSize: theme.tokens.inputs.error.fontSize,
-            lineHeight: theme.tokens.inputs.error.lineHeight,
-            color: theme.palette.error.main,
-          },
-        }),
-      },
-    },
+    // MuiTextField: {
+    //   styleOverrides: {
+    //     root: ({ theme }) => ({
+    //       width: theme.tokens.inputs.width,
+    //       "& .MuiOutlinedInput-root": {
+    //         height: theme.tokens.inputs.height,
+    //         borderRadius: theme.tokens.inputs.borderRadius,
+    //         backgroundColor: theme.tokens.inputsColors.background,
+    //         boxShadow: theme.tokens.inputs.boxShadow,
+    //         "& fieldset": {
+    //           borderColor: theme.tokens.inputsColors.border,
+    //         },
+    //         "&:hover fieldset": {
+    //           borderColor: theme.palette.primary.main,
+    //         },
+    //         "&.Mui-focused fieldset": {
+    //           borderColor: theme.palette.primary.main,
+    //           boxShadow: "0px 4px 8px rgba(27,35,81,0.4)",
+    //         },
+    //         "& input": {
+    //           padding: theme.tokens.inputs.padding,
+    //           fontSize: theme.tokens.inputs.fontSize,
+    //           fontFamily: theme.typography.fontFamily,
+    //           color: theme.tokens.typographyColors.body,
+    //         },
+    //         "& input::placeholder": {
+    //           color: theme.tokens.inputsColors.placeholder,
+    //           opacity: 1,
+    //         },
+    //       },
+    //       // "& .MuiInputLabel-root": {
+    //       //   width: theme.tokens.inputs.label.width,
+    //       //   height: theme.tokens.inputs.label.height,
+    //       //   fontFamily: theme.tokens.inputs.label.fontFamily,
+    //       //   fontWeight: theme.tokens.inputs.label.fontWeight,
+    //       //   fontSize: theme.tokens.inputs.label.fontSize,
+    //       //   lineHeight: theme.tokens.inputs.label.lineHeight,
+    //       //   color: theme.tokens.inputs.label.color,
+    //       //   marginBottom: theme.spacing(0.5),
+    //       // },
+    //       // "& .MuiFormHelperText-root": {
+    //       //   width: theme.tokens.inputs.error.width,
+    //       //   height: theme.tokens.inputs.error.height,
+    //       //   fontFamily: theme.tokens.inputs.error.fontFamily,
+    //       //   fontWeight: theme.tokens.inputs.error.fontWeight,
+    //       //   fontSize: theme.tokens.inputs.error.fontSize,
+    //       //   lineHeight: theme.tokens.inputs.error.lineHeight,
+    //       //   color: theme.palette.error.main,
+    //       // },
+    //     }),
+    //   },
+    // },
   },
 });

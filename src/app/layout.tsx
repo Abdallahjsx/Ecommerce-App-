@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { poppinsFont, interFont, cinzelDecorativeFont } from "../config/fonts";
+import { poppinsFont, interFont, cinzelDecorativeFont, latoFont } from "../config/fonts";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import ThemeProviderWrapper from "@/providers/themeProviderWrapper";
 import "../styles/globals.css";
+
+
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +20,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppinsFont.variable} ${interFont.variable} ${cinzelDecorativeFont.variable}`}
+      className={`${poppinsFont.variable} ${interFont.variable} ${cinzelDecorativeFont.variable} ${latoFont.variable}`}
     >
       <body>
         <AppRouterCacheProvider>
