@@ -18,7 +18,18 @@ export default function NavBar() {
   }, []);
   const t = useTheme();
   return (
-    <Box sx={{ position: "relative", zIndex: 4,border:"2px solid red"}}>
+    <Box
+      sx={{
+        position: "relative",
+        zIndex: 4,
+        "&::before": {
+          content: '""',
+          display: "block",
+          height: "80px",
+          width: "100%",
+        },
+      }}
+    >
       <Box
         className={styles.header}
         style={{ backgroundColor: t.tokens.backgroundColors.main }}

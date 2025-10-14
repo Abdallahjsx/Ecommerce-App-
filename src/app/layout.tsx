@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { poppinsFont, interFont, cinzelDecorativeFont, latoFont } from "../config/fonts";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import ThemeProviderWrapper from "@/providers/themeProviderWrapper";
+import { ToasterProvider } from "@/providers/ToasterProvider";
 import "../styles/globals.css";
+import NavBar from "@/components/layout/navbar/NavBar";
+import Footer from "@/components/layout/footer/Footer";
 
 
 
@@ -24,7 +27,11 @@ export default function RootLayout({
     >
       <body>
         <AppRouterCacheProvider>
-          <ThemeProviderWrapper> {children}</ThemeProviderWrapper>
+          <ThemeProviderWrapper>
+            <ToasterProvider>
+              {children}
+            </ToasterProvider>
+          </ThemeProviderWrapper>
         </AppRouterCacheProvider>
       </body>
     </html>

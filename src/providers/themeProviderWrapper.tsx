@@ -1,16 +1,15 @@
-"use client"
-import { theme } from "../config/theme";
-import { ThemeProvider, CssBaseline } from "@mui/material";
+"use client";
 
-export default function ThemeProviderWrapper({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { theme } from "@/config/theme";
+import { ToasterProvider } from "@//providers/ToasterProvider";
+
+export default function ThemeProviderWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-    </>
+      <ToasterProvider>{children}</ToasterProvider>
+    </ThemeProvider>
   );
 }
+
