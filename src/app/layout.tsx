@@ -28,11 +28,8 @@ export default function RootLayout({
       <body>
         <AppRouterCacheProvider>
           <ThemeProviderWrapper>
-            {/* ✅ نضيف الـ ToasterProvider هنا */}
             <ToasterProvider>
-              <NavBar />
               {children}
-              <Footer />
             </ToasterProvider>
           </ThemeProviderWrapper>
         </AppRouterCacheProvider>

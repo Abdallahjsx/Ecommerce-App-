@@ -1,7 +1,10 @@
-import React from 'react'
+import React from "react";
 
 export default function PasswordReset() {
   return (
-    <div>This is password reset page ..... </div>
-  )
+    //كله تمام اهو حطي كل اللي هتعمليه وانتي شغالة تراعي البادينج بس
+    <div style={{ backgroundColor: "red" }}>
+      This is password reset page .....
+    </div>
+  );
 }

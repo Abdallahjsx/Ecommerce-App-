@@ -1,8 +1,9 @@
 "use client";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import { useTheme } from "@mui/material";
 import Shape from "../../../public/assets/images/background-shape.png";
+import AlluvoLogo from "@/components/ui/AlluvoLogo/AlluvoLogo";
 export default function Layout({
   children,
 }: Readonly<{
@@ -33,8 +34,7 @@ export default function Layout({
           overflow: "hidden",
           pointerEvents: "none",
         }}
-      >
-      </Box>
+      ></Box>
       <Box
         sx={{
           zIndex: 1,
@@ -47,7 +47,10 @@ export default function Layout({
           overflow: "hidden",
         }}
       >
-        {children}
+        <div style={{ width: "100%" }}>
+          <AlluvoLogo />
+          {children}
+        </div>
       </Box>
     </Box>
   );
