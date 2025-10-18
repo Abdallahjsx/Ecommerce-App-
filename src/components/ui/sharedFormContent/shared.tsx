@@ -10,7 +10,7 @@ import {useTheme} from '@mui/material';
 export default function Social() {
   const t =useTheme()
   return (
-    <div>  <Box sx={{ width: "100%", position: "relative", margin: "10px 0px" }}>
+    <div>  <Box sx={{ width: "100%", position: "relative", margin: "40px 0px" }}>
         <Typography
           variant="lato"
           color="gray"

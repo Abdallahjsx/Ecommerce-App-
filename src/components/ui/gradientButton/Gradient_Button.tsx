@@ -2,6 +2,7 @@
 
 import { Button, Typography, useTheme } from "@mui/material";
 import { TypographyProps } from "@mui/material/Typography";
+import { SxProps, Theme } from "@mui/material";
 
 type ButtonSize = "small" | "medium" | "large";
 type ButtonVariant = "primary" | "outline" | "text";
@@ -12,7 +13,10 @@ interface GradientButtonProps {
   disabled?: boolean;
   children: React.ReactNode;
   onClick?: () => void;
+  type?: "button" | "submit" | "reset"; // ✅ أضفنا السطر ده
+  sx?: SxProps<Theme>;
 }
+
 
 export default function Gradient_Button({
   size = "medium",
@@ -20,11 +24,12 @@ export default function Gradient_Button({
   disabled = false,
   children,
   onClick,
+  type = "button", // ✅ افتراضيًا "button"
 }: GradientButtonProps) {
   const theme = useTheme();
 
-  //جاي كله من theme
   const { width, height, typography } = theme.buttonSizes[size];
+
   const baseStyle = {
     width,
     height,
@@ -102,6 +107,7 @@ export default function Gradient_Button({
       disableRipple
       disabled={disabled}
       onClick={onClick}
+      type={type} // ✅ استخدمناها هنا
       sx={{ ...baseStyle, ...styles, width: "100%" }}
     >
       <Typography variant={typography as TypographyProps["variant"]}>
