@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-   output: 'export', 
+  output: "export",
+
+  images: {
+    unoptimized: true, // 👈 ده بيحل الخطأ الخاص بـ Image Optimization
+  },
+
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
@@ -13,3 +18,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+

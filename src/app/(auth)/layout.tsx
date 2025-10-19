@@ -36,6 +36,7 @@ export default function Layout({
         }}
       ></Box>
       <Box
+        className="layout-register-box"
         sx={{
           zIndex: 1,
           minWidth: ["100%", "100%", "40%"],
@@ -46,6 +47,7 @@ export default function Layout({
           justifyContent: "center",
           overflow: "hidden",
         }}
+        
       >
         <div style={{ width: "100%" }}>
           <AlluvoLogo />
