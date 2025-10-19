@@ -38,8 +38,8 @@ export default function Layout({
       <Box
         sx={{
           zIndex: 1,
-          minWidth: ["100%", "100%", "45%"],
-          minHeight: ["100%", "100%", "62%"],
+          minWidth: ["100%", "100%", "40%"],
+          minHeight: ["100%", "100%", "58%"],
           backgroundColor: t.tokens.backgroundColors.main,
           borderRadius: ["0px", "13px", "13px"],
           display: "flex",
