@@ -5,8 +5,10 @@ import eyeIcon from "../../../../public/assets/icons/eye-icon.svg";
 import { useState } from "react";
 import Image from "next/image";
 import { useField } from "formik";
+import { FormikProps } from "formik";
 
 interface TextInputProps {
+  form: FormikProps<any>;
   label: string;
   name: string;
   placeholder?: string;
@@ -18,19 +20,26 @@ interface TextInputProps {
   helperText?: string;
 }
 
-
 export default function TextInput({
   label,
   name,
   placeholder,
   type = "text",
+  form,
 }: TextInputProps) {
   const theme = useTheme();
-  const [field, meta] = useField(name);
+  // const [field, meta] = useField(name);
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: 20 }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        marginBottom: 20,
+      }}
+    >
       {/* Label */}
       <Typography variant="inputLabel" color="primary">
         {label}
@@ -39,7 +48,6 @@ export default function TextInput({
       {/* Input */}
       <div style={{ position: "relative", width: "100%" }}>
         <TextField
-          {...field}
           type={type === "password" && showPassword ? "text" : type}
           placeholder={placeholder}
           fullWidth
@@ -74,13 +82,13 @@ export default function TextInput({
       </div>
 
       {/* Error */}
-      {meta.touched && meta.error && (
+      {form.touched[name] && form.errors[name] && (
         <Typography
           color={theme.tokens?.typographyColors?.danger || "red"}
           variant="inputError"
           sx={{ padding: "0 8px", marginTop: "4px" }}
         >
-          {meta.error}
+          {form.errors[name] as string}
         </Typography>
       )}
     </div>
