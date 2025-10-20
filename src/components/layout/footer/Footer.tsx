@@ -2,7 +2,6 @@
 import React from "react";
 import styles from "./footer.module.css";
 import { useTheme, Typography, Box, Link } from "@mui/material";
-import Apple from "../../../../public/assets/images/apple.png";
 import GooglePlay from "../../../../public/assets/images/google-play.png";
 import Logo from "../../../../public/assets/images/logo.png";
 import Facebook from "../../../../public/assets/icons/facebook-icon.svg";
@@ -53,9 +52,9 @@ export default function Footer() {
             href="#"
           >
             <img
-              src={Apple.src}
-              height={Apple.height}
-              width={Apple.width}
+              src={"/assets/images/apple.png"}
+              height={30}
+              width={25}
               alt="Appstore"
             />
             {/* <div
