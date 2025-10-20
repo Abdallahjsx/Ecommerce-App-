@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Shape from "../../../../public/assets/images/shape.png";
+import Shape from "/assets/images/shape.png";
 import { Box } from "@mui/material";
 
 export default function BackgroundShapeImage() {
