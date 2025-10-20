@@ -3,7 +3,7 @@
 import { Box, Typography } from "@mui/material";
 import NavBar from "@/components/layout/navbar/NavBar";
 import Footer from "@/components/layout/footer/Footer";
-import BackgroundShapeImage from "@/components/ui/BackgroundShapeImage/BackgroundShapeImage";
+import BackgroundShapeImage from "../components/ui/backgroundShapeImage/BackgroundShapeImage";
 import { useTheme } from "@mui/material";
 export default function NotFoundPage() {
   const t = useTheme();
