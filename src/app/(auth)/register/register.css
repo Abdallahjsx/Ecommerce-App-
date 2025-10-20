@@ -1,17 +1,1 @@
-.layout-register-box {
-  width: 643px !important;
-  height: 1600px !important;
-  background-color: var(--Colors-Background-Main, #F6F3EC) !important;
-  border: 3px solid var(--Colors-Separating-Border, #D0D5DD) !important;
-  border-radius: 13px !important;
-  opacity: 1 !important;
 
-  /* خليها ثابتة في نص الشاشة */
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-
-  box-sizing: border-box !important;
-  padding: 30px !important;
-}

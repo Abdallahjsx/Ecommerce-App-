@@ -8,14 +8,20 @@ import BellIcon from "@/iconsComponents/BellIcon";
 import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
 import Side from "../../../../public/assets/icons/side-icon.svg";
+import { useSelector, UseSelector } from "react-redux";
+import { RootState } from "@/Redux/store";
 
 export default function NavBar() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const token = useSelector((state: RootState) => state.auth.token);
+  const [loggedIn, setLoggedIn] = useState(token !== null);
   const [shown, setShown] = useState(false);
   const [width, setWidth] = useState(0);
   useEffect(() => {
     setWidth(window.innerWidth);
   }, []);
+  useEffect(() => {
+    setLoggedIn(token !== null);
+  }, [token]);
   const t = useTheme();
   return (
     <Box

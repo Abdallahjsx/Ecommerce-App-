@@ -6,6 +6,7 @@ import { SxProps, Theme } from "@mui/material";
 
 type ButtonSize = "small" | "medium" | "large";
 type ButtonVariant = "primary" | "outline" | "text";
+type ButtonState = "primary" | "danger"; // ✅ الحالة الجديدة
 
 interface GradientButtonProps {
   size?: ButtonSize;
@@ -13,10 +14,10 @@ interface GradientButtonProps {
   disabled?: boolean;
   children: React.ReactNode;
   onClick?: () => void;
-  type?: "button" | "submit" | "reset"; // ✅ أضفنا السطر ده
+  type?: "button" | "submit" | "reset";
   sx?: SxProps<Theme>;
+  state?: ButtonState; // ✅ أضفنا الـ prop الجديدة
 }
-
 
 export default function Gradient_Button({
   size = "medium",
@@ -24,7 +25,8 @@ export default function Gradient_Button({
   disabled = false,
   children,
   onClick,
-  type = "button", // ✅ افتراضيًا "button"
+  type = "button",
+  state = "primary", // ✅ افتراضيًا primary
 }: GradientButtonProps) {
   const theme = useTheme();
 
@@ -49,15 +51,23 @@ export default function Gradient_Button({
   let styles = {};
 
   if (variant === "primary") {
+    // ✅ لو الحالة danger غيّر الألوان فقط
+    const isDanger = state === "danger";
     styles = {
       color: theme.tokens.buttons.textColor,
-      background: theme.palette.gradients.primary,
+      background: isDanger
+        ? "linear-gradient(90deg, #EF4444 0%, #892727 100%)"
+        : theme.palette.gradients.primary,
       boxShadow: theme.tokens.buttons.boxShadow,
       "&:hover": {
-        background: theme.palette.gradients.primaryHover,
+        background: isDanger
+          ? "linear-gradient(90deg, #ff5c5c 0%, #a23232 100%)"
+          : theme.palette.gradients.primaryHover,
       },
       "&:active": {
-        background: theme.palette.gradients.primaryPressed,
+        background: isDanger
+          ? "linear-gradient(90deg, #cc3333 0%, #661f1f 100%)"
+          : theme.palette.gradients.primaryPressed,
         transform: "translateY(1px)",
         boxShadow: "0px 2px 2px 0px #00000040",
       },
@@ -107,7 +117,7 @@ export default function Gradient_Button({
       disableRipple
       disabled={disabled}
       onClick={onClick}
-      type={type} // ✅ استخدمناها هنا
+      type={type}
       sx={{ ...baseStyle, ...styles, width: "100%" }}
     >
       <Typography variant={typography as TypographyProps["variant"]}>

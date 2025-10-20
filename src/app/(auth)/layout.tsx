@@ -14,12 +14,13 @@ export default function Layout({
   return (
     <Box
       sx={{
-        height: "100%",
+        minHeight: "100%",
         width: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         background: t.palette.gradients.primary,
+      
       }}
     >
       <Box
@@ -36,12 +37,12 @@ export default function Layout({
         }}
       ></Box>
       <Box
-        className="layout-register-box"
         sx={{
           zIndex: 1,
-          minWidth: ["100%", "100%", "40%"],
-          minHeight: ["100%", "100%", "58%"],
-          backgroundColor: t.tokens.backgroundColors.main,
+          minWidth: ["100vw", "100vw", "42%"],
+          minHeight: ["100vh", "100vh", "58%"],
+          backgroundColor:t.tokens.backgroundColors.main,
+          margin:["0px","0px","35px"],
           borderRadius: ["0px", "13px", "13px"],
           display: "flex",
           justifyContent: "center",

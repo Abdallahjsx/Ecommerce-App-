@@ -21,6 +21,7 @@ export default function PickRole({ setStep }: { setStep: () => void }) {
             fontFamily: "var(--font-cinzel)",
             textAlign: "center",
             padding: "0px",
+            marginTop: ["60px", "60px", "50px"],
           }}
         >
           start as

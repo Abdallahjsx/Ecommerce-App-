@@ -16,7 +16,7 @@ export default function Verification() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        // minHeight: "100vh",
+       paddingBottom:"80px",
         gap: "42px",
         // width: ["100%", "100%", "75%"],
       }}

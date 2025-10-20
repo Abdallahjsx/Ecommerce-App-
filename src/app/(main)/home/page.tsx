@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import ToastItem from "@/components/ui/toaster/Toast-Item";
 
 export default function HomePage() {
@@ -25,32 +25,8 @@ export default function HomePage() {
   return (
     <>
     
-      <main style={{ padding: 40,height:"70%" }}>
-        <Stack direction="row" spacing={2}>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={handleShowSuccess}
-          >
-            Show Success Toast
-          </Button>
-
-          <Button variant="contained" color="info" onClick={handleShowInfo}>
-            Show Info Toast
-          </Button>
-
-          <Button
-            variant="contained"
-            color="warning"
-            onClick={handleShowWarning}
-          >
-            Show Warning Toast
-          </Button>
-
-          <Button variant="contained" color="error" onClick={handleShowError}>
-            Show Error Toast
-          </Button>
-        </Stack>
+      <main style={{ padding: 40,height:"70%",display:"flex",justifyContent:"center",alignItems:"center" }}>
+      <Typography variant="titleSpecial" color="initial" fontSize={"50px"}> COMMING  SOON .</Typography>
 
         {/* ✅ التوستات */}
         <ToastItem

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./register.css";
 import Image from "next/image";
 import { Box, Typography } from "@mui/material";
@@ -11,96 +11,165 @@ import DateInput from "@/components/ui/dateInput/DateInput";
 import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
 import Social from "@/components/ui/sharedFormContent/shared";
 import Link from "next/link";
+import { useRegister } from "@/features/auth/hooks/useRegister";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/Redux/store";
+import { setToken } from "@/Redux/slices/authSlice";
 
 export default function Register() {
   // ✅ تعديل النوع ليقبل male أو female أو null
-  const [selectedGender, setSelectedGender] = useState<
-    "male" | "female" | null
-  >(null);
+  const router = useRouter();
+  const dispacth = useAppDispatch()
+  const [selectedGender, setSelectedGender] = useState<"Male" | "Female">(
+    "Male"
+  );
+  const { mutate, error, isPending, isSuccess, data } = useRegister();
   const myForm = useFormik({
     validateOnMount: true,
+    validateOnChange: true,
+    validateOnBlur: true,
     initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      password: "",
+      FirstName: "",
+      LastName: "",
+      Email: "",
+      PhoneNumber: "",
+      DateOfBirth: "",
+      Password: "",
       confirmPassword: "",
-      dateOfBirth: "",
-      gender: "",
+      Gender: "Male",
+      ProfileImage: undefined,
     },
-    validationSchema: Yup.object({
-      firstName: Yup.string().required("First name is required"),
-      lastName: Yup.string().required("Last name is required"),
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("Email is required"),
-      phone: Yup.string()
-        .matches(/^(10|11|12|15)\d{8}$/, "Invalid phone number")
-        .required("Phone number is required"),
-      password: Yup.string()
+    validationSchema: Yup.object().shape({
+      FirstName: Yup.string()
+        .required("First name is required")
+        .min(4, "First name must be lmore than 3 chrs."),
+      LastName: Yup.string()
+        .required(`Last name is required`)
+        .min(4, "username must be lmore than 3 chrs."),
+      PhoneNumber: Yup.string()
+        .required("Phone number is required")
+        .matches(/^(10|11|12|15)\d{8}$/, "Invalid phone number"),
+      Email: Yup.string().required(`Email Is Required`).email(`Invalid Email`),
+      Password: Yup.string()
+        .required("Password is required")
+        .min(7, "Password must be at least 7 characters long")
+        .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+        .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+        .matches(/\d/, "Password must contain at least one digit")
         .matches(
-          /^(?=.*[A-Z])(?=.*[!@#$%^&])(?=(?:.*\d){3,}).{7,}$/,
-          "Password must have 7+ chars, 1 uppercase, 1 special char, and 3+ numbers"
-        )
-        .required("Password is required"),
+          /[@$!%*?&]/,
+          "Password must contain at least one special character"
+        ),
       confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password")], "Passwords must match")
-        .required("Please confirm your password"),
-      dateOfBirth: Yup.date().nullable().required("Date of birth is required"),
+        .oneOf([Yup.ref("Password"), undefined], "Passwords must match")
+        .required("Confirm password is required"),
+      DateOfBirth: Yup.string().required("your birth date is required !"),
+      ProfileImage: Yup.mixed().required("Profile picture URL is required"),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      mutate(values);
     },
   });
+  useEffect(() => {
+    if (isSuccess) {
+      router.push(`/verification?email=${myForm.values.Email}`);
+    }
+  }, [isSuccess]);
 
   return (
     <div className="register-box">
       <Box
         sx={{
-          position: "relative",
-          top: "279px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           gap: "26px",
           opacity: 1,
+          padding: ["50px 20px", "50px 20px", "40px"],
         }}
       >
+        <input
+          id="profile-upload"
+          type="file"
+          name="ProfileImage"
+          accept="image/*"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            const file = e.currentTarget.files?.[0];
+            myForm.setFieldValue("ProfileImage", file);
+          }}
+          style={{ display: "none" }}
+        />
         {/* صورة البروفايل */}
-        <Box sx={{ width: "122px", height: "122px", position: "relative" }}>
-          <Image
-            src="/assets/icons/profile-icon.svg"
-            alt="Profile placeholder"
-            fill
-            style={{ objectFit: "contain" }}
-          />
-        </Box>
+        <label htmlFor="profile-upload">
+          <Box
+            sx={{
+              width: "122px",
+              height: "122px",
+              position: "relative",
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
+          >
+            {myForm.values.ProfileImage ? (
+              <div
+                style={{
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  width: "130px",
+                  height: "130px",
+                }}
+              >
+                <Image
+                  src={URL.createObjectURL(myForm.values.ProfileImage)}
+                  alt="Profile placeholder"
+                  width={130}
+                  height={130}
+                  style={{
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            ) : (
+              <Image
+                src="/assets/icons/profile-icon.svg"
+                alt="Profile placeholder"
+                fill
+                style={{ objectFit: "contain" }}
+              />
+            )}
+          </Box>
+        </label>
 
         {/* الفورم */}
 
-        <Form
-          style={{
-            display: "grid",
+        <Box
+          sx={{
+            display: ["flex", "flex", "grid"],
             gridTemplateColumns: "repeat(2, 1fr)",
             columnGap: "20px",
-            rowGap: "24px",
+            rowGap: ["0px", "0px", "24px"],
             width: "100%",
             justifyItems: "center",
+            flexDirection: "column",
           }}
         >
           {/* الصف الأول */}
           <Box sx={{ width: "100%" }}>
             <TextInput
+              name="FirstName"
               label="First Name"
-              name="firstName"
               placeholder="Enter your first name"
+              myform={myForm}
+              type="text"
             />
           </Box>
           <Box sx={{ width: "100%" }}>
             <TextInput
+              name="LastName"
+              type="text"
+              myform={myForm}
               label="Last Name"
-              name="lastName"
               placeholder="Enter your last name"
             />
           </Box>
@@ -109,15 +178,18 @@ export default function Register() {
           <Box sx={{ width: "100%" }}>
             <TextInput
               label="Email"
-              name="email"
+              myform={myForm}
               type="email"
+              name="Email"
               placeholder="Enter your email"
             />
           </Box>
           <Box sx={{ width: "100%" }}>
             <TextInput
               label="Phone"
-              name="phone"
+              type="text"
+              name="PhoneNumber"
+              myform={myForm}
               placeholder="+20 Enter your phone number"
             />
           </Box>
@@ -126,7 +198,8 @@ export default function Register() {
           <Box sx={{ width: "100%" }}>
             <TextInput
               label="Password"
-              name="password"
+              name="Password"
+              myform={myForm}
               type="password"
               placeholder="Enter your first password"
             />
@@ -135,6 +208,7 @@ export default function Register() {
             <TextInput
               label="Confirm Password"
               name="confirmPassword"
+              myform={myForm}
               type="password"
               placeholder="Enter your first password"
             />
@@ -142,7 +216,7 @@ export default function Register() {
 
           {/* الصف الرابع (Birthday + Gender) */}
           <Box sx={{ width: "100%" }}>
-            <DateInput label="Birthday" name="dateOfBirth" myform={myForm} />
+            <DateInput label="Birthday" name="DateOfBirth" myform={myForm} />
           </Box>
 
           {/* Gender */}
@@ -185,8 +259,8 @@ export default function Register() {
               {/* Male */}
               <Box
                 onClick={() => {
-                  setSelectedGender("male");
-                  myForm.setFieldValue("gender", "male");
+                  setSelectedGender("Male");
+                  myForm.setFieldValue("gender", "Male");
                 }}
                 sx={{
                   display: "flex",
@@ -195,7 +269,7 @@ export default function Register() {
                   gap: "4px",
                   cursor: "pointer",
                   transform:
-                    selectedGender === "male" ? "scale(1.05)" : "scale(1)",
+                    selectedGender === "Male" ? "scale(1.05)" : "scale(1)",
                   transition: "0.2s ease",
                 }}
               >
@@ -207,7 +281,7 @@ export default function Register() {
                   style={{
                     objectFit: "contain",
                     filter:
-                      selectedGender === "male"
+                      selectedGender === "Male"
                         ? "drop-shadow(0 0 4px #1B2351)"
                         : "none",
                   }}
@@ -222,7 +296,7 @@ export default function Register() {
                     lineHeight: "100%",
                     textAlign: "center",
                     verticalAlign: "middle",
-                    color: selectedGender === "male" ? "#1B2351" : "#6F7073",
+                    color: selectedGender === "Male" ? "#1B2351" : "#6F7073",
                   }}
                 >
                   Male
@@ -232,8 +306,8 @@ export default function Register() {
               {/* Female */}
               <Box
                 onClick={() => {
-                  setSelectedGender("female");
-                  myForm.setFieldValue("gender", "female");
+                  setSelectedGender("Female");
+                  myForm.setFieldValue("gender", "Female");
                 }}
                 sx={{
                   display: "flex",
@@ -242,7 +316,7 @@ export default function Register() {
                   gap: "4px",
                   cursor: "pointer",
                   transform:
-                    selectedGender === "female" ? "scale(1.05)" : "scale(1)",
+                    selectedGender === "Female" ? "scale(1.05)" : "scale(1)",
                   transition: "0.2s ease",
                 }}
               >
@@ -254,7 +328,7 @@ export default function Register() {
                   style={{
                     objectFit: "contain",
                     filter:
-                      selectedGender === "female"
+                      selectedGender === "Female"
                         ? "drop-shadow(0 0 4px #1B2351)"
                         : "none",
                   }}
@@ -269,7 +343,7 @@ export default function Register() {
                     lineHeight: "100%",
                     textAlign: "center",
                     verticalAlign: "middle",
-                    color: selectedGender === "female" ? "#1B2351" : "#6F7073",
+                    color: selectedGender === "Female" ? "#1B2351" : "#6F7073",
                   }}
                 >
                   Female
@@ -282,21 +356,49 @@ export default function Register() {
           <Box
             sx={{
               gridColumn: "1 / span 2",
-              width: "354px",
+              width: ["100%", "100%", "70%"],
               mt: "10px",
             }}
           >
-            <Gradient_Button type="submit" size="large">
-              Register
+            <Gradient_Button
+              onClick={() => {
+                myForm.submitForm();
+              }}
+              disabled={!myForm.isValid || isPending}
+              type="submit"
+              size="large"
+            >
+              {!isPending ? "Register" : "Registering..."}
             </Gradient_Button>
+          </Box>
+          <Box
+            sx={{
+              gridColumn: "1 / span 2",
+              width: ["100%", "100%", "70%"],
+            }}
+          >
+            {(data ? !JSON.parse(data).success : false) && (
+              <p
+                style={{
+                  textAlign: "center",
+                  marginTop: 8,
+                  color: "red",
+                  fontSize: 12,
+                }}
+              >
+                {data ? JSON.parse(data).errors[0]?.en : ""}
+              </p>
+            )}
           </Box>
 
           {/* قسم Or With + Social Buttons */}
           <Box
             sx={{
               gridColumn: "1 / span 2",
-              width: "354px",
+              width: ["100%", "100%", "68%"],
               marginY: "-17px",
+              display: "flex",
+              justifyContent: "center",
             }}
           >
             <Social />
@@ -328,7 +430,8 @@ export default function Register() {
               Already have an account?
               <Link href="/login" style={{ textDecoration: "none" }}>
                 <Typography
-                  component="span"
+                  component="a"
+                  href="/login"
                   sx={{
                     fontFamily: "Inter",
                     fontWeight: 500,
@@ -344,7 +447,7 @@ export default function Register() {
               </Link>
             </Typography>
           </Box>
-        </Form>
+        </Box>
       </Box>
     </div>
   );
