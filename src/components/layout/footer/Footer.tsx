@@ -2,7 +2,6 @@
 import React from "react";
 import styles from "./footer.module.css";
 import { useTheme, Typography, Box, Link } from "@mui/material";
-import Apple from "../../../../public/assets/images/apple.png";
 import GooglePlay from "../../../../public/assets/images/google-play.png";
 import Logo from "../../../../public/assets/images/logo.png";
 import Facebook from "../../../../public/assets/icons/facebook-icon.svg";
@@ -44,6 +43,7 @@ export default function Footer() {
             className={styles.lightVector}
             sx={{ width: ["100%", "100%", "60%"] }}
           />
+          
 
           <Link
             zIndex={2}
@@ -52,9 +52,9 @@ export default function Footer() {
             href="#"
           >
             <img
-              src={Apple.src}
-              height={Apple.height}
-              width={Apple.width}
+              src={"/assets/images/apple.png"}
+              height={30}
+              width={25}
               alt="Appstore"
             />
             {/* <div
@@ -94,6 +94,7 @@ export default function Footer() {
         sx={{
           flexDirection: ["column", "column", "row"],
           gap: ["24px", "24px", "128px"],
+          justifyContent: ["flex-start", "flex-start", "space-between"],
         }}
       >
         <Box className={styles.info}>
@@ -111,12 +112,17 @@ export default function Footer() {
               Alluvo
             </Typography>
           </div>
-            <img src={Shadow.src} alt="" style={{ marginTop: "14px" }} />
-          <p style={{ marginTop: 24 }}>
-            Our platform turns shopping into an experience you’ll enjoy.
-            Discover products you love, explore exciting offers, and make every
-            purchase fun, easy, and rewarding.
-          </p>
+          <img src={Shadow.src} alt="" style={{ marginTop: "14px" }} />
+          <Box
+            style={{ marginTop: "20px" }}
+            sx={{ textAlign: ["center", "center", "start"] }}
+          >
+            <Typography variant="captionSmall" fontSize={14}>
+              Our platform turns shopping into an experience you’ll enjoy.
+              Discover products you love, explore exciting offers, and make
+              every purchase fun, easy, and rewarding.
+            </Typography>
+          </Box>
         </Box>
         <Box className={styles.navs}>
           <div className={styles.column}>
@@ -232,13 +238,18 @@ export default function Footer() {
                 className={styles.navCol}
                 color={t.tokens.typographyColors.body}
                 style={{ fontSize: 16 }}
-              >s
+              >
                 19000
               </Typography>
             </div>
             <div className={styles.social}>
-              {[Facebook, Linkedin, Twitter].map((icon,index) => (
-                <Typography key={index} component={"a"} href="#" color="initial">
+              {[Facebook, Linkedin, Twitter].map((icon, index) => (
+                <Typography
+                  key={index}
+                  component={"a"}
+                  href="#"
+                  color="initial"
+                >
                   <div
                     className={styles.circle}
                     style={{
@@ -274,3 +285,4 @@ export default function Footer() {
     </Box>
   );
 }
+//

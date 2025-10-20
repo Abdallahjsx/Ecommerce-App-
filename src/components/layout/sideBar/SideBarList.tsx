@@ -21,7 +21,13 @@ const optionsList: any = [
   { name: "FAQs", icon: QuestionMark },
 ];
 
-export default function SideBarList({ shown }: { shown: boolean }) {
+export default function SideBarList({
+  shown,
+  loggedIn,
+}: {
+  shown: boolean;
+  loggedIn: boolean;
+}) {
   const t = useTheme();
   return (
     <Box
@@ -29,50 +35,57 @@ export default function SideBarList({ shown }: { shown: boolean }) {
         padding: "6px 20px 153px 12px",
         display: ["flex", "flex", "none"],
         flexDirection: "column",
-        bgcolor: "red",
         position: "fixed",
-        // height: "820px",
+        overflowY: "scroll",
+        scrollbarWidth: "none",
+        height: "110vh",
         width: "290px",
-        top: "60px",
-        bottom: "0px",
-        zIndex: 5,
+        top: "70px",
+        bottom:"-20px",
+        zIndex: -11,
         left: `${shown ? "0px" : "-350px"}`,
         transition: "all 0.5s ease",
         backgroundColor: t.tokens.backgroundColors.main,
       }}
     >
-      <div
-        style={{
-          padding: "9px 0px",
-          marginBottom: "10px",
-
-          width: "100%",
-        }}
-      >
-        <Typography variant="link" fontSize={14} color="black">
-          Login for more personalized experience
-        </Typography>
+      {!loggedIn ? (
         <div
           style={{
-            padding: "0px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 9,
-            marginTop: 16,
+            padding: "9px 0px",
+            marginBottom: "10px",
+
+            width: "100%",
           }}
         >
-          <Button sx={{ bgcolor: t.palette.primary.main, borderRadius: "8px" }}>
-            <Typography variant="link" fontSize={14} color="white">
-              Login
-            </Typography>
-          </Button>
-          <Button sx={{ bgcolor: "white", borderRadius: "8px" }}>
-            <Typography variant="link" fontSize={14} color="primary">
-              Register
-            </Typography>
-          </Button>
+          <Typography variant="link" fontSize={14} color="black">
+            Login for more personalized experience
+          </Typography>
+          <div
+            style={{
+              padding: "0px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 9,
+              marginTop: 16,
+            }}
+          >
+            <Button
+              sx={{ bgcolor: t.palette.primary.main, borderRadius: "8px" }}
+            >
+              <Typography variant="link" fontSize={14} color="white">
+                Login
+              </Typography>
+            </Button>
+            <Button sx={{ bgcolor: "white", borderRadius: "8px" }}>
+              <Typography variant="link" fontSize={14} color="primary">
+                Register
+              </Typography>
+            </Button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
       <section
         style={{
           padding: "10px 10px 10px 0px",

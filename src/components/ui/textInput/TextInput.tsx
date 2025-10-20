@@ -1,115 +1,106 @@
 "use client";
 
-import { TextField, InputAdornment, Box, Typography, useTheme } from "@mui/material";
+import { TextField, Box, Typography, useTheme } from "@mui/material";
 import Image from "next/image";
 import eyeIcon from "../../../../public/assets/icons/eye-icon.svg"; // موجود في src/icons/eye.svg
+import { useState } from "react";
+import { ChangeEvent } from "react"; // it is a must so that we can pass the whoel event to formik and it can deal with it
+import { FormikProps } from "formik";
+import { LoginFormValues } from "@/app/(auth)/login/components/step2";
+import { registerData } from "@/features/auth/types";
 
-export interface TextInputProps {
+// export interface TextInputProps {
+//   label: string;
+//   placeholder?: string;
+//   type?: string;
+//   name: string;
+//   error?: string;
+//   // value?: string;
+//   // setValue: (
+//   //   value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+//   // ) => void;
+// }
+type Props<T> = {
+  myform: FormikProps<T>;
+  name: keyof T;
   label: string;
-  placeholder?: string;
-  error?: string;
-}
+  type: string;
+  placeholder: string;
+};
 
-export default function TextInput({ label, placeholder, error }: TextInputProps) {
+export default function TextInput<T>({
+  label,
+  placeholder,
+  myform,
+  name,
+  type = "text",
+}: Props<T>) {
   const theme = useTheme();
 
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         display: "flex",
         flexDirection: "column",
         gap: "10px",
-        width: theme.tokens.inputs.width,
         opacity: 1,
+        marginBottom: 20,
+        // margin: 12,
       }}
     >
       {/* Label */}
-      <Typography
-        sx={{
-          width: theme.tokens.inputs.label.width,
-          height: theme.tokens.inputs.label.height,
-          fontFamily: theme.tokens.inputs.label.fontFamily,
-          fontSize: theme.tokens.inputs.label.fontSize,
-          fontWeight: theme.tokens.inputs.label.fontWeight,
-          lineHeight: theme.tokens.inputs.label.lineHeight,
-          color: theme.tokens.inputs.label.color,
-        }}
-      >
+      <Typography variant="inputLabel" color="primary">
         {label}
       </Typography>
 
       {/* Input with static Eye Icon */}
-      <TextField
-        placeholder={placeholder}
-        error={!!error}
-        fullWidth
-        variant="outlined"
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            height: theme.tokens.inputs.height,
-            borderRadius: theme.tokens.inputs.borderRadius,
-            backgroundColor: theme.tokens.inputsColors.background,
-            boxShadow: theme.tokens.inputs.boxShadow,
-            "& fieldset": {
-              borderColor: theme.tokens.inputsColors.border,
+      <div style={{ position: "relative", width: "100%" }}>
+        <TextField
+          name={name as string}
+          value={myform.values[name as keyof typeof myform.values]}
+          onChange={(e) => {
+            myform.handleChange(e);
+            myform.setFieldTouched(name as string, true, false);
+          }}
+          type={type}
+          sx={{
+            width: "100%",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "8px",
+              backgroundColor: "white",
+              boxShadow: "0px 4px 4px 0px #00000040",
+              "& fieldset": {
+                border: "none",
+              },
             },
-            "&:hover fieldset": {
-              borderColor: theme.palette.primary.main,
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: theme.palette.primary.main,
-              boxShadow: "0px 4px 8px rgba(27,35,81,0.4)",
-            },
-          },
-          "& input": {
-            padding: theme.tokens.inputs.padding,
-            paddingRight: `${theme.tokens.icons.eye.width + 20}px`, // ديناميكي حسب حجم الأيقونة
-            fontSize: theme.tokens.inputs.fontSize,
-            color: theme.tokens.typographyColors.body,
-          },
-          "& input::placeholder": {
-            color: theme.tokens.inputsColors.placeholder,
-            opacity: 1,
-          },
-        }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <Image
-                src={eyeIcon}
-                alt="eye icon"
-                width={theme.tokens.icons.eye.width}
-                height={theme.tokens.icons.eye.height}
-              />
-            </InputAdornment>
-          ),
-        }}
-      />
+          }}
+          placeholder={placeholder}
+          variant="outlined"
+        />
+        {type === "password" && (
+          <img
+            style={{ position: "absolute", right: "10px", top: "30%" }}
+            src={eyeIcon.src}
+            alt=""
+          />
+        )}
+      </div>
 
       {/* Error Message */}
-      {error && (
-        <Box
+      {myform.errors[name] && myform.touched[name] && (
+        <Typography
+          color={theme.tokens.typographyColors.danger}
+          variant="inputError"
           sx={{
-            width: theme.tokens.inputs.error.width,
-            height: theme.tokens.inputs.error.height,
-            fontFamily: theme.tokens.inputs.error.fontFamily,
-            fontWeight: theme.tokens.inputs.error.fontWeight,
-            fontSize: theme.tokens.inputs.error.fontSize,
-            lineHeight: theme.tokens.inputs.error.lineHeight,
-            color: theme.tokens.mainColors.white,
-            background: theme.tokens.typographyColors.danger,
-            borderRadius: theme.tokens.inputs.error.borderRadius,
             padding: "0 8px",
             marginTop: "4px",
-            display: "flex",
-            alignItems: "center",
           }}
         >
-          {error}
-        </Box>
+          {typeof myform.errors[name] === "string"
+            ? myform.errors[name]
+            : JSON.stringify(myform.errors[name])}
+        </Typography>
       )}
-    </Box>
+    </div>
   );
 }
-
-

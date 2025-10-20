@@ -1,113 +1,128 @@
 "use client";
 
-import { TextField, InputAdornment, Box, Typography, useTheme } from "@mui/material";
+import {
+  TextField,
+  InputAdornment,
+  Typography,
+  useTheme,
+  IconButton,
+} from "@mui/material";
 import Image from "next/image";
-import calendarIcon from "../../../../public/assets/icons/calendar-icon.svg"; // موجود في src/icons/calendar.svg
+import calendarIcon from "../../../../public/assets/icons/calendar-icon.svg";
+import { FormikProps } from "formik";
+import { ChangeEvent, useState } from "react";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 export interface DateInputProps {
+  name: string;
   label: string;
   placeholder?: string;
   error?: string;
+  myform?: FormikProps<any>;
 }
 
-export default function DateInput({ label, placeholder = "DD/MM/YYYY", error }: DateInputProps) {
+export default function DateInput({
+  name,
+  label,
+  placeholder = "DD/MM/YYYY",
+  error,
+  myform,
+}: DateInputProps) {
   const theme = useTheme();
+  const [open, setOpen] = useState(false);
+
+  const fieldValue = myform ? myform.values[name] : undefined;
+  const fieldError = myform
+    ? (myform.touched[name] && myform.errors[name]) || ""
+    : error;
 
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         display: "flex",
         flexDirection: "column",
         gap: "10px",
-        width: theme.tokens.inputs.width,
         opacity: 1,
+        marginBottom: 20,
+        width: "278px",
       }}
     >
       {/* Label */}
-      <Typography
-        sx={{
-          width: theme.tokens.inputs.label.width,
-          height: theme.tokens.inputs.label.height,
-          fontFamily: theme.tokens.inputs.label.fontFamily,
-          fontSize: theme.tokens.inputs.label.fontSize,
-          fontWeight: theme.tokens.inputs.label.fontWeight,
-          lineHeight: theme.tokens.inputs.label.lineHeight,
-          color: theme.tokens.inputs.label.color,
-        }}
-      >
+      <Typography variant="inputLabel" color="primary">
         {label}
       </Typography>
 
-      {/* Input with static Calendar Icon */}
-      <TextField
-        placeholder={placeholder}
-        error={!!error}
-        fullWidth
-        variant="outlined"
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            height: theme.tokens.inputs.height,
-            borderRadius: theme.tokens.inputs.borderRadius,
-            backgroundColor: theme.tokens.inputsColors.background,
-            boxShadow: theme.tokens.inputs.boxShadow,
-            "& fieldset": {
-              borderColor: theme.tokens.inputsColors.border,
-            },
-            "&:hover fieldset": {
-              borderColor: theme.palette.primary.main,
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: theme.palette.primary.main,
-              boxShadow: "0px 4px 8px rgba(27,35,81,0.4)",
-            },
-          },
-          "& input": {
-            padding: theme.tokens.inputs.padding,
-            paddingRight: `${theme.tokens.icons.calendar.width + 20}px`, // مساحة للأيقونة
-            fontSize: theme.tokens.inputs.fontSize,
-            color: theme.tokens.typographyColors.body,
-          },
-          "& input::placeholder": {
-            color: theme.tokens.inputsColors.placeholder,
-            opacity: 1,
-          },
+      {/* ✅ DatePicker */}
+      <DatePicker
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        value={fieldValue ? dayjs(fieldValue) : null}
+        onChange={(value) => {
+          if (myform) {
+            myform.setFieldValue(name, value ? value.toISOString() : "");
+          }
         }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <Image
-                src={calendarIcon}
-                alt="calendar icon"
-                width={theme.tokens.icons.calendar.width}
-                height={theme.tokens.icons.calendar.height}
+        enableAccessibleFieldDOMStructure={false}
+        slots={{
+          textField: (params) => {
+            // ✅ ناخد فقط الخصائص الآمنة
+            const { inputProps, InputProps, ...rest } = params;
+            return (
+              <TextField
+                {...rest}
+                inputProps={inputProps}
+                InputProps={{
+                  ...InputProps,
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setOpen(true)}>
+                        <Image
+                          src={calendarIcon}
+                          alt="calendar icon"
+                          width={20}
+                          height={20}
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                name={name}
+                placeholder={placeholder}
+                error={!!fieldError}
+                fullWidth
+                variant="outlined"
+                value={fieldValue}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  if (myform) myform.handleChange(e);
+                }}
+                onBlur={myform ? myform.handleBlur : undefined}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "white",
+                    boxShadow: "0px 4px 4px 0px #00000040",
+                    "& fieldset": { border: "none" },
+                  },
+                  "& input": { paddingRight: "40px" },
+                }}
               />
-            </InputAdornment>
-          ),
+            );
+          },
         }}
       />
 
       {/* Error Message */}
-      {error && (
-        <Box
-          sx={{
-            width: theme.tokens.inputs.error.width,
-            height: theme.tokens.inputs.error.height,
-            fontFamily: theme.tokens.inputs.error.fontFamily,
-            fontWeight: theme.tokens.inputs.error.fontWeight,
-            fontSize: theme.tokens.inputs.error.fontSize,
-            lineHeight: theme.tokens.inputs.error.lineHeight,
-            color: theme.tokens.mainColors.white,
-            background: theme.tokens.typographyColors.danger,
-            borderRadius: theme.tokens.inputs.error.borderRadius,
-            padding: "0 8px",
-            marginTop: "4px",
-            display: "flex",
-            alignItems: "center",
-          }}
+      {fieldError && (
+        <Typography
+          color={theme.tokens?.typographyColors?.danger || "red"}
+          variant="inputError"
+          sx={{ padding: "0 8px", marginTop: "4px" }}
         >
-          {error}
-        </Box>
+          {fieldError as string}
+        </Typography>
       )}
-    </Box>
+    </div>
   );
 }

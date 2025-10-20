@@ -1,4 +1,4 @@
-import { Poppins,Inter,Cinzel_Decorative } from "next/font/google";
+import { Poppins,Inter,Cinzel_Decorative,Lato } from "next/font/google";
 export const poppinsFont=Poppins({
   weight:["500","600","700"],
   subsets:['latin'],
@@ -13,4 +13,9 @@ export const cinzelDecorativeFont=Cinzel_Decorative({
   weight:["400","700",],
   subsets:['latin'],
   variable: "--font-cinzel", 
+})
+export const latoFont=Lato({
+  weight:["400","700"],
+  subsets:['latin'],
+  variable: "--font-lato", 
 })
