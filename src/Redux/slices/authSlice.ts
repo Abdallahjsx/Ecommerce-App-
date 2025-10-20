@@ -4,8 +4,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type authState = {
     token:string | null;
 }
-const initialState:authState={
-  token:localStorage.getItem("token") ?? null }
+const initialState: authState = {
+  token: null,
+};
 const authSlice = createSlice({
   name: "auth",
   initialState,

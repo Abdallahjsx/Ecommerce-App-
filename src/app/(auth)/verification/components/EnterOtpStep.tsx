@@ -1,5 +1,6 @@
 "use client";
 import { Typography, Box, useTheme } from "@mui/material";
+import { Suspense } from "react";
 // import "./EnterOtpStep.css";
 import Image from "next/image";
 import React, { useRef, useState, useEffect } from "react";
@@ -93,10 +94,9 @@ export default function Step1({ setStep }: { setStep: () => void }) {
   }, [isSuccess]);
   useEffect(() => {
     setVerificationError(isError);
-   
   }, [isError]);
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <Box
         sx={{
           textAlign: "center",
@@ -456,6 +456,6 @@ export default function Step1({ setStep }: { setStep: () => void }) {
         </Box>
       </Box>
       {isSuccess && <SuccessCard />}
-    </>
+    </Suspense>
   );
 }

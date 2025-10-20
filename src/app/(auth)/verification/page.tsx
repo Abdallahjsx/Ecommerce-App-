@@ -3,40 +3,42 @@ import { Container } from "@mui/system";
 import React, { useState } from "react";
 import Step1 from "./components/EnterOtpStep";
 import Step2 from "./components/NewPasswordStep";
-
+import { Suspense } from "react";
 
 export default function Verification() {
   // حالة الخطوة الحالية
   const [step, setStep] = useState(1);
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-       paddingBottom:"80px",
-        gap: "42px",
-      }}
-    >
-      {step === 1 && (
-        <Step1
-          setStep={() => setStep(2)} // من Verify Code إلى New Password
-        />
-      )}
+    <Suspense fallback={<div>Loading...</div>}>
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          paddingBottom: "80px",
+          gap: "42px",
+        }}
+      >
+        {step === 1 && (
+          <Step1
+            setStep={() => setStep(2)} // من Verify Code إلى New Password
+          />
+        )}
 
-      {step === 2 && (
-        <Step2
-          setStep={setStep} // علشان Step2 تقدر تروح Step3 من جوه Formik
-        />
-      )}
+        {step === 2 && (
+          <Step2
+            setStep={setStep} // علشان Step2 تقدر تروح Step3 من جوه Formik
+          />
+        )}
 
-      {step === 3 && (
-        <Step2
-          setStep={setStep} // علشان زرار Home يرجع Step1
-        />
-      )}
-    </Container>
+        {step === 3 && (
+          <Step2
+            setStep={setStep} // علشان زرار Home يرجع Step1
+          />
+        )}
+      </Container>
+    </Suspense>
   );
 }
