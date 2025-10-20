@@ -90,7 +90,6 @@ export default function Step1({ setStep }: { setStep: () => void }) {
   useEffect(() => {
     if (!isSuccess) return;
     dispatch(setToken(data.data.token));
-    router.push("/");
   }, [isSuccess]);
   useEffect(() => {
     setVerificationError(isError);

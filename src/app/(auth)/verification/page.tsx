@@ -18,7 +18,6 @@ export default function Verification() {
         justifyContent: "center",
        paddingBottom:"80px",
         gap: "42px",
-        // width: ["100%", "100%", "75%"],
       }}
     >
       {step === 1 && (
