@@ -167,7 +167,7 @@ export default function NavBar() {
                   },
                 }}
               >
-                {width > 900 ? "ع" : "عربي"}
+                {width > 900 ? "ع" : loggedIn ? "عربي" : "ع"}
               </Typography>
             
           </div>
