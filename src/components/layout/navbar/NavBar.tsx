@@ -7,7 +7,7 @@ import styles from "./navbar.module.css";
 import BellIcon from "@/iconsComponents/BellIcon";
 import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
-import Side from "../../../../public/assets/icons/side-icon.svg";
+
 import { useSelector, UseSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
 
@@ -54,10 +54,8 @@ export default function NavBar() {
             }}
           >
             <img
-              src={Side.src}
-              width={Side.width}
+              src={"/assets/icons/side-icon.svg"}
               style={{ marginRight: "16px" }}
-              height={Side.height}
               alt=""
             />
           </IconButton>

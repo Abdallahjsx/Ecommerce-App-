@@ -62,8 +62,7 @@ color: #47c0d2;
     cursor: pointer;
 }
 .navCol{
-    font-size:14 !important;
-    font-weight:400 !important;
+
 }
 @media (min-width:1050px ) {
     .navs{

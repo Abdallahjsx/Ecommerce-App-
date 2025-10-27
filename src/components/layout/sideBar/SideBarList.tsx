@@ -1,24 +1,15 @@
 import { Box } from "@mui/material";
 import { useTheme, Typography, Button } from "@mui/material";
 import React from "react";
-import Home from "../../../../public/assets/icons/home-icon.svg";
-import Shop from "../../../../public/assets/icons/shop-icon.svg";
-import Reels from "../../../../public/assets/icons/reels-icon.svg";
-import Cart from "../../../../public/assets/icons/cart-icon.svg";
-import Heart from "../../../../public/assets/icons/heart-icon.svg";
-import Phone from "../../../../public/assets/icons/phone-icon.svg";
-import QuestionMark from "../../../../public/assets/icons/question-mark-icon.svg";
-import AppStore from "../../../../public/assets/images/button-appstore.png";
-import PlayStore from "../../../../public/assets/images/button-playstore.png";
 
 const optionsList: any = [
-  { name: "Home", icon: Home },
-  { name: "Shop", icon: Shop },
-  { name: "Reels", icon: Reels },
-  { name: "Orders", icon: Cart },
-  { name: "Favorites", icon: Heart },
-  { name: "Contact Us", icon: Phone },
-  { name: "FAQs", icon: QuestionMark },
+  { name: "Home", icon: "/assets/icons/home-icon.svg" },
+  { name: "Shop", icon: "/assets/icons/shop-icon.svg" },
+  { name: "Reels", icon: "/assets/icons/reels-icon.svg" },
+  { name: "Orders", icon: "/assets/icons/cart-icon.svg" },
+  { name: "Favorites", icon: "/assets/icons/heart-icon.svg" },
+  { name: "Contact Us", icon: "/assets/icons/phone-icon.svg" },
+  { name: "FAQs", icon: "/assets/icons/question-mark-icon.svg" },
 ];
 
 export default function SideBarList({
@@ -41,7 +32,7 @@ export default function SideBarList({
         height: "110vh",
         width: "290px",
         top: "70px",
-        bottom:"-20px",
+        bottom: "-20px",
         zIndex: -11,
         left: `${shown ? "0px" : "-350px"}`,
         transition: "all 0.5s ease",
@@ -72,12 +63,24 @@ export default function SideBarList({
             <Button
               sx={{ bgcolor: t.palette.primary.main, borderRadius: "8px" }}
             >
-              <Typography variant="link" fontSize={14} color="white">
+              <Typography
+                component={"a"}
+                href="/login"
+                variant="link"
+                fontSize={14}
+                color="white"
+              >
                 Login
               </Typography>
             </Button>
             <Button sx={{ bgcolor: "white", borderRadius: "8px" }}>
-              <Typography variant="link" fontSize={14} color="primary">
+              <Typography
+                variant="link"
+                component={"a"}
+                href="/register"
+                fontSize={14}
+                color="primary"
+              >
                 Register
               </Typography>
             </Button>
@@ -105,7 +108,7 @@ export default function SideBarList({
               // alignItems:"center"
             }}
           >
-            <img src={op.icon.src} alt={op.name} />
+            <img src={op.icon} alt={op.name} />
             <Typography variant="link" color="primary">
               {op.name}
             </Typography>
@@ -123,10 +126,10 @@ export default function SideBarList({
         </Typography>
         <div style={{ display: "flex", gap: "8px" }}>
           <Button style={{ padding: "0px" }}>
-            <img src={AppStore.src} alt="" />
+            <img src={"/assets/images/button-appstore.png"} alt="" />
           </Button>
           <Button>
-            <img src={PlayStore.src} alt="" />
+            <img src={"/assets/images/button-playstore.png"} alt="" />
           </Button>
         </div>
       </section>

@@ -20,7 +20,7 @@ export default function Layout({
         alignItems: "center",
         justifyContent: "center",
         background: t.palette.gradients.primary,
-      
+        overflow: "hidden",
       }}
     >
       <Box
@@ -39,16 +39,15 @@ export default function Layout({
       <Box
         sx={{
           zIndex: 1,
-          minWidth: ["100vw", "100vw", "42%"],
-          minHeight: ["100vh", "100vh", "58%"],
-          backgroundColor:t.tokens.backgroundColors.main,
-          margin:["0px","0px","35px"],
+          minWidth: ["100vw", "100vw", "42vw"],
+          minHeight: ["100vh", "100vh", "58vh"],
+          backgroundColor: t.tokens.backgroundColors.main,
+          margin: ["0px", "0px", "35px"],
           borderRadius: ["0px", "13px", "13px"],
           display: "flex",
           justifyContent: "center",
           overflow: "hidden",
         }}
-        
       >
         <div style={{ width: "100%" }}>
           <AlluvoLogo />

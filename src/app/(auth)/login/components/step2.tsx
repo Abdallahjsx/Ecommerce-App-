@@ -106,7 +106,7 @@ export default function LoginForm() {
       )}
 
       <Social />
-      <Box sx={{ marginTop: "10px", textAlign: "center" }}>
+      <Box sx={{ marginTop: "10px", textAlign: "center"}}>
         <Typography variant="link" color="gray" fontSize={"11px"}>
           Don’t have an account?
         </Typography>

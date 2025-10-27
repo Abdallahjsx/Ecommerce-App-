@@ -8,7 +8,6 @@ import {
   IconButton,
 } from "@mui/material";
 import Image from "next/image";
-import calendarIcon from "../../../../public/assets/icons/calendar-icon.svg";
 import { FormikProps } from "formik";
 import { ChangeEvent, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -78,8 +77,8 @@ export default function DateInput({
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton onClick={() => setOpen(true)}>
-                        <Image
-                          src={calendarIcon}
+                        <img
+                          src={"/assets/icons/calendar-icon.svg"}
                           alt="calendar icon"
                           width={20}
                           height={20}

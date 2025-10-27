@@ -40,5 +40,5 @@ export async function verification(data:verigicationData) {
 export async function resendOtp(email:string) {
   const res = await apiCall.post(`/api/Otp/ResendOtp?email=${email}`)
   return res.data
-
 }
+// forget password 

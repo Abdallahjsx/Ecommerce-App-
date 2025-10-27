@@ -10,6 +10,7 @@ import Twitter from "../../../../public/assets/icons/twitter-icon.svg";
 import Phone from "../../../../public/assets/icons/phone-icon.svg";
 import C from "../../../../public/assets/icons/c-icon.svg";
 import Shadow from "../../../../public/assets/images/shadow-ellipse.png";
+import AppStore from "../../../../public/assets/images/apple.png"
 
 export default function Footer() {
   const t = useTheme();
@@ -43,7 +44,6 @@ export default function Footer() {
             className={styles.lightVector}
             sx={{ width: ["100%", "100%", "60%"] }}
           />
-          
 
           <Link
             zIndex={2}
@@ -52,27 +52,11 @@ export default function Footer() {
             href="#"
           >
             <img
-              src={"/assets/images/apple.png"}
-              height={30}
-              width={25}
+              src={AppStore.src}
+              height={AppStore.height}
+              width={AppStore.width}
               alt="Appstore"
             />
-            {/* <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <Typography variant="captionSmall">Download on the</Typography>
-              <Typography
-                variant="captionSmall"
-                color="#050810"
-                style={{ fontSize: 14 }}
-              >
-                App Store
-              </Typography>
-            </div> */}
           </Link>
           <Link
             zIndex={2}
@@ -84,7 +68,7 @@ export default function Footer() {
               src={GooglePlay.src}
               height={GooglePlay.height}
               width={GooglePlay.width}
-              alt="Appstore"
+              alt="Googleplay"
             />
           </Link>
         </Box>
@@ -131,7 +115,7 @@ export default function Footer() {
               color="#111827"
               style={{ marginBottom: 8 }}
             >
-              Company
+              Catigories
             </Typography>
             {[
               "Fashion",
@@ -147,10 +131,11 @@ export default function Footer() {
               <Typography
                 key={index}
                 variant="link"
-                className={styles.navCol}
                 component={"a"}
                 href="#"
                 color="#212C2B"
+                fontSize={14}
+                fontWeight={400}
               >
                 {val}
               </Typography>
@@ -169,10 +154,11 @@ export default function Footer() {
               <Typography
                 key={index}
                 variant="link"
-                className={styles.navCol}
                 component={"a"}
                 href="#"
                 color="#212C2B"
+                fontSize={14}
+                fontWeight={400}
               >
                 {val}
               </Typography>
@@ -191,10 +177,11 @@ export default function Footer() {
               <Typography
                 key={index}
                 variant="link"
-                className={styles.navCol}
                 component={"a"}
                 href="#"
                 color="#212C2B"
+                fontSize={14}
+                fontWeight={400}
               >
                 {val}
               </Typography>
@@ -213,10 +200,11 @@ export default function Footer() {
               <Typography
                 key={index}
                 variant="link"
-                className={styles.navCol}
                 component={"a"}
                 href="#"
                 color="#212C2B"
+                fontSize={14}
+                fontWeight={400}
               >
                 {val}
               </Typography>
@@ -235,7 +223,8 @@ export default function Footer() {
               <img src={Phone.src} />
               <Typography
                 variant="link"
-                className={styles.navCol}
+                fontSize={14}
+                fontWeight={400}
                 color={t.tokens.typographyColors.body}
                 style={{ fontSize: 16 }}
               >
