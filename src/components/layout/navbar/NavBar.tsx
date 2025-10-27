@@ -101,7 +101,7 @@ export default function NavBar() {
         <div className={styles.actions}>
           <div style={{ display: "flex", gap: 25, alignItems: "center" }}>
             {loggedIn ? (
-              <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+              <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
                 <BellIcon />
                 <div
                   style={{
