@@ -13,6 +13,7 @@ import { RootState } from "@/Redux/store";
 
 export default function NavBar() {
   const token = useSelector((state: RootState) => state.auth.token);
+  console.log("my TOken issssss ========>>>>>>>>>>"+token)
   const [loggedIn, setLoggedIn] = useState(token !== null);
   const [shown, setShown] = useState(false);
   const [width, setWidth] = useState(0);
