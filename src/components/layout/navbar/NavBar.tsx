@@ -117,22 +117,7 @@ export default function NavBar() {
 
                   <div className={styles.circle}>{1}</div>
                 </div>
-                {width < 900 && (
-                  <Typography
-                    fontFamily={"poppins"}
-                    variant="subtitle1"
-                    sx={{
-                      fontSize: "16px",
-                      fontWeight: 700,
-                      cursor: "pointer",
-                      "&:hover": {
-                        color: t.palette.secondary.main,
-                      },
-                    }}
-                  >
-                    ع
-                  </Typography>
-                )}
+            
 
                 <div
                   className={styles.roundedImg}
@@ -169,7 +154,7 @@ export default function NavBar() {
               </Typography>
             )}
 
-            {!loggedIn && width > 900 && (
+             
               <Typography
                 fontFamily={"poppins"}
                 variant="subtitle1"
@@ -184,7 +169,7 @@ export default function NavBar() {
               >
                 {width > 900 ? "ع" : "عربي"}
               </Typography>
-            )}
+            
           </div>
         </div>
       </Box>
