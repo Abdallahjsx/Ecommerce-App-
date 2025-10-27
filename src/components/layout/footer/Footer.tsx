@@ -2,15 +2,9 @@
 import React from "react";
 import styles from "./footer.module.css";
 import { useTheme, Typography, Box, Link } from "@mui/material";
-import GooglePlay from "../../../../public/assets/images/google-play.png";
 import Logo from "../../../../public/assets/images/logo.png";
-import Facebook from "../../../../public/assets/icons/facebook-icon.svg";
-import Linkedin from "../../../../public/assets/icons/linkedin-icon.svg";
-import Twitter from "../../../../public/assets/icons/twitter-icon.svg";
-import Phone from "../../../../public/assets/icons/phone-icon.svg";
 import C from "../../../../public/assets/icons/c-icon.svg";
 import Shadow from "../../../../public/assets/images/shadow-ellipse.png";
-import AppStore from "../../../../public/assets/images/apple.png"
 
 export default function Footer() {
   const t = useTheme();
@@ -51,12 +45,7 @@ export default function Footer() {
             className={styles.linkBox}
             href="#"
           >
-            <img
-              src={AppStore.src}
-              height={AppStore.height}
-              width={AppStore.width}
-              alt="Appstore"
-            />
+            <img src={"/assets/images/apple.png"} alt="Appstore" />
           </Link>
           <Link
             zIndex={2}
@@ -64,12 +53,7 @@ export default function Footer() {
             className={styles.linkBox}
             href="#"
           >
-            <img
-              src={GooglePlay.src}
-              height={GooglePlay.height}
-              width={GooglePlay.width}
-              alt="Googleplay"
-            />
+            <img src={"/assets/images/google-play.png"} alt="Appstore" />
           </Link>
         </Box>
       </Box>
@@ -220,7 +204,7 @@ export default function Footer() {
               Contact Us
             </Typography>
             <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
-              <img src={Phone.src} />
+              <img src={"/assets/icons/phone-icon.svg"} />
               <Typography
                 variant="link"
                 fontSize={14}
@@ -232,7 +216,11 @@ export default function Footer() {
               </Typography>
             </div>
             <div className={styles.social}>
-              {[Facebook, Linkedin, Twitter].map((icon, index) => (
+              {[
+                "/assets/icons/facebook-icon.svg",
+                "/assets/icons/linkedin-icon.svg",
+                "/assets/icons/twitter-icon.svg",
+              ].map((icon, index) => (
                 <Typography
                   key={index}
                   component={"a"}
@@ -245,12 +233,7 @@ export default function Footer() {
                       border: `1px solid ${t.tokens.separatingColors.border}`,
                     }}
                   >
-                    <img
-                      src={icon.src}
-                      width={icon.width}
-                      height={icon.height}
-                      alt=""
-                    />
+                    <img src={icon} alt="" />
                   </div>
                 </Typography>
               ))}
