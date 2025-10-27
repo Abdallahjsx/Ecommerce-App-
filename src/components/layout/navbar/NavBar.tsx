@@ -13,7 +13,7 @@ import { RootState } from "@/Redux/store";
 
 export default function NavBar() {
   const token = useSelector((state: RootState) => state.auth.token);
-  console.log("my TOken issssss ========>>>>>>>>>>"+token)
+  console.log("my TOken issssss ========>>>>>>>>>>" + token);
   const [loggedIn, setLoggedIn] = useState(token !== null);
   const [shown, setShown] = useState(false);
   const [width, setWidth] = useState(0);
@@ -117,6 +117,22 @@ export default function NavBar() {
 
                   <div className={styles.circle}>{1}</div>
                 </div>
+                {width < 900 && (
+                  <Typography
+                    fontFamily={"poppins"}
+                    variant="subtitle1"
+                    sx={{
+                      fontSize: "16px",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      "&:hover": {
+                        color: t.palette.secondary.main,
+                      },
+                    }}
+                  >
+                    ع
+                  </Typography>
+                )}
 
                 <div
                   className={styles.roundedImg}
@@ -153,20 +169,22 @@ export default function NavBar() {
               </Typography>
             )}
 
-            <Typography
-              fontFamily={"poppins"}
-              variant="subtitle1"
-              sx={{
-                fontSize: "16px",
-                fontWeight: 700,
-                cursor: "pointer",
-                "&:hover": {
-                  color: t.palette.secondary.main,
-                },
-              }}
-            >
-              {width > 900 ? "ع" : "عربي"}
-            </Typography>
+            {!loggedIn && width > 900 && (
+              <Typography
+                fontFamily={"poppins"}
+                variant="subtitle1"
+                sx={{
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  "&:hover": {
+                    color: t.palette.secondary.main,
+                  },
+                }}
+              >
+                {width > 900 ? "ع" : "عربي"}
+              </Typography>
+            )}
           </div>
         </div>
       </Box>

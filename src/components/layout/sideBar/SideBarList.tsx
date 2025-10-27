@@ -1,5 +1,7 @@
+"use client";
 import { Box } from "@mui/material";
 import { useTheme, Typography, Button } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const optionsList: any = [
@@ -20,6 +22,7 @@ export default function SideBarList({
   loggedIn: boolean;
 }) {
   const t = useTheme();
+  const router = useRouter();
   return (
     <Box
       sx={{
@@ -62,18 +65,20 @@ export default function SideBarList({
           >
             <Button
               sx={{ bgcolor: t.palette.primary.main, borderRadius: "8px" }}
+              onClick={() => {
+                router.push("/login");
+              }}
             >
-              <Typography
-                component={"a"}
-                href="/login"
-                variant="link"
-                fontSize={14}
-                color="white"
-              >
+              <Typography variant="link" fontSize={14} color="white">
                 Login
               </Typography>
             </Button>
-            <Button sx={{ bgcolor: "white", borderRadius: "8px" }}>
+            <Button
+              sx={{ bgcolor: "white", borderRadius: "8px" }}
+              onClick={() => {
+                router.push("/register");
+              }}
+            >
               <Typography
                 variant="link"
                 component={"a"}
