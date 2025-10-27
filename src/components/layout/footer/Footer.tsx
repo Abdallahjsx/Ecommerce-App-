@@ -45,7 +45,7 @@ export default function Footer() {
             className={styles.linkBox}
             href="#"
           >
-            <img src={"/assets/images/apple.png"} alt="Appstore" />
+            <img src={"/assets/images/app-store.png"} alt="Appstore" />
           </Link>
           <Link
             zIndex={2}
