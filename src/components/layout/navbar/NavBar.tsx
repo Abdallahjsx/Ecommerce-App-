@@ -7,12 +7,13 @@ import styles from "./navbar.module.css";
 import BellIcon from "@/iconsComponents/BellIcon";
 import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
-import Side from "../../../../public/assets/icons/side-icon.svg";
+
 import { useSelector, UseSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
 
 export default function NavBar() {
   const token = useSelector((state: RootState) => state.auth.token);
+  console.log("my TOken issssss ========>>>>>>>>>>" + token);
   const [loggedIn, setLoggedIn] = useState(token !== null);
   const [shown, setShown] = useState(false);
   const [width, setWidth] = useState(0);
@@ -54,10 +55,8 @@ export default function NavBar() {
             }}
           >
             <img
-              src={Side.src}
-              width={Side.width}
+              src={"/assets/icons/side-icon.svg"}
               style={{ marginRight: "16px" }}
-              height={Side.height}
               alt=""
             />
           </IconButton>
@@ -102,7 +101,7 @@ export default function NavBar() {
         <div className={styles.actions}>
           <div style={{ display: "flex", gap: 25, alignItems: "center" }}>
             {loggedIn ? (
-              <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+              <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
                 <BellIcon />
                 <div
                   style={{
@@ -118,6 +117,7 @@ export default function NavBar() {
 
                   <div className={styles.circle}>{1}</div>
                 </div>
+            
 
                 <div
                   className={styles.roundedImg}
@@ -154,20 +154,22 @@ export default function NavBar() {
               </Typography>
             )}
 
-            <Typography
-              fontFamily={"poppins"}
-              variant="subtitle1"
-              sx={{
-                fontSize: "16px",
-                fontWeight: 700,
-                cursor: "pointer",
-                "&:hover": {
-                  color: t.palette.secondary.main,
-                },
-              }}
-            >
-              {width > 900 ? "ع" : "عربي"}
-            </Typography>
+             
+              <Typography
+                fontFamily={"poppins"}
+                variant="subtitle1"
+                sx={{
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  "&:hover": {
+                    color: t.palette.secondary.main,
+                  },
+                }}
+              >
+                {width > 900 ? "ع" : loggedIn ? "عربي" : "ع"}
+              </Typography>
+            
           </div>
         </div>
       </Box>

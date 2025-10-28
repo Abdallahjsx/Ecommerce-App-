@@ -2,12 +2,7 @@
 import React from "react";
 import styles from "./footer.module.css";
 import { useTheme, Typography, Box, Link } from "@mui/material";
-import GooglePlay from "../../../../public/assets/images/google-play.png";
 import Logo from "../../../../public/assets/images/logo.png";
-import Facebook from "../../../../public/assets/icons/facebook-icon.svg";
-import Linkedin from "../../../../public/assets/icons/linkedin-icon.svg";
-import Twitter from "../../../../public/assets/icons/twitter-icon.svg";
-import Phone from "../../../../public/assets/icons/phone-icon.svg";
 import C from "../../../../public/assets/icons/c-icon.svg";
 import Shadow from "../../../../public/assets/images/shadow-ellipse.png";
 
@@ -43,7 +38,6 @@ export default function Footer() {
             className={styles.lightVector}
             sx={{ width: ["100%", "100%", "60%"] }}
           />
-          
 
           <Link
             zIndex={2}
@@ -51,28 +45,7 @@ export default function Footer() {
             className={styles.linkBox}
             href="#"
           >
-            <img
-              src={"/assets/images/apple.png"}
-              height={30}
-              width={25}
-              alt="Appstore"
-            />
-            {/* <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <Typography variant="captionSmall">Download on the</Typography>
-              <Typography
-                variant="captionSmall"
-                color="#050810"
-                style={{ fontSize: 14 }}
-              >
-                App Store
-              </Typography>
-            </div> */}
+            <img src={"/assets/images/app-store.png"} alt="Appstore" />
           </Link>
           <Link
             zIndex={2}
@@ -80,12 +53,7 @@ export default function Footer() {
             className={styles.linkBox}
             href="#"
           >
-            <img
-              src={GooglePlay.src}
-              height={GooglePlay.height}
-              width={GooglePlay.width}
-              alt="Appstore"
-            />
+            <img src={"/assets/images/google-play.png"} alt="Appstore" />
           </Link>
         </Box>
       </Box>
@@ -131,7 +99,7 @@ export default function Footer() {
               color="#111827"
               style={{ marginBottom: 8 }}
             >
-              Company
+              Catigories
             </Typography>
             {[
               "Fashion",
@@ -147,10 +115,11 @@ export default function Footer() {
               <Typography
                 key={index}
                 variant="link"
-                className={styles.navCol}
                 component={"a"}
                 href="#"
                 color="#212C2B"
+                fontSize={14}
+                fontWeight={400}
               >
                 {val}
               </Typography>
@@ -169,10 +138,11 @@ export default function Footer() {
               <Typography
                 key={index}
                 variant="link"
-                className={styles.navCol}
                 component={"a"}
                 href="#"
                 color="#212C2B"
+                fontSize={14}
+                fontWeight={400}
               >
                 {val}
               </Typography>
@@ -191,10 +161,11 @@ export default function Footer() {
               <Typography
                 key={index}
                 variant="link"
-                className={styles.navCol}
                 component={"a"}
                 href="#"
                 color="#212C2B"
+                fontSize={14}
+                fontWeight={400}
               >
                 {val}
               </Typography>
@@ -213,10 +184,11 @@ export default function Footer() {
               <Typography
                 key={index}
                 variant="link"
-                className={styles.navCol}
                 component={"a"}
                 href="#"
                 color="#212C2B"
+                fontSize={14}
+                fontWeight={400}
               >
                 {val}
               </Typography>
@@ -232,10 +204,11 @@ export default function Footer() {
               Contact Us
             </Typography>
             <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
-              <img src={Phone.src} />
+              <img src={"/assets/icons/phone-icon.svg"} />
               <Typography
                 variant="link"
-                className={styles.navCol}
+                fontSize={14}
+                fontWeight={400}
                 color={t.tokens.typographyColors.body}
                 style={{ fontSize: 16 }}
               >
@@ -243,7 +216,11 @@ export default function Footer() {
               </Typography>
             </div>
             <div className={styles.social}>
-              {[Facebook, Linkedin, Twitter].map((icon, index) => (
+              {[
+                "/assets/icons/facebook-icon.svg",
+                "/assets/icons/linkedin-icon.svg",
+                "/assets/icons/twitter-icon.svg",
+              ].map((icon, index) => (
                 <Typography
                   key={index}
                   component={"a"}
@@ -256,12 +233,7 @@ export default function Footer() {
                       border: `1px solid ${t.tokens.separatingColors.border}`,
                     }}
                   >
-                    <img
-                      src={icon.src}
-                      width={icon.width}
-                      height={icon.height}
-                      alt=""
-                    />
+                    <img src={icon} alt="" />
                   </div>
                 </Typography>
               ))}
