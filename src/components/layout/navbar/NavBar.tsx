@@ -68,7 +68,7 @@ export default function NavBar() {
             sx={{ cursor: "pointer" }}
             variant="titleSpecial"
           >
-            Alluvo
+            trial 
           </Typography>
         </div>
         <Box
