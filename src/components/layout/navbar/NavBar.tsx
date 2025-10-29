@@ -7,12 +7,16 @@ import styles from "./navbar.module.css";
 import BellIcon from "@/iconsComponents/BellIcon";
 import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
+import { useAppDispatch } from "@/Redux/store";
+import { setToken } from "@/Redux/slices/authSlice";
 
 import { useSelector, UseSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
 
 export default function NavBar() {
+  const t = useTheme();
   const token = useSelector((state: RootState) => state.auth.token);
+  const dispatch = useAppDispatch();
   console.log("my TOken issssss ========>>>>>>>>>>" + token);
   const [loggedIn, setLoggedIn] = useState(token !== null);
   const [shown, setShown] = useState(false);
@@ -23,7 +27,19 @@ export default function NavBar() {
   useEffect(() => {
     setLoggedIn(token !== null);
   }, [token]);
-  const t = useTheme();
+  useEffect(() => {
+    function detection() {
+      const token = localStorage.getItem("token");
+      if (token !== null) {
+        dispatch(setToken(token));
+      }
+    }
+    window.addEventListener("storage", detection);
+    return () => {
+      window.removeEventListener("storage", detection);
+    };
+  }, []);
+
   return (
     <Box
       sx={{
@@ -117,7 +133,6 @@ export default function NavBar() {
 
                   <div className={styles.circle}>{1}</div>
                 </div>
-            
 
                 <div
                   className={styles.roundedImg}
@@ -154,22 +169,20 @@ export default function NavBar() {
               </Typography>
             )}
 
-             
-              <Typography
-                fontFamily={"poppins"}
-                variant="subtitle1"
-                sx={{
-                  fontSize: "16px",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  "&:hover": {
-                    color: t.palette.secondary.main,
-                  },
-                }}
-              >
-                {width > 900 ? "ع" : loggedIn ? "عربي" : "ع"}
-              </Typography>
-            
+            <Typography
+              fontFamily={"poppins"}
+              variant="subtitle1"
+              sx={{
+                fontSize: "16px",
+                fontWeight: 700,
+                cursor: "pointer",
+                "&:hover": {
+                  color: t.palette.secondary.main,
+                },
+              }}
+            >
+              {width > 900 ? "ع" : loggedIn ? "عربي" : "ع"}
+            </Typography>
           </div>
         </div>
       </Box>
