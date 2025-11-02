@@ -74,7 +74,7 @@ color: #47c0d2;
 }
 .lightVector{
     position: absolute;
-    top: -20;
+    top: -20px;
     filter: blur(20px);
     height: 100px;
     background:
