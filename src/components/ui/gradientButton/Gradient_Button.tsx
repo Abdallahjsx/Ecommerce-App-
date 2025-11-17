@@ -4,7 +4,7 @@ import { Button, Typography, useTheme } from "@mui/material";
 import { TypographyProps } from "@mui/material/Typography";
 import { SxProps, Theme } from "@mui/material";
 
-type ButtonSize = "small" | "medium" | "large";
+type ButtonSize = "small" | "medium" | "large" | "authLarge";
 type ButtonVariant = "primary" | "outline" | "text";
 type ButtonState = "primary" | "danger"; // ✅ الحالة الجديدة
 

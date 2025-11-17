@@ -52,6 +52,7 @@ declare module "@mui/material/styles" {
       small: { width: string; height: string; typography: "bodyMedium" };
       medium: { width: string; height: string; typography: "bodyMedium" };
       large: { width: string; height: string; typography: "bodyMedium" };
+      authLarge: { width: string; height: string; typography: string };
     };
     buttonVariants: {
       outline: {
@@ -385,6 +386,7 @@ export const theme = createTheme({
     small: { width: "127px", height: "32px", typography: "bodyMedium" },
     medium: { width: "135px", height: "40px", typography: "bodyMedium" },
     large: { width: "207px", height: "40px", typography: "bodyMedium" },
+    authLarge: { width: "375px", height: "48px", typography: "bodyMedium" },
   },
 
   buttonVariants: {
