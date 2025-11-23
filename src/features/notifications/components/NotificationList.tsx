@@ -20,26 +20,31 @@ export default function NotificationList() {
     <Box
       sx={(theme) => ({
         width: "375px",
-        height: "812px",
+        height: "max-content",
         margin: "0 auto",
         borderRadius: theme.tokens.buttons.borderRadius,
         background: theme.tokens.backgroundColors.light,
-        overflow: "hidden",
-        position: "relative",
 
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          inset: 0,
-          borderRadius: theme.tokens.buttons.borderRadius,
-          padding: "1px",
-          background: "linear-gradient(180deg, #47C0D2 0%, #1B2351 100%)",
-          WebkitMask:
-            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          WebkitMaskComposite: "xor",
-          maskComposite: "exclude",
-          pointerEvents: "none",
-        },
+        overflow: "hidden",
+      
+        // position: "relative",
+
+        // "&::before": {
+        //   content: '""',
+        //   // position: "absolute",
+        //   inset: 0,
+        //   borderRadius: theme.tokens.buttons.borderRadius,
+        //   padding: "1px",
+        //   background: "linear-gradient(180deg, #47C0D2 0%, #1B2351 100%)",
+        //   WebkitMask:
+        //     "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+        //   WebkitMaskComposite: "xor",
+        //   maskComposite: "exclude",
+        //   pointerEvents: "none",
+        // },
+        position:"absolute",
+        right:"0px",
+        top:"50px"
       })}
     >
       {/* HEADER */}
@@ -105,8 +110,7 @@ export default function NotificationList() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                borderBottom:
-                  activeTab === "all" ? "3px solid #1B2351" : "0px",
+                borderBottom: activeTab === "all" ? "3px solid #1B2351" : "0px",
                 cursor: "pointer",
               }}
             >
@@ -191,25 +195,3 @@ export default function NotificationList() {
     </Box>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -9,6 +9,7 @@ import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
 import { useAppDispatch } from "@/Redux/store";
 import { setToken } from "@/Redux/slices/authSlice";
+import NotificationList from "@/features/notifications/components/NotificationList";
 
 import { useSelector, UseSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
@@ -132,6 +133,7 @@ export default function NavBar() {
                   </div>
 
                   <div className={styles.circle}>{1}</div>
+                  <NotificationList />
                 </div>
 
                 <div
