@@ -10,6 +10,7 @@ import Shape from "../../../../public/assets/images/nav-bar-shape.png";
 import { useAppDispatch } from "@/Redux/store";
 import { setToken } from "@/Redux/slices/authSlice";
 import NotificationList from "@/features/notifications/components/NotificationList";
+import ProfileCard from "@/features/user/components/ProfileCard";
 
 import { useSelector, UseSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
@@ -119,7 +120,17 @@ export default function NavBar() {
           <div style={{ display: "flex", gap: 25, alignItems: "center" }}>
             {loggedIn ? (
               <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
-                <BellIcon />
+                <div
+                  style={{
+                    position: "relative",
+                    marginTop:"5px"
+       
+                  }}
+                >
+                  <BellIcon />
+                  {/* <NotificationList /> */}
+                </div>
+
                 <div
                   style={{
                     position: "relative",
@@ -133,19 +144,25 @@ export default function NavBar() {
                   </div>
 
                   <div className={styles.circle}>{1}</div>
-                  <NotificationList />
                 </div>
-
                 <div
-                  className={styles.roundedImg}
                   style={{
-                    border: `1px solid ${t.tokens.separatingColors.border}`,
+                    position: "relative",
+            
                   }}
                 >
-                  <Avatar
-                    style={{ width: "100%", height: "100%" }}
-                    src="/assets/images/user-img.png"
-                  />
+                  <div
+                    className={styles.roundedImg}
+                    style={{
+                      border: `1px solid ${t.tokens.separatingColors.border}`,
+                    }}
+                  >
+                    <Avatar
+                      style={{ width: "100%", height: "100%" }}
+                      src="/assets/images/user-img.png"
+                    />
+                  </div>
+                  {/* <ProfileCard /> */}
                 </div>
               </div>
             ) : (

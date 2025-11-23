@@ -8,7 +8,6 @@ export default function LoggedInProfileCard() {
   return (
     <Box
       sx={{
-        position: "relative",
         width: "407px",
         height: "384px",
         pt: "24px",
@@ -20,20 +19,23 @@ export default function LoggedInProfileCard() {
           0px 4px 6px -1px rgba(16, 24, 40, 0.1)
         `,
         overflow: "hidden",
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          inset: 0,
-          borderRadius: "16px",
-          padding: "1px",
-          background: `linear-gradient(180deg, ${theme.palette.secondary.main} 0%, ${theme.palette.primary.main} 100%)`,
-          WebkitMask:
-            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          WebkitMaskComposite: "xor",
-          maskComposite: "exclude",
-          pointerEvents: "none",
-        },
+        // "&::before": {
+        //   content: '""',
+        //   position: "absolute",
+        //   inset: 0,
+        //   borderRadius: "16px",
+        //   padding: "1px",
+        //   background: `linear-gradient(180deg, ${theme.palette.secondary.main} 0%, ${theme.palette.primary.main} 100%)`,
+        //   WebkitMask:
+        //     "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+        //   mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+        //   WebkitMaskComposite: "xor",
+        //   maskComposite: "exclude",
+        //   pointerEvents: "none",
+        // },
+        position: "absolute",
+        right: "0px",
+        top: "50px",
       }}
     >
       {/* الخلفية */}
