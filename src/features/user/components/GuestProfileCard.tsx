@@ -87,16 +87,12 @@ const GuestProfileCard = () => {
         </Typography>
 
         {/* Sign Up Button */}
-        <Gradient_Button variant="outline" size="authLarge">
+        <Gradient_Button variant="outline" size="authLarge" onClick={() => router.push("/register")} >
           Sign up
         </Gradient_Button>
 
         {/* Log In Button */}
-        <Gradient_Button
-          variant="primary"
-          size="authLarge"
-          onClick={() => router.push("/(auth)/login")}
-        >
+        <Gradient_Button variant="primary" size="authLarge" onClick={() => router.push("/login")}>
           Log in
         </Gradient_Button>
 

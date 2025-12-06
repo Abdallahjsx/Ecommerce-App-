@@ -1,6 +1,6 @@
 "use client";
 import { Box } from "@mui/material";
-import useUser from "../hooks/useUser";
+import {useUser} from "../hooks/useUser";
 import GuestProfileCard from "./GuestProfileCard";
 import LoggedInProfileCard from "./LoggedInProfileCard";
 

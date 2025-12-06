@@ -4,12 +4,9 @@ import { useAppDispatch } from "@/Redux/store";
 import styles from "../components/layout/navbar/navbar.module.css";
 import { clearToken } from "@/Redux/slices/authSlice";
 export default function BellIcon() {
-  const dispatch = useAppDispatch();
   return (
     <svg
-      onClick={() => {
-        dispatch(clearToken());
-      }}
+      
       style={{ cursor: "pointer" }}
       className={styles.icon}
       width="24"

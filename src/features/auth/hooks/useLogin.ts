@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useAppDispatch } from "@/Redux/store";
 import { setToken } from "@/Redux/slices/authSlice";
 export function useLogin() {
-    const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch(); 
   return useMutation({
         mutationFn:login,
         onSuccess:(data)=>{

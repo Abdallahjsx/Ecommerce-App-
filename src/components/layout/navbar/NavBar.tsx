@@ -15,6 +15,7 @@ import ProfileCard from "@/features/user/components/ProfileCard";
 import { useSelector, UseSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
 
+import UserCard from "@/features/user/components/userCard";
 export default function NavBar() {
   const t = useTheme();
   const token = useSelector((state: RootState) => state.auth.token);
@@ -23,6 +24,8 @@ export default function NavBar() {
   const [loggedIn, setLoggedIn] = useState(token !== null);
   const [shown, setShown] = useState(false);
   const [width, setWidth] = useState(0);
+  const [openedNotifications, setOpenNotifications] = useState(false);
+  const [useCard, setUserCard] = useState(false);
   useEffect(() => {
     setWidth(window.innerWidth);
   }, []);
@@ -121,14 +124,14 @@ export default function NavBar() {
             {loggedIn ? (
               <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
                 <div
-                  style={{
-                    position: "relative",
-                    marginTop:"5px"
-       
+                  onClick={() => {
+                    setOpenNotifications(!openedNotifications);
+                    setUserCard(false);
                   }}
+                  style={{paddingTop:4}}
                 >
-                  <BellIcon />
-                  {/* <NotificationList /> */}
+                  {" "}
+                  <BellIcon />{" "}
                 </div>
 
                 <div
@@ -144,11 +147,16 @@ export default function NavBar() {
                   </div>
 
                   <div className={styles.circle}>{1}</div>
+                  {openedNotifications && <NotificationList />}
                 </div>
                 <div
                   style={{
                     position: "relative",
             
+                  }}
+                  onClick={() => {
+                    setUserCard(!useCard);
+                    setOpenNotifications(false);
                   }}
                 >
                   <div
@@ -205,6 +213,8 @@ export default function NavBar() {
           </div>
         </div>
       </Box>
+      {useCard && <UserCard />}
+
       <SideBarList shown={shown} loggedIn={loggedIn} />
     </Box>
   );

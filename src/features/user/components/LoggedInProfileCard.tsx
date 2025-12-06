@@ -1,13 +1,34 @@
 "use client";
 import Image from "next/image";
 import { Box, Typography, useTheme } from "@mui/material";
-
+import { logoutUser } from "@/features/user/services/userService";
+import { useDispatch } from "react-redux";
+import { clearToken } from "@/Redux/slices/authSlice";
+import { useRouter } from "next/navigation";
 export default function LoggedInProfileCard() {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const handleLogout = async () => {
+    try {
+      await logoutUser(); // استدعاء الـ endpoint
+    } catch (error) {
+      console.log("Logout failed:", error);
+    }
+
+    dispatch(clearToken()); // مسح token من redux
+
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token"); // مسح token من localStorage
+    }
+
+    router.push("/home");
+  };
 
   return (
     <Box
       sx={{
+        position: "absolute",
         width: "407px",
         height: "384px",
         pt: "24px",
@@ -18,6 +39,8 @@ export default function LoggedInProfileCard() {
           0px 2px 4px -2px rgba(16, 24, 40, 0.1),
           0px 4px 6px -1px rgba(16, 24, 40, 0.1)
         `,
+        top: "80px",
+        right: "80px",
         overflow: "hidden",
         // "&::before": {
         //   content: '""',
@@ -33,9 +56,9 @@ export default function LoggedInProfileCard() {
         //   maskComposite: "exclude",
         //   pointerEvents: "none",
         // },
-        position: "absolute",
-        right: "0px",
-        top: "50px",
+        // position: "absolute",
+        // right: "0px",
+        // top: "50px",
       }}
     >
       {/* الخلفية */}
@@ -128,7 +151,7 @@ export default function LoggedInProfileCard() {
         }}
       />
 
-      {/* البوكس اللي فيه Personal info + My Orders + Favorites */}
+      {/* Personal info + My Orders + Favorites */}
       <Box
         sx={{
           position: "absolute",
@@ -206,7 +229,15 @@ export default function LoggedInProfileCard() {
         }}
       >
         {/* الشمال: اللوج أوت */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+            cursor: "pointer",
+          }}
+          onClick={handleLogout} // <<< 4) هنا فقط ضفت onClick
+        >
           <Image
             src="/assets/icons/log-out-icon.svg"
             alt="logout"
@@ -226,7 +257,7 @@ export default function LoggedInProfileCard() {
           </Typography>
         </Box>
 
-        {/* اليمين: أيقونة القمر + السويتش */}
+        {/* اليمين */}
         <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <Image
             src="/assets/icons/dark-mode-icon.svg"
