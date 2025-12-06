@@ -14,6 +14,7 @@ import NotificationList from "@/features/notifications/components/NotificationLi
 import { useSelector, UseSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
 
+import UserCard from "@/features/user/components/userCard";
 export default function NavBar() {
   const t = useTheme();
   const token = useSelector((state: RootState) => state.auth.token);
@@ -22,6 +23,8 @@ export default function NavBar() {
   const [loggedIn, setLoggedIn] = useState(token !== null);
   const [shown, setShown] = useState(false);
   const [width, setWidth] = useState(0);
+  const [openedNotifications, setOpenNotifications] = useState(false);
+  const [useCard, setUserCard] = useState(false);
   useEffect(() => {
     setWidth(window.innerWidth);
   }, []);
@@ -119,7 +122,17 @@ export default function NavBar() {
           <div style={{ display: "flex", gap: 25, alignItems: "center" }}>
             {loggedIn ? (
               <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
-                <BellIcon />
+                <div
+                  onClick={() => {
+                    setOpenNotifications(!openedNotifications);
+                    setUserCard(false);
+                  }}
+                  style={{paddingTop:4}}
+                >
+                  {" "}
+                  <BellIcon />{" "}
+                </div>
+
                 <div
                   style={{
                     position: "relative",
@@ -133,13 +146,16 @@ export default function NavBar() {
                   </div>
 
                   <div className={styles.circle}>{1}</div>
-                  <NotificationList />
+                  {openedNotifications && <NotificationList />}
                 </div>
-
                 <div
                   className={styles.roundedImg}
                   style={{
                     border: `1px solid ${t.tokens.separatingColors.border}`,
+                  }}
+                  onClick={() => {
+                    setUserCard(!useCard);
+                    setOpenNotifications(false);
                   }}
                 >
                   <Avatar
@@ -188,6 +204,8 @@ export default function NavBar() {
           </div>
         </div>
       </Box>
+      {useCard && <UserCard />}
+
       <SideBarList shown={shown} loggedIn={loggedIn} />
     </Box>
   );
