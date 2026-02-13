@@ -2,27 +2,29 @@
 import { Avatar, Box, Typography, IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import SideBarList from "../sideBar/SideBarList";
 import styles from "./navbar.module.css";
 import BellIcon from "@/iconsComponents/BellIcon";
 import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
 import Side from "../../../../public/assets/icons/side-icon.svg";
-import { useSelector, UseSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
 
 export default function NavBar() {
   const token = useSelector((state: RootState) => state.auth.token);
   const [loggedIn, setLoggedIn] = useState(token !== null);
   const [shown, setShown] = useState(false);
-  const [width, setWidth] = useState(0);
-  useEffect(() => {
-    setWidth(window.innerWidth);
-  }, []);
+  const isDesktop = useMediaQuery("(min-width:900px)");
+
+
   useEffect(() => {
     setLoggedIn(token !== null);
   }, [token]);
+
   const t = useTheme();
+
   return (
     <Box
       sx={{
@@ -46,6 +48,7 @@ export default function NavBar() {
           alt=""
           style={{ position: "absolute", right: "0px", pointerEvents: "none" }}
         />
+
         <div style={{ display: "flex", alignItems: "center" }}>
           <IconButton
             sx={{ display: ["block", "block", "none"] }}
@@ -71,6 +74,7 @@ export default function NavBar() {
             Alluvo
           </Typography>
         </div>
+
         <Box
           className={styles.links}
           sx={{ display: ["none", "none", "flex"] }}
@@ -83,7 +87,13 @@ export default function NavBar() {
                     className={styles.link}
                     component={"a"}
                     variant="link"
-                    href="#"
+                    href={
+                      l === "Contact Us"
+                        ? "/support/contact-us"
+                        : l === "FAQS"
+                        ? "/faqs"
+                        : "#"
+                    }
                     color="#111827"
                     sx={{
                       "&:hover": {
@@ -138,9 +148,6 @@ export default function NavBar() {
                 href="/login"
                 fontFamily={"poppins"}
                 variant="subtitle1"
-                // onClick={() => {
-                //   setLoggedIn(true);
-                // }}
                 sx={{
                   display: ["none", "none", "block"],
                   fontSize: "16px",
@@ -166,12 +173,15 @@ export default function NavBar() {
                 },
               }}
             >
-              {width > 900 ? "ع" : "عربي"}
+              {isDesktop ? "ع" : "عربي"}
+
             </Typography>
           </div>
         </div>
       </Box>
+
       <SideBarList shown={shown} loggedIn={loggedIn} />
     </Box>
   );
 }
+
