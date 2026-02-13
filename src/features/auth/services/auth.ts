@@ -18,7 +18,7 @@ export async function register(data:registerData) {
   form.append("DateOfBirth", data.DateOfBirth);
   form.append("Gender", data.Gender);
   form.append("ProfileImage", data.ProfileImage!);
-    // NOTE : we had to use fetch instead of axios because axios has some problems and limitations with form data in react native
+    // NOTE : we had to use fetch instead of axios because axios has some problems and limitations with form data in react native (will be updated in the web version )
    const resp = await fetch("https://alluvo-api-stating.runasp.net/api/Auth/Register", {
       method: "POST",
       headers: {
@@ -40,5 +40,5 @@ export async function verification(data:verigicationData) {
 export async function resendOtp(email:string) {
   const res = await apiCall.post(`/api/Otp/ResendOtp?email=${email}`)
   return res.data
-
 }
+// forget password 

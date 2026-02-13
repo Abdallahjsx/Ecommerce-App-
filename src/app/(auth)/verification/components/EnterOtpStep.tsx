@@ -13,12 +13,11 @@ import PhoneIcon from "@/iconsComponents/phoneIcon";
 import QuestionMarkIcon from "@/iconsComponents/QuestionMarkIcon";
 import SuccessCard from "@/features/auth/components/SuccessCard";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/Redux/store";
-import { setToken } from "@/Redux/slices/authSlice";
+
 
 export default function Step1({ setStep }: { setStep: () => void }) {
   const router = useRouter();
-  const dispatch = useAppDispatch();
+ 
   const searchParams = useSearchParams();
   const email = searchParams.get("email") ?? "";
 
@@ -88,10 +87,7 @@ export default function Step1({ setStep }: { setStep: () => void }) {
   //   useEffect(() => {
   //   setValid(inputsRef.current.every((c) => c.length === 1));
   // }, [inputsRef.current]);
-  useEffect(() => {
-    if (!isSuccess) return;
-    dispatch(setToken(data.data.token));
-  }, [isSuccess]);
+ 
   useEffect(() => {
     setVerificationError(isError);
   }, [isError]);

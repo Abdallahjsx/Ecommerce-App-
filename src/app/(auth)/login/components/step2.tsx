@@ -8,8 +8,7 @@ import { Gradient_Button } from "@/components/ui/gradientButton";
 import Typography from "@mui/material/Typography";
 import Social from "@/components/ui/sharedFormContent/shared";
 import { useLogin } from "@/features/auth/hooks/useLogin";
-import { useAppDispatch } from "@/Redux/store";
-import { setToken } from "@/Redux/slices/authSlice";
+
 import { useRouter } from "next/navigation";
 
 import * as Yup from "yup";
@@ -21,10 +20,10 @@ export default function LoginForm() {
   const router = useRouter();
   const t = useTheme();
   const { error, isPending, data, mutate, isSuccess } = useLogin();
-  const dispatch = useAppDispatch();
+  
   useEffect(() => {
     if (!isSuccess) return;
-    dispatch(setToken(data.data.token));
+ 
     router.push("/home");
     // console.log(data.data.token);
   }, [isSuccess]);

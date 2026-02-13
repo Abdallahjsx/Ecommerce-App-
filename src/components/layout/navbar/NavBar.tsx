@@ -8,14 +8,28 @@ import styles from "./navbar.module.css";
 import BellIcon from "@/iconsComponents/BellIcon";
 import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
+<<<<<<< HEAD
 import Side from "../../../../public/assets/icons/side-icon.svg";
 import { useSelector } from "react-redux";
+=======
+import { useAppDispatch } from "@/Redux/store";
+import { setToken } from "@/Redux/slices/authSlice";
+import NotificationList from "@/features/notifications/components/NotificationList";
+import ProfileCard from "@/features/user/components/ProfileCard";
+
+import { useSelector, UseSelector } from "react-redux";
+>>>>>>> development
 import { RootState } from "@/Redux/store";
 
+import UserCard from "@/features/user/components/userCard";
 export default function NavBar() {
+  const t = useTheme();
   const token = useSelector((state: RootState) => state.auth.token);
+  const dispatch = useAppDispatch();
+  console.log("my TOken issssss ========>>>>>>>>>>" + token);
   const [loggedIn, setLoggedIn] = useState(token !== null);
   const [shown, setShown] = useState(false);
+<<<<<<< HEAD
   const isDesktop = useMediaQuery("(min-width:900px)");
 
 
@@ -24,6 +38,29 @@ export default function NavBar() {
   }, [token]);
 
   const t = useTheme();
+=======
+  const [width, setWidth] = useState(0);
+  const [openedNotifications, setOpenNotifications] = useState(false);
+  const [useCard, setUserCard] = useState(false);
+  useEffect(() => {
+    setWidth(window.innerWidth);
+  }, []);
+  useEffect(() => {
+    setLoggedIn(token !== null);
+  }, [token]);
+  useEffect(() => {
+    function detection() {
+      const token = localStorage.getItem("token");
+      if (token !== null) {
+        dispatch(setToken(token));
+      }
+    }
+    window.addEventListener("storage", detection);
+    return () => {
+      window.removeEventListener("storage", detection);
+    };
+  }, []);
+>>>>>>> development
 
   return (
     <Box
@@ -57,10 +94,8 @@ export default function NavBar() {
             }}
           >
             <img
-              src={Side.src}
-              width={Side.width}
+              src={"/assets/icons/side-icon.svg"}
               style={{ marginRight: "16px" }}
-              height={Side.height}
               alt=""
             />
           </IconButton>
@@ -112,8 +147,18 @@ export default function NavBar() {
         <div className={styles.actions}>
           <div style={{ display: "flex", gap: 25, alignItems: "center" }}>
             {loggedIn ? (
-              <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-                <BellIcon />
+              <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
+                <div
+                  onClick={() => {
+                    setOpenNotifications(!openedNotifications);
+                    setUserCard(false);
+                  }}
+                  style={{paddingTop:4}}
+                >
+                  {" "}
+                  <BellIcon />{" "}
+                </div>
+
                 <div
                   style={{
                     position: "relative",
@@ -127,18 +172,30 @@ export default function NavBar() {
                   </div>
 
                   <div className={styles.circle}>{1}</div>
+                  {openedNotifications && <NotificationList />}
                 </div>
-
                 <div
-                  className={styles.roundedImg}
                   style={{
-                    border: `1px solid ${t.tokens.separatingColors.border}`,
+                    position: "relative",
+            
+                  }}
+                  onClick={() => {
+                    setUserCard(!useCard);
+                    setOpenNotifications(false);
                   }}
                 >
-                  <Avatar
-                    style={{ width: "100%", height: "100%" }}
-                    src="/assets/images/user-img.png"
-                  />
+                  <div
+                    className={styles.roundedImg}
+                    style={{
+                      border: `1px solid ${t.tokens.separatingColors.border}`,
+                    }}
+                  >
+                    <Avatar
+                      style={{ width: "100%", height: "100%" }}
+                      src="/assets/images/user-img.png"
+                    />
+                  </div>
+                  {/* <ProfileCard /> */}
                 </div>
               </div>
             ) : (
@@ -173,12 +230,20 @@ export default function NavBar() {
                 },
               }}
             >
+<<<<<<< HEAD
               {isDesktop ? "ع" : "عربي"}
 
+=======
+              {width > 900 ? "ع" : loggedIn ? "عربي" : "ع"}
+>>>>>>> development
             </Typography>
           </div>
         </div>
       </Box>
+<<<<<<< HEAD
+=======
+      {useCard && <UserCard />}
+>>>>>>> development
 
       <SideBarList shown={shown} loggedIn={loggedIn} />
     </Box>

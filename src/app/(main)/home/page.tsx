@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import ToastItem from "@/components/ui/toaster/Toast-Item";
-
+import NotificationList from "@/features/notifications/components/NotificationList";
 export default function HomePage() {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
@@ -24,9 +25,20 @@ export default function HomePage() {
 
   return (
     <>
-    
-      <main style={{ padding: 40,height:"70%",display:"flex",justifyContent:"center",alignItems:"center" }}>
-      <Typography variant="titleSpecial" color="initial" fontSize={"50px"}> COMMING  SOON .</Typography>
+      <main
+        style={{
+          padding: 100,
+          height: "70%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="titleSpecial" color="initial" fontSize={"50px"}>
+          {" "}
+          COMMING SOON .
+        </Typography>
+   
 
         {/* ✅ التوستات */}
         <ToastItem

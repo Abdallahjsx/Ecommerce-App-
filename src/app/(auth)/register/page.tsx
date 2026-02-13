@@ -91,7 +91,7 @@ export default function Register() {
         <input
           id="profile-upload"
           type="file"
-          name="ProfileImage"
+          name="ProfileImage"          
           accept="image/*"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             const file = e.currentTarget.files?.[0];

@@ -22,13 +22,13 @@ export default function LoggedInProfileCard() {
       localStorage.removeItem("token"); // مسح token من localStorage
     }
 
-    router.push("/home"); 
+    router.push("/home");
   };
-  
+
   return (
     <Box
       sx={{
-        position: "relative",
+        position: "absolute",
         width: "407px",
         height: "384px",
         pt: "24px",
@@ -39,21 +39,26 @@ export default function LoggedInProfileCard() {
           0px 2px 4px -2px rgba(16, 24, 40, 0.1),
           0px 4px 6px -1px rgba(16, 24, 40, 0.1)
         `,
+        top: "80px",
+        right: "80px",
         overflow: "hidden",
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          inset: 0,
-          borderRadius: "16px",
-          padding: "1px",
-          background: `linear-gradient(180deg, ${theme.palette.secondary.main} 0%, ${theme.palette.primary.main} 100%)`,
-          WebkitMask:
-            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          WebkitMaskComposite: "xor",
-          maskComposite: "exclude",
-          pointerEvents: "none",
-        },
+        // "&::before": {
+        //   content: '""',
+        //   position: "absolute",
+        //   inset: 0,
+        //   borderRadius: "16px",
+        //   padding: "1px",
+        //   background: `linear-gradient(180deg, ${theme.palette.secondary.main} 0%, ${theme.palette.primary.main} 100%)`,
+        //   WebkitMask:
+        //     "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+        //   mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+        //   WebkitMaskComposite: "xor",
+        //   maskComposite: "exclude",
+        //   pointerEvents: "none",
+        // },
+        // position: "absolute",
+        // right: "0px",
+        // top: "50px",
       }}
     >
       {/* الخلفية */}
@@ -225,7 +230,12 @@ export default function LoggedInProfileCard() {
       >
         {/* الشمال: اللوج أوت */}
         <Box
-          sx={{ display: "flex", alignItems: "center", gap: "16px", cursor: "pointer" }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+            cursor: "pointer",
+          }}
           onClick={handleLogout} // <<< 4) هنا فقط ضفت onClick
         >
           <Image

@@ -1,10 +1,14 @@
 import React from "react";
 import styles from "../components/layout/navbar/navbar.module.css";
-
+import { useAppDispatch } from "@/Redux/store";
+import { clearToken } from "@/Redux/slices/authSlice";
 export default function BagIcons() {
+  const dispatch = useAppDispatch();
+
   return (
     <svg
       className={styles.icon}
+
       style={{
         cursor: "pointer",
         position: "absolute",
