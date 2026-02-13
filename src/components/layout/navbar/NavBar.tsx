@@ -8,59 +8,43 @@ import styles from "./navbar.module.css";
 import BellIcon from "@/iconsComponents/BellIcon";
 import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
-<<<<<<< HEAD
-import Side from "../../../../public/assets/icons/side-icon.svg";
+
 import { useSelector } from "react-redux";
-=======
 import { useAppDispatch } from "@/Redux/store";
 import { setToken } from "@/Redux/slices/authSlice";
 import NotificationList from "@/features/notifications/components/NotificationList";
-import ProfileCard from "@/features/user/components/ProfileCard";
-
-import { useSelector, UseSelector } from "react-redux";
->>>>>>> development
 import { RootState } from "@/Redux/store";
-
 import UserCard from "@/features/user/components/userCard";
+
 export default function NavBar() {
   const t = useTheme();
-  const token = useSelector((state: RootState) => state.auth.token);
-  const dispatch = useAppDispatch();
-  console.log("my TOken issssss ========>>>>>>>>>>" + token);
-  const [loggedIn, setLoggedIn] = useState(token !== null);
-  const [shown, setShown] = useState(false);
-<<<<<<< HEAD
   const isDesktop = useMediaQuery("(min-width:900px)");
 
+  const token = useSelector((state: RootState) => state.auth.token);
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    setLoggedIn(token !== null);
-  }, [token]);
-
-  const t = useTheme();
-=======
-  const [width, setWidth] = useState(0);
+  const [loggedIn, setLoggedIn] = useState(token !== null);
+  const [shown, setShown] = useState(false);
   const [openedNotifications, setOpenNotifications] = useState(false);
   const [useCard, setUserCard] = useState(false);
-  useEffect(() => {
-    setWidth(window.innerWidth);
-  }, []);
+
   useEffect(() => {
     setLoggedIn(token !== null);
   }, [token]);
+
   useEffect(() => {
     function detection() {
-      const token = localStorage.getItem("token");
-      if (token !== null) {
-        dispatch(setToken(token));
+      const storedToken = localStorage.getItem("token");
+      if (storedToken !== null) {
+        dispatch(setToken(storedToken));
       }
     }
+
     window.addEventListener("storage", detection);
     return () => {
       window.removeEventListener("storage", detection);
     };
-  }, []);
->>>>>>> development
+  }, [dispatch]);
 
   return (
     <Box
@@ -89,9 +73,7 @@ export default function NavBar() {
         <div style={{ display: "flex", alignItems: "center" }}>
           <IconButton
             sx={{ display: ["block", "block", "none"] }}
-            onClick={() => {
-              setShown(!shown);
-            }}
+            onClick={() => setShown(!shown)}
           >
             <img
               src={"/assets/icons/side-icon.svg"}
@@ -153,10 +135,9 @@ export default function NavBar() {
                     setOpenNotifications(!openedNotifications);
                     setUserCard(false);
                   }}
-                  style={{paddingTop:4}}
+                  style={{ paddingTop: 4 }}
                 >
-                  {" "}
-                  <BellIcon />{" "}
+                  <BellIcon />
                 </div>
 
                 <div
@@ -167,18 +148,13 @@ export default function NavBar() {
                     alignSelf: "flex-start",
                   }}
                 >
-                  <div>
-                    <BagIcon />
-                  </div>
-
+                  <BagIcon />
                   <div className={styles.circle}>{1}</div>
                   {openedNotifications && <NotificationList />}
                 </div>
+
                 <div
-                  style={{
-                    position: "relative",
-            
-                  }}
+                  style={{ position: "relative" }}
                   onClick={() => {
                     setUserCard(!useCard);
                     setOpenNotifications(false);
@@ -195,7 +171,6 @@ export default function NavBar() {
                       src="/assets/images/user-img.png"
                     />
                   </div>
-                  {/* <ProfileCard /> */}
                 </div>
               </div>
             ) : (
@@ -230,21 +205,13 @@ export default function NavBar() {
                 },
               }}
             >
-<<<<<<< HEAD
               {isDesktop ? "ع" : "عربي"}
-
-=======
-              {width > 900 ? "ع" : loggedIn ? "عربي" : "ع"}
->>>>>>> development
             </Typography>
           </div>
         </div>
       </Box>
-<<<<<<< HEAD
-=======
-      {useCard && <UserCard />}
->>>>>>> development
 
+      {useCard && <UserCard />}
       <SideBarList shown={shown} loggedIn={loggedIn} />
     </Box>
   );
