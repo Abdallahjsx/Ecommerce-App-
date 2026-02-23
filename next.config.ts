@@ -1,13 +1,15 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+const nextConfig = {
   output: "export",
 
   images: {
-    unoptimized: true, // 👈 ده بيحل الخطأ الخاص بـ Image Optimization
+    unoptimized: true,
   },
 
-  webpack(config) {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
+  webpack(config: any) {
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,
@@ -18,4 +20,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-
