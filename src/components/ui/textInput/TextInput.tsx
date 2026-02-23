@@ -1,31 +1,26 @@
 "use client";
 
-import { TextField, Box, Typography, useTheme } from "@mui/material";
+import {
+  TextField,
+  Typography,
+  useTheme,
+  SxProps,
+  Theme,
+} from "@mui/material";
 import Image from "next/image";
-import eyeIcon from "../../../../public/assets/icons/eye-icon.svg"; // موجود في src/icons/eye.svg
-import { useState } from "react";
-import { ChangeEvent } from "react"; // it is a must so that we can pass the whoel event to formik and it can deal with it
+import eyeIcon from "../../../../public/assets/icons/eye-icon.svg";
 import { FormikProps } from "formik";
-import { LoginFormValues } from "@/app/(auth)/login/components/step2";
-import { registerData } from "@/features/auth/types";
 
-// export interface TextInputProps {
-//   label: string;
-//   placeholder?: string;
-//   type?: string;
-//   name: string;
-//   error?: string;
-//   // value?: string;
-//   // setValue: (
-//   //   value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-//   // ) => void;
-// }
 type Props<T> = {
   myform: FormikProps<T>;
   name: keyof T;
-  label: string;
-  type: string;
+  label?: string;
+  type?: string;
   placeholder: string;
+  customSx?: SxProps<Theme>;
+  hideLabel?: boolean;
+  multiline?: boolean;  
+  rows?: number;    
 };
 
 export default function TextInput<T>({
@@ -34,6 +29,10 @@ export default function TextInput<T>({
   myform,
   name,
   type = "text",
+  customSx,
+  hideLabel = false,
+  multiline = false,  
+  rows,
 }: Props<T>) {
   const theme = useTheme();
 
@@ -45,24 +44,28 @@ export default function TextInput<T>({
         gap: "10px",
         opacity: 1,
         marginBottom: 20,
-        // margin: 12,
       }}
     >
       {/* Label */}
-      <Typography variant="inputLabel" color="primary">
-        {label}
-      </Typography>
+      {!hideLabel && label && (
+        <Typography variant="inputLabel" color="primary">
+          {label}
+        </Typography>
+      )}
 
-      {/* Input with static Eye Icon */}
+      {/* Input */}
       <div style={{ position: "relative", width: "100%" }}>
         <TextField
           name={name as string}
-          value={myform.values[name as keyof typeof myform.values]}
-          onChange={(e) => {
-            myform.handleChange(e);
-            myform.setFieldTouched(name as string, true, false);
-          }}
+          value={myform.values[name as keyof typeof myform.values] ?? ""}
+
+          onChange={myform.handleChange}
+          onBlur={myform.handleBlur}
           type={type}
+          placeholder={placeholder}
+          variant="outlined"
+          multiline={multiline}  
+          rows={rows}             
           sx={{
             width: "100%",
             "& .MuiOutlinedInput-root": {
@@ -73,10 +76,15 @@ export default function TextInput<T>({
                 border: "none",
               },
             },
+            "& input:-webkit-autofill": {
+              WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset",
+              WebkitTextFillColor: "#000000",
+              transition: "background-color 5000s ease-in-out 0s",
+            },
+            ...customSx,
           }}
-          placeholder={placeholder}
-          variant="outlined"
         />
+
         {type === "password" && (
           <img
             style={{ position: "absolute", right: "10px", top: "30%" }}
@@ -104,3 +112,4 @@ export default function TextInput<T>({
     </div>
   );
 }
+
