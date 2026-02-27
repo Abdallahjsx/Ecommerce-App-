@@ -2,48 +2,49 @@
 import { Avatar, Box, Typography, IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import SideBarList from "../sideBar/SideBarList";
 import styles from "./navbar.module.css";
 import BellIcon from "@/iconsComponents/BellIcon";
 import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
+
+import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/Redux/store";
 import { setToken } from "@/Redux/slices/authSlice";
 import NotificationList from "@/features/notifications/components/NotificationList";
-import ProfileCard from "@/features/user/components/ProfileCard";
-
-import { useSelector, UseSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
-
 import UserCard from "@/features/user/components/userCard";
+
 export default function NavBar() {
   const t = useTheme();
+  const isDesktop = useMediaQuery("(min-width:900px)");
+
   const token = useSelector((state: RootState) => state.auth.token);
   const dispatch = useAppDispatch();
-  console.log("my TOken issssss ========>>>>>>>>>>" + token);
+
   const [loggedIn, setLoggedIn] = useState(token !== null);
   const [shown, setShown] = useState(false);
-  const [width, setWidth] = useState(0);
   const [openedNotifications, setOpenNotifications] = useState(false);
   const [useCard, setUserCard] = useState(false);
-  useEffect(() => {
-    setWidth(window.innerWidth);
-  }, []);
+
   useEffect(() => {
     setLoggedIn(token !== null);
   }, [token]);
+
   useEffect(() => {
     function detection() {
-      const token = localStorage.getItem("token");
-      if (token !== null) {
-        dispatch(setToken(token));
+      const storedToken = localStorage.getItem("token");
+      if (storedToken !== null) {
+        dispatch(setToken(storedToken));
       }
     }
+
     window.addEventListener("storage", detection);
     return () => {
       window.removeEventListener("storage", detection);
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box
@@ -68,12 +69,11 @@ export default function NavBar() {
           alt=""
           style={{ position: "absolute", right: "0px", pointerEvents: "none" }}
         />
+
         <div style={{ display: "flex", alignItems: "center" }}>
           <IconButton
             sx={{ display: ["block", "block", "none"] }}
-            onClick={() => {
-              setShown(!shown);
-            }}
+            onClick={() => setShown(!shown)}
           >
             <img
               src={"/assets/icons/side-icon.svg"}
@@ -91,6 +91,7 @@ export default function NavBar() {
             Alluvo
           </Typography>
         </div>
+
         <Box
           className={styles.links}
           sx={{ display: ["none", "none", "flex"] }}
@@ -103,7 +104,13 @@ export default function NavBar() {
                     className={styles.link}
                     component={"a"}
                     variant="link"
-                    href="#"
+                    href={
+                      l === "Contact Us"
+                        ? "/support/contact-us"
+                        : l === "FAQS"
+                        ? "/faqs"
+                        : "#"
+                    }
                     color="#111827"
                     sx={{
                       "&:hover": {
@@ -128,10 +135,9 @@ export default function NavBar() {
                     setOpenNotifications(!openedNotifications);
                     setUserCard(false);
                   }}
-                  style={{paddingTop:4}}
+                  style={{ paddingTop: 4 }}
                 >
-                  {" "}
-                  <BellIcon />{" "}
+                  <BellIcon />
                 </div>
 
                 <div
@@ -142,18 +148,13 @@ export default function NavBar() {
                     alignSelf: "flex-start",
                   }}
                 >
-                  <div>
-                    <BagIcon />
-                  </div>
-
+                  <BagIcon />
                   <div className={styles.circle}>{1}</div>
                   {openedNotifications && <NotificationList />}
                 </div>
+
                 <div
-                  style={{
-                    position: "relative",
-            
-                  }}
+                  style={{ position: "relative" }}
                   onClick={() => {
                     setUserCard(!useCard);
                     setOpenNotifications(false);
@@ -170,7 +171,6 @@ export default function NavBar() {
                       src="/assets/images/user-img.png"
                     />
                   </div>
-                  {/* <ProfileCard /> */}
                 </div>
               </div>
             ) : (
@@ -180,9 +180,6 @@ export default function NavBar() {
                 href="/login"
                 fontFamily={"poppins"}
                 variant="subtitle1"
-                // onClick={() => {
-                //   setLoggedIn(true);
-                // }}
                 sx={{
                   display: ["none", "none", "block"],
                   fontSize: "16px",
@@ -208,14 +205,15 @@ export default function NavBar() {
                 },
               }}
             >
-              {width > 900 ? "ع" : loggedIn ? "عربي" : "ع"}
+              {isDesktop ? "ع" : "عربي"}
             </Typography>
           </div>
         </div>
       </Box>
-      {useCard && <UserCard />}
 
+      {useCard && <UserCard />}
       <SideBarList shown={shown} loggedIn={loggedIn} />
     </Box>
   );
 }
+

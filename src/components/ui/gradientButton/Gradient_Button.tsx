@@ -26,7 +26,8 @@ export default function Gradient_Button({
   children,
   onClick,
   type = "button",
-  state = "primary", // ✅ افتراضيًا primary
+  state = "primary",
+  sx, 
 }: GradientButtonProps) {
   const theme = useTheme();
 
@@ -118,11 +119,16 @@ export default function Gradient_Button({
       disabled={disabled}
       onClick={onClick}
       type={type}
-      sx={{ ...baseStyle, ...styles, width: "100%" }}
+      sx={{ ...baseStyle, ...styles, width: "100%",...sx, }}
     >
-      <Typography variant={typography as TypographyProps["variant"]}>
-        {children}
-      </Typography>
+      {typeof children === "string" ? (
+        <Typography variant={typography as TypographyProps["variant"]}>
+          {children}
+        </Typography>
+      ) : (
+        children
+      )}
+
     </Button>
   );
 }
