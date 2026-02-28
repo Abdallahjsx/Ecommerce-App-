@@ -80,6 +80,9 @@ declare module "@mui/material/styles" {
       primary: string;
       primaryHover: string;
       primaryPressed: string;
+       gray: string; 
+        grayHover: string;
+        grayPressed: string;
     };
   }
 
