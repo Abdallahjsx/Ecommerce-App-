@@ -6,7 +6,7 @@ import { SxProps, Theme } from "@mui/material";
 
 type ButtonSize = "small" | "medium" | "large" | "authLarge";
 type ButtonVariant = "primary" | "outline" | "text";
-type ButtonState = "primary" | "danger"; // ✅ الحالة الجديدة
+type ButtonState = "primary" | "danger";
 
 interface GradientButtonProps {
   size?: ButtonSize;
@@ -16,7 +16,7 @@ interface GradientButtonProps {
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   sx?: SxProps<Theme>;
-  state?: ButtonState; // ✅ أضفنا الـ prop الجديدة
+  state?: ButtonState;
 }
 
 export default function Gradient_Button({
@@ -26,7 +26,8 @@ export default function Gradient_Button({
   children,
   onClick,
   type = "button",
-  state = "primary", // ✅ افتراضيًا primary
+  state = "primary",
+  sx,
 }: GradientButtonProps) {
   const theme = useTheme();
 
@@ -51,7 +52,6 @@ export default function Gradient_Button({
   let styles = {};
 
   if (variant === "primary") {
-    // ✅ لو الحالة danger غيّر الألوان فقط
     const isDanger = state === "danger";
     styles = {
       color: theme.tokens.buttons.textColor,
@@ -118,7 +118,7 @@ export default function Gradient_Button({
       disabled={disabled}
       onClick={onClick}
       type={type}
-      sx={{ ...baseStyle, ...styles, width: "100%" }}
+      sx={{ ...baseStyle, ...styles, ...sx }}
     >
       <Typography variant={typography as TypographyProps["variant"]}>
         {children}
