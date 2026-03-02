@@ -1,6 +1,6 @@
-import { Poppins,Inter,Cinzel_Decorative,Lato } from "next/font/google";
+import { Poppins,Inter,Cinzel_Decorative,Lato,Roboto } from "next/font/google";
 export const poppinsFont=Poppins({
-  weight:["500","600","700"],
+  weight:["300","500","600","700"],
   subsets:['latin'],
   variable: "--font-poppins",
 })
@@ -19,3 +19,8 @@ export const latoFont=Lato({
   subsets:['latin'],
   variable: "--font-lato", 
 })
+export const robotoFont = Roboto({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-roboto",
+});
