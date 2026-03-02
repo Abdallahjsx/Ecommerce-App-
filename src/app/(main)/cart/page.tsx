@@ -181,12 +181,13 @@ export default function CartPage() {
                   width: { xs: "100%", sm: "457px" },
                   borderRadius: theme.tokens.buttons.borderRadius,
                   pr: "20px",
-                  pl: "20px",
+                  pl: "30px",
                   pt: { xs: 3, lg: 0 },
                   pb: { xs: 3, lg: 0 },
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
+                  whiteSpace: "nowrap",
                   justifyContent: "space-between",
                   gap: 2,
                 }}
@@ -200,7 +201,7 @@ export default function CartPage() {
                     textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                   }}
                 >
-                  <Box component="span" sx={{ fontWeight: 700, mr: "8px" }}>
+                  <Box component="span" sx={{ fontWeight: 700, mr: "14px" }}>
                     Total
                   </Box>
                   <Box component="span" sx={{ fontWeight: 600 }}>
@@ -208,17 +209,23 @@ export default function CartPage() {
                   </Box>
                 </Typography>
 
-                <Gradient_Button
-                  variant="primary"
+                <Box
                   sx={{
                     width: { xs: "150px", sm: "179px" },
                     height: { xs: "44px", sm: "48px" },
-                    borderRadius: theme.tokens.buttons.borderRadius,
-                    boxShadow: theme.tokens.buttons.boxShadow,
+                    display: "flex",
                   }}
                 >
-                  checkout
-                </Gradient_Button>
+                  <Gradient_Button
+                    variant="primary"
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  >
+                    checkout
+                  </Gradient_Button>
+                </Box>
               </Box>
             </Box>
           </Box>
