@@ -1,7 +1,5 @@
-import React from 'react'
+import { redirect } from "next/navigation";
 
-export default function brandProfile() {
-  return (
-   <></>
-  )
+export default function BrandProfilePage() {
+  redirect("/brandProfile/reels");
 }
