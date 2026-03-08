@@ -3,18 +3,23 @@ import { Avatar, Box, Typography, IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import Link from "next/link";
+
 import SideBarList from "../sideBar/SideBarList";
 import styles from "./navbar.module.css";
 import BellIcon from "@/iconsComponents/BellIcon";
 import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
 
-import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/Redux/store";
 import { setToken } from "@/Redux/slices/authSlice";
+
 import NotificationList from "@/features/notifications/components/NotificationList";
-import { RootState } from "@/Redux/store";
+import ProfileCard from "@/features/user/components/ProfileCard";
 import UserCard from "@/features/user/components/userCard";
+
+import { useSelector } from "react-redux";
+import { RootState } from "@/Redux/store";
 
 export default function NavBar() {
   const t = useTheme();
@@ -27,6 +32,10 @@ export default function NavBar() {
   const [shown, setShown] = useState(false);
   const [openedNotifications, setOpenNotifications] = useState(false);
   const [useCard, setUserCard] = useState(false);
+
+  // useEffect(() => {
+  //   setWidth(window.innerWidth);
+  // }, []);
 
   useEffect(() => {
     setLoggedIn(token !== null);
@@ -41,6 +50,7 @@ export default function NavBar() {
     }
 
     window.addEventListener("storage", detection);
+
     return () => {
       window.removeEventListener("storage", detection);
     };
@@ -70,6 +80,7 @@ export default function NavBar() {
           style={{ position: "absolute", right: "0px", pointerEvents: "none" }}
         />
 
+        {/* Logo and menu */}
         <div style={{ display: "flex", alignItems: "center" }}>
           <IconButton
             sx={{ display: ["block", "block", "none"] }}
@@ -84,7 +95,7 @@ export default function NavBar() {
 
           <Typography
             component={"a"}
-            href="#"
+            href="/"
             sx={{ cursor: "pointer" }}
             variant="titleSpecial"
           >
@@ -92,6 +103,7 @@ export default function NavBar() {
           </Typography>
         </div>
 
+        {/* Links */}
         <Box
           className={styles.links}
           sx={{ display: ["none", "none", "flex"] }}
@@ -126,35 +138,46 @@ export default function NavBar() {
           </ul>
         </Box>
 
+        {/* Actions */}
         <div className={styles.actions}>
           <div style={{ display: "flex", gap: 25, alignItems: "center" }}>
             {loggedIn ? (
               <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
+
+                {/* Bell */}
                 <div
+                  style={{ paddingTop: 4, cursor: "pointer" }}
                   onClick={() => {
                     setOpenNotifications(!openedNotifications);
                     setUserCard(false);
                   }}
-                  style={{ paddingTop: 4 }}
                 >
                   <BellIcon />
                 </div>
 
-                <div
-                  style={{
-                    position: "relative",
-                    width: "35px",
-                    height: "35px",
-                    alignSelf: "flex-start",
-                  }}
-                >
-                  <BagIcon />
-                  <div className={styles.circle}>{1}</div>
-                  {openedNotifications && <NotificationList />}
-                </div>
+                {/* Bag */}
+                <Link href="/cart">
+                  <div
+                    style={{
+                      position: "relative",
+                      width: "35px",
+                      height: "35px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <BagIcon />
 
+                    <div className={styles.circle}>
+                      {1}
+                    </div>
+                  </div>
+                </Link>
+
+                {openedNotifications && <NotificationList />}
+
+                {/* Avatar */}
                 <div
-                  style={{ position: "relative" }}
+                  style={{ position: "relative", cursor: "pointer" }}
                   onClick={() => {
                     setUserCard(!useCard);
                     setOpenNotifications(false);
@@ -172,6 +195,7 @@ export default function NavBar() {
                     />
                   </div>
                 </div>
+
               </div>
             ) : (
               <Typography
@@ -193,6 +217,7 @@ export default function NavBar() {
               </Typography>
             )}
 
+            {/* Language */}
             <Typography
               fontFamily={"poppins"}
               variant="subtitle1"
@@ -207,13 +232,17 @@ export default function NavBar() {
             >
               {isDesktop ? "ع" : "عربي"}
             </Typography>
+
           </div>
         </div>
+
       </Box>
 
       {useCard && <UserCard />}
+
+      {useCard && <UserCard />}
       <SideBarList shown={shown} loggedIn={loggedIn} />
+
     </Box>
   );
 }
-
