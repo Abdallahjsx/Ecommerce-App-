@@ -24,11 +24,18 @@ export async function register(data:registerData) {
    const resp = await fetch("https://alluvo-api-stating.runasp.net/api/Auth/Register", {
       method: "POST",
       headers: {
-        Accept: "application/json, text/plain, */*",
+        Accept: "application/json, text/plain",
       },
       body: form,
     })
-  return await resp.text()
+    // NO axios so u have to handle the response and errors manually
+  const dataResp = await resp.json();
+
+  if (!resp.ok) {
+    throw new Error(JSON.stringify(dataResp));
+  }
+
+  return dataResp;
 }
 //Verify Account function
 export async function verification(data:verigicationData) {

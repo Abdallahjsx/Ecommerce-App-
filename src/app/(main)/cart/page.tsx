@@ -71,10 +71,8 @@ export default function CartPage() {
   const handleIncrease = (id: number) => {
     setCartItems((prev) =>
       prev.map((item) =>
-        item.id === id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
     );
   };
 
@@ -84,11 +82,10 @@ export default function CartPage() {
         item.id === id
           ? {
               ...item,
-              quantity:
-                item.quantity > 1 ? item.quantity - 1 : 1,
+              quantity: item.quantity > 1 ? item.quantity - 1 : 1,
             }
-          : item
-      )
+          : item,
+      ),
     );
   };
 

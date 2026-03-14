@@ -20,6 +20,7 @@ import UserCard from "@/features/user/components/userCard";
 
 import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
+import routes from "../../../../routes";
 
 export default function NavBar() {
   const t = useTheme();
@@ -109,31 +110,27 @@ export default function NavBar() {
           sx={{ display: ["none", "none", "flex"] }}
         >
           <ul>
-            {["Home", "Shop", "Reels", "Orders", "Contact Us", "FAQS"].map(
-              (l, index) => (
-                <li key={index}>
-                  <Typography
-                    className={styles.link}
-                    component={"a"}
-                    variant="link"
-                    href={
-                      l === "Contact Us"
-                        ? "/support/contact-us"
-                        : l === "FAQS"
-                        ? "/faqs"
-                        : "#"
-                    }
-                    color="#111827"
-                    sx={{
-                      "&:hover": {
-                        color: t.palette.secondary.main,
-                      },
-                    }}
-                  >
-                    {l}
-                  </Typography>
-                </li>
-              )
+            {routes.map(
+              (link, index) =>
+                (link.private && loggedIn) ||
+                (!link.private && (
+                  <li key={index}>
+                    <Typography
+                      className={styles.link}
+                      component={"a"}
+                      variant="link"
+                      href={link.path}
+                      color="#111827"
+                      sx={{
+                        "&:hover": {
+                          color: t.palette.secondary.main,
+                        },
+                      }}
+                    >
+                      {link.title}
+                    </Typography>
+                  </li>
+                )),
             )}
           </ul>
         </Box>
@@ -143,7 +140,6 @@ export default function NavBar() {
           <div style={{ display: "flex", gap: 25, alignItems: "center" }}>
             {loggedIn ? (
               <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
-
                 {/* Bell */}
                 <div
                   style={{ paddingTop: 4, cursor: "pointer" }}
@@ -167,9 +163,7 @@ export default function NavBar() {
                   >
                     <BagIcon />
 
-                    <div className={styles.circle}>
-                      {1}
-                    </div>
+                    <div className={styles.circle}>{1}</div>
                   </div>
                 </Link>
 
@@ -195,7 +189,6 @@ export default function NavBar() {
                     />
                   </div>
                 </div>
-
               </div>
             ) : (
               <Typography
@@ -232,17 +225,14 @@ export default function NavBar() {
             >
               {isDesktop ? "ع" : "عربي"}
             </Typography>
-
           </div>
         </div>
-
       </Box>
 
       {useCard && <UserCard />}
 
       {useCard && <UserCard />}
       <SideBarList shown={shown} loggedIn={loggedIn} />
-
     </Box>
   );
 }
