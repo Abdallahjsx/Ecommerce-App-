@@ -3,10 +3,16 @@
 import { Button, Typography, useTheme } from "@mui/material";
 import { TypographyProps } from "@mui/material/Typography";
 import { SxProps, Theme } from "@mui/material";
+import { shadows } from "@mui/system";
 
 type ButtonSize = "small" | "medium" | "large" | "authLarge";
+<<<<<<< HEAD
 type ButtonVariant = "primary" | "outline" | "text";
 type ButtonState = "primary" | "danger";
+=======
+type ButtonVariant = "primary" | "outline" | "text" | "gray"; // ✅ أضفنا نوع جديد للـ variant
+type ButtonState = "primary" | "danger"; // ✅ الحالة الجديدة
+>>>>>>> a99bd7e3c5f69999c28f3fffd5ce726674107384
 
 interface GradientButtonProps {
   size?: ButtonSize;
@@ -111,7 +117,27 @@ export default function Gradient_Button({
       },
     };
   }
+ if (variant === "gray") {
+  styles = {
+    background: 'linear-gradient(90deg, #ABADB6 0%, #ABADB6 100%)',
+    color: "#FFFFFF", 
+    boxShadow: theme.tokens.buttons.boxShadow,
 
+    "&:hover": {
+      background: theme.palette.gradients.grayHover,
+    },
+
+    "&:active": {
+      background: theme.palette.gradients.grayPressed,
+      transform: "translateY(1px)",
+    },
+
+    "&.Mui-disabled": {
+      background: theme.tokens.buttons.disabledBg,
+      color: theme.tokens.buttons.disabledText,
+    },
+  };
+}
   return (
     <Button
       disableRipple

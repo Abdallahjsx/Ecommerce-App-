@@ -4,6 +4,8 @@ import { loginData,registerData,verigicationData } from "../types";
 //Login function
 export async function login(data:loginData) {
     const res = await apiCall.post("/api/Auth/Login",data)
+    console.log(res.data)
+    
     return res.data
 }
 //Register function

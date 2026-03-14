@@ -28,6 +28,7 @@
       ]
     }
   },
+<<<<<<< HEAD
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -39,4 +40,8 @@
     "node_modules",
     ".next"
   ]
+=======
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/features/brandProfile/components/BgSvg.jsx"],
+  "exclude": ["node_modules",".next"]
+>>>>>>> a99bd7e3c5f69999c28f3fffd5ce726674107384
 }
