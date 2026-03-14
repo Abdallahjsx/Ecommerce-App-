@@ -28,6 +28,7 @@
       ]
     }
   },
+
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -39,4 +40,5 @@
     "node_modules",
     ".next"
   ]
+
 }

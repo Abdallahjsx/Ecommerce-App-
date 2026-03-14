@@ -9,6 +9,8 @@ type ButtonSize = "small" | "medium" | "large" | "authLarge";
 type ButtonVariant = "primary" | "outline" | "text" | "gray"; // ✅ أضفنا نوع جديد للـ variant
 type ButtonState = "primary" | "danger"; // ✅ الحالة الجديدة
 
+
+
 interface GradientButtonProps {
   size?: ButtonSize;
   variant?: ButtonVariant;
