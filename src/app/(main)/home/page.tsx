@@ -32,13 +32,14 @@ export default function HomePage() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          flexDirection: "column",
         }}
       >
         <Typography variant="titleSpecial" color="initial" fontSize={"50px"}>
           {" "}
           COMMING SOON .
         </Typography>
-   
+       
 
         {/* ✅ التوستات */}
         <ToastItem
@@ -68,6 +69,12 @@ export default function HomePage() {
           message="this is an error message"
           type="error"
         />
+         <Stack direction="column" spacing={2} mt={4}>
+          <Button variant="contained" onClick={() => window.location.href = '/brandProfile'}>
+            Go To Brand Profile
+          </Button>
+          </Stack>
+   
       </main>
     </>
   );
