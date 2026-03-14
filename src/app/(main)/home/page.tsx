@@ -41,10 +41,6 @@ export default function HomePage() {
           {" "}
           COMMING SOON .
         </Typography>
-<<<<<<< Updated upstream
-       
-=======
->>>>>>> Stashed changes
 
         {/* ✅ التوستات */}
         <ToastItem
