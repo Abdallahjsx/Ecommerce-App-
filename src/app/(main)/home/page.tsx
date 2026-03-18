@@ -4,9 +4,6 @@ import { useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import ToastItem from "@/components/ui/toaster/Toast-Item";
-import NotificationList from "@/features/notifications/components/NotificationList";
-import RangePriceBar from "@/components/ui/special/rangePriceBar";
-import PriceFilter from "@/features/shop/components/filters/priceFilter";
 export default function HomePage() {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
