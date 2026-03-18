@@ -3,11 +3,11 @@
 import { Button, Typography, useTheme } from "@mui/material";
 import { TypographyProps } from "@mui/material/Typography";
 import { SxProps, Theme } from "@mui/material";
-import { shadows } from "@mui/system";
+import { borderRadius, padding, shadows } from "@mui/system";
 
 type ButtonSize = "small" | "medium" | "large" | "authLarge";
-type ButtonVariant = "primary" | "outline" | "text" | "gray"; // ✅ أضفنا نوع جديد للـ variant
-type ButtonState = "primary" | "danger"; // ✅ الحالة الجديدة
+type ButtonVariant = "primary" | "outline" | "text" | "gray" | "gradientBorder" | "regular";
+type ButtonState = "primary" | "danger";
 
 
 
@@ -50,6 +50,7 @@ export default function Gradient_Button({
     textTransform: "none" as const,
     cursor: disabled ? "not-allowed" : "pointer",
     opacity: disabled ? 0.6 : 1,
+    // padding: "6px 11px"
   };
 
   let styles = {};
@@ -114,27 +115,77 @@ export default function Gradient_Button({
       },
     };
   }
- if (variant === "gray") {
-  styles = {
-    background: 'linear-gradient(90deg, #ABADB6 0%, #ABADB6 100%)',
-    color: "#FFFFFF", 
-    boxShadow: theme.tokens.buttons.boxShadow,
+  if (variant === "gray") {
+    styles = {
+      background: 'linear-gradient(90deg, #ABADB6 0%, #ABADB6 100%)',
+      color: "#FFFFFF",
+      boxShadow: theme.tokens.buttons.boxShadow,
 
-    "&:hover": {
-      background: theme.palette.gradients.grayHover,
-    },
+      "&:hover": {
+        background: theme.palette.gradients.grayHover,
+      },
 
-    "&:active": {
-      background: theme.palette.gradients.grayPressed,
-      transform: "translateY(1px)",
-    },
+      "&:active": {
+        background: theme.palette.gradients.grayPressed,
+        transform: "translateY(1px)",
+      },
 
-    "&.Mui-disabled": {
-      background: theme.tokens.buttons.disabledBg,
-      color: theme.tokens.buttons.disabledText,
-    },
-  };
-}
+      "&.Mui-disabled": {
+        background: theme.tokens.buttons.disabledBg,
+        color: theme.tokens.buttons.disabledText,
+      },
+    };
+  }
+  if (variant === "gradientBorder") {
+    styles = {
+      background: "transparent",
+      color: theme.buttonVariants.outline.color,
+      border: "2px solid transparent",
+      position: "relative",
+      borderRadius: "4px",
+      padding: "20px 16px !important",
+      "&::before": {
+        content: '""',
+        position: "absolute",
+        inset: "-2px",
+        borderRadius: "inherit",
+        padding: "2px",
+        background: `linear-gradient(180deg, ${theme.tokens.mainColors.primary} 0%, ${theme.tokens.mainColors.secondary} 100%)`,
+        WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+        WebkitMaskComposite: "xor",
+        maskComposite: "exclude",
+        pointerEvents: "none",
+      },
+      "&:hover": {
+        background: theme.buttonVariants.outline.hoverBg,
+      },
+      "&:active": {
+        background: theme.buttonVariants.outline.activeBg,
+      },
+      "&.Mui-disabled": {
+        border: theme.buttonVariants.outline.border,
+        color: theme.tokens.buttons.disabledText,
+        background: "transparent",
+        "&::before": {
+          display: "none",
+        },
+      },
+    };
+  }
+  if (variant === "regular") {
+    styles = {
+      background: "transparent",
+      border: "none",
+      color: theme.buttonVariants.text.color,
+      "&:hover": {
+        background: theme.buttonVariants.outline.hoverBg,
+        border: "none",
+      },
+      "&.Mui-disabled": {
+        color: theme.tokens.buttons.disabledText,
+      },
+    };
+  }
   return (
     <Button
       disableRipple

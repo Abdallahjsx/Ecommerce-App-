@@ -14,9 +14,13 @@ export default function PriceFilter() {
                 <RangePriceBar value={value} onChange={(event, newValue) => {
                     setValue(newValue);
                 }} />
-                <Box display={"flex"} gap={"24px"} justifyContent={"space-between"}>
-                    <PriceBox label="From" price={value[0]} />
-                    <PriceBox label="To" price={value[1]} />
+                <Box display={"flex"} gap={{ xs: "8px", md: "24px" }} justifyContent={"space-between"} width={"100%"}>
+                    <Box flex={1}>
+                        <PriceBox label="From" price={value[0]} />
+                    </Box>
+                    <Box flex={1}>
+                        <PriceBox label="To" price={value[1]} />
+                    </Box>
                 </Box>
 
             </Box>

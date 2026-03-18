@@ -5,6 +5,8 @@ import { FilterIcon } from "@/iconsComponents/all";
 import CustomDivider from "@/components/ui/special/customDivider";
 import AppliedFilters from "./filters/applied";
 import CategoryFilter from "./filters/categoryFilter";
+import StockStatusFilter from "./filters/stockStatusFilter";
+import ColorFilter from "./filters/colorFilter";
 export default function FilterationComponent() {
     return (
         <Box width={"100%"} borderRight={"1px solid #ccc"} pr={"20px"}>
@@ -17,11 +19,15 @@ export default function FilterationComponent() {
                 </Typography>
             </Box >
             <CustomDivider />
-            <PriceFilter />
-            <CustomDivider />
             <AppliedFilters />
             <CustomDivider />
             <CategoryFilter />
+            <CustomDivider />
+            <StockStatusFilter />
+            <CustomDivider />
+            <ColorFilter />
+            <CustomDivider />
+            <PriceFilter />
         </Box>
     )
 }

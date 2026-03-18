@@ -1,6 +1,6 @@
 import { Poppins, Inter, Cinzel_Decorative, Lato, Roboto } from "next/font/google";
 export const poppinsFont = Poppins({
-  weight: ["300", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ['latin'],
   variable: "--font-poppins",
 })

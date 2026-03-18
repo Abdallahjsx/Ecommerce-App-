@@ -60,8 +60,8 @@ export const OfferIcon = (props: any) => (
         y2="62.7017"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#1B2351" />
-        <stop offset="1" stop-color="#47C0D2" />
+        <stop stopColor="#1B2351" />
+        <stop offset="1" stopColor="#47C0D2" />
       </linearGradient>
     </defs>
   </svg>

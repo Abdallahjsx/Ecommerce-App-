@@ -84,7 +84,7 @@ export default function NavBar() {
         {/* Logo and menu */}
         <div style={{ display: "flex", alignItems: "center" }}>
           <IconButton
-            sx={{ display: ["block", "block", "none"] }}
+            sx={{ display: ["block", "block", "block", "none"] }}
             onClick={() => setShown(!shown)}
           >
             <img
@@ -107,7 +107,7 @@ export default function NavBar() {
         {/* Links */}
         <Box
           className={styles.links}
-          sx={{ display: ["none", "none", "flex"] }}
+          sx={{ display: ["none", "none", "none", "flex"] }}
         >
           <ul>
             {routes.map(

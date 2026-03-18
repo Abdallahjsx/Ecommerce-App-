@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Typography, Avatar, Stack, Grid } from "@mui/material";
-import { StarIcon, LikeIcon, DislikeIcon } from "../Icons";
+import { StarIcon, LikeIcon, DislikeIcon } from "../../../features/brandProfile/Icons";
 import React from "react";
 
 interface ReviewCardProps {

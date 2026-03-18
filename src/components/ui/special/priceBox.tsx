@@ -10,7 +10,7 @@ export default function PriceBox({
 }) {
   const theme = useTheme();
   return (
-    <Box position={"relative"}>
+    <Box position={"relative"} width={"100%"}>
       <Typography
         position={"absolute"}
         top={"-8px"}
@@ -27,13 +27,13 @@ export default function PriceBox({
       <Box
         border={"1px solid " + theme.tokens.separatingColors.separator}
         borderRadius={"8px"}
-        padding={"16px 10px 16px 16px"}
+        padding={{ xs: "12px 8px", md: "16px 10px 16px 16px" }}
         display={"flex"}
-        gap={"24px"}
+        gap={{ xs: "8px", md: "16px" }}
         bgcolor={"transparent"}
         justifyContent={"space-between"}
         alignItems={"center"}
-        width={"fit-content"}
+        width={"100%"}
       >
         <Typography variant="h6" color={theme.tokens.mainColors.secondary}>
           {" "}

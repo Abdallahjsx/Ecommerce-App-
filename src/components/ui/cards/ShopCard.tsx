@@ -3,8 +3,21 @@
 import { Gradient_Button } from "@/components/ui/gradientButton";
 import { Button, Typography, IconButton, Rating } from "@mui/material";
 import { Box, Stack } from "@mui/material";
-import { HeartIcon, StarIcon, OfferIcon } from "../Icons";
-
+import { HeartIcon, StarIcon, OfferIcon } from "../../../features/brandProfile/Icons";
+export type Product = {
+  id?: string;
+  name: string;
+  category: string;
+  price: number;
+  originalPrice?: number;
+  rating?: number;
+  reviewsCount?: number;
+  imageUrl: string;
+  status?: "In Stock" | "Out of Stock";
+  discount?: string;
+  hasDiscount?: boolean;
+  isSale?: boolean;
+}
 export default function ShopCard({
   name,
   category,
@@ -17,19 +30,7 @@ export default function ShopCard({
   discount,
   hasDiscount = false,
   isSale = false,
-}: {
-  name: string;
-  category: string;
-  price: number;
-  originalPrice?: number;
-  rating?: number;
-  reviewsCount?: number;
-  imageUrl: string;
-  status?: "In Stock" | "Out of Stock";
-  discount?: string;
-  hasDiscount?: boolean;
-  isSale?: boolean;
-}) {
+}: Product) {
   return (
     <Box
       sx={{

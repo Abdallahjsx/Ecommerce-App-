@@ -17,6 +17,13 @@ export default function AppliedFilters() {
                 <CloasbleBox title="All" />
                 <CloasbleBox title="Red" />
                 <CloasbleBox title="Running Shoes" />
+                <CloasbleBox title="Red" />
+
+                <CloasbleBox title="Running Shoes" />
+                <CloasbleBox title="Running Shoes" />
+                <CloasbleBox title="Red" />
+
+                <CloasbleBox title="Running Shoes" />
             </Box>
         </Box>
 

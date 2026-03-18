@@ -9,7 +9,7 @@ import {
   IconButton,
   Skeleton,
 } from "@mui/material";
-import ReviewCard from "@/features/brandProfile/components/ReviewCard";
+import ReviewCard from "@/components/ui/cards/ReviewCard";
 import { SendIcon, StarIcon } from "@/features/brandProfile/Icons";
 import React, { useState, useEffect } from "react";
 import { useBrandReviews } from "@/features/brandProfile/hooks/useBrandReviews";
@@ -158,12 +158,12 @@ export default function Reviews() {
       prev.map((r) =>
         r.id === reviewId
           ? {
-              ...r,
-              isLike: !r.isLike,
-              likes: !r.isLike ? r.likes + 1 : r.likes - 1,
-              isDislike: !r.isLike ? false : r.isDislike,
-              dislikes: !r.isLike && r.isDislike ? r.dislikes - 1 : r.dislikes,
-            }
+            ...r,
+            isLike: !r.isLike,
+            likes: !r.isLike ? r.likes + 1 : r.likes - 1,
+            isDislike: !r.isLike ? false : r.isDislike,
+            dislikes: !r.isLike && r.isDislike ? r.dislikes - 1 : r.dislikes,
+          }
           : r,
       ),
     );
@@ -179,12 +179,12 @@ export default function Reviews() {
       prev.map((r) =>
         r.id === reviewId
           ? {
-              ...r,
-              isDislike: !r.isDislike,
-              dislikes: !r.isDislike ? r.dislikes + 1 : r.dislikes - 1,
-              isLike: !r.isDislike ? false : r.isLike,
-              likes: !r.isDislike && r.isLike ? r.likes - 1 : r.likes,
-            }
+            ...r,
+            isDislike: !r.isDislike,
+            dislikes: !r.isDislike ? r.dislikes + 1 : r.dislikes - 1,
+            isLike: !r.isDislike ? false : r.isLike,
+            likes: !r.isDislike && r.isLike ? r.likes - 1 : r.likes,
+          }
           : r,
       ),
     );
@@ -223,48 +223,48 @@ export default function Reviews() {
       >
         {loading
           ? [1, 2, 3, 4].map((i) => (
-              <Box key={i} sx={{ flexShrink: 0 }}>
-                <Skeleton
-                  variant="rectangular"
-                  width={318}
-                  height={288}
-                  sx={{ borderRadius: "8px" }}
-                />
-              </Box>
-            ))
+            <Box key={i} sx={{ flexShrink: 0 }}>
+              <Skeleton
+                variant="rectangular"
+                width={318}
+                height={288}
+                sx={{ borderRadius: "8px" }}
+              />
+            </Box>
+          ))
           : reviews.map((review, index) => (
-              <Box
-                key={`${review.id}-${index}`}
-                onClick={() => setActiveIndex(index)}
-                sx={{
-                  flexShrink: 0,
-                  cursor: "pointer",
-                  opacity: activeIndex === index ? 1 : 0.7,
-                  transform:
-                    activeIndex === index
-                      ? "translateY(-25px) scale(1.05)"
-                      : "translateY(0) scale(1)",
-                  transition:
-                    "all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-                  zIndex: activeIndex === index ? 10 : 1,
-                }}
-              >
-                <ReviewCard
-                  name={review.name}
-                  date={review.date}
-                  content={review.content}
-                  rating={review.rating}
-                  avatar={review.avatar}
-                  isActive={activeIndex === index}
-                  likes={review.likes}
-                  dislikes={review.dislikes}
-                  isLike={review.isLike}
-                  isDislike={review.isDislike}
-                  onLike={() => handleLike(review.id)}
-                  onDislike={() => handleDislike(review.id)}
-                />
-              </Box>
-            ))}
+            <Box
+              key={`${review.id}-${index}`}
+              onClick={() => setActiveIndex(index)}
+              sx={{
+                flexShrink: 0,
+                cursor: "pointer",
+                opacity: activeIndex === index ? 1 : 0.7,
+                transform:
+                  activeIndex === index
+                    ? "translateY(-25px) scale(1.05)"
+                    : "translateY(0) scale(1)",
+                transition:
+                  "all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                zIndex: activeIndex === index ? 10 : 1,
+              }}
+            >
+              <ReviewCard
+                name={review.name}
+                date={review.date}
+                content={review.content}
+                rating={review.rating}
+                avatar={review.avatar}
+                isActive={activeIndex === index}
+                likes={review.likes}
+                dislikes={review.dislikes}
+                isLike={review.isLike}
+                isDislike={review.isDislike}
+                onLike={() => handleLike(review.id)}
+                onDislike={() => handleDislike(review.id)}
+              />
+            </Box>
+          ))}
       </Box>
 
       <Stack
