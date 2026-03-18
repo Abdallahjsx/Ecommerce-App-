@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+.git
+.github
+Dockerfile
+.dockerignore
+README.md
+.vscode
+.gemini
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env*.local

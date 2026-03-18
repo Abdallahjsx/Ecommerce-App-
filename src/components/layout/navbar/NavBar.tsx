@@ -20,7 +20,7 @@ import UserCard from "@/features/user/components/userCard";
 
 import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
-import routes from "../../../../routes";
+import { routes } from "@/config/routes";
 
 export default function NavBar() {
   const t = useTheme();
