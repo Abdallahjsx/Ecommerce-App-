@@ -1,3 +1,4 @@
+import React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -6,10 +7,27 @@ import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material';
 import { Box } from '@mui/material';
 import ColorSelectionItem from '@/components/ui/special/colorSelectionItem';
+import { useGetColors } from '@/features/shop/hooks/useLookUps.hook';
+import { useAppDispatch, useAppSelector } from '@/Redux/store';
+import { setColors } from '@/Redux/slices/shopFiltersSlice';
+import { colorType } from '@/features/shop/types';
 
 export default function ColorFilter() {
-
+    const { colors: selectedColor } = useAppSelector((state) => state.filters);
+    const dispatch = useAppDispatch();
     const t = useTheme()
+    const { data: colors, isSuccess } = useGetColors();
+    function handleColorChange(color: colorType) {
+        if (selectedColor?.includes(color)) {
+            dispatch(setColors(selectedColor?.filter((c: colorType) => c !== color)))
+        } else {
+            if (selectedColor) {
+                dispatch(setColors([...selectedColor, color]))
+            } else {
+                dispatch(setColors([color]))
+            }
+        }
+    }
 
     return (
         <Accordion disableGutters sx={{ bgcolor: "transparent", border: "none", boxShadow: "none", '&:before': { display: 'none' } }} >
@@ -23,20 +41,11 @@ export default function ColorFilter() {
             </AccordionSummary>
             <AccordionDetails >
                 <Box display={"flex"} flexWrap="wrap" gap={2}>
-                    <ColorSelectionItem color='red' checked={false} />
-                    <ColorSelectionItem color='blue' checked={true} />
-                    <ColorSelectionItem color='green' checked={false} />
-                    <ColorSelectionItem color='yellow' checked={false} />
-                    <ColorSelectionItem color='purple' checked={false} />
-                    <ColorSelectionItem color='black' checked={false} />
-                    <ColorSelectionItem color='white' checked={false} />
-                    <ColorSelectionItem color='gray' checked={false} />
-                    <ColorSelectionItem color='#41781d8f' checked={false} />
-                    <ColorSelectionItem color='#16a6a1ff' checked={false} />
-                    <ColorSelectionItem color='#e00070ff' checked={false} />
-
-
-                </Box>
+                    {isSuccess && colors?.data.map((option: colorType, index: number) => (
+                        <ColorSelectionItem key={index} color={option.hexCode} checked={selectedColor?.includes(option) ?? false} onChange={() => {
+                            handleColorChange(option)
+                        }} />
+                    ))} </Box>
             </AccordionDetails>
         </Accordion>
     )

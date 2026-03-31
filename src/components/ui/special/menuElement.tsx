@@ -3,21 +3,27 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material';
+import { useAppSelector, useAppDispatch } from '@/Redux/store';
+import { setMainCategory } from '@/Redux/slices/shopFiltersSlice';
+import { mainCategoryType } from '@/features/shop/types';
 
 
 
-const ITEM_HEIGHT = 48;
 
-export default function MenuElement({ children, options, value }: { children: React.ReactNode, options: string[], value: string }) {
+export default function MenuElement<T>({ children, options, value, onSelect, getId, getLabel }: { children: React.ReactNode, options: T[], value: string | undefined, onSelect: (item: T) => void, getId: (item: T) => string, getLabel: (item: T) => string }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const t = useTheme()
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
+    const handleChoose = (index: number) => {
+        onSelect(options[index])
+        handleClose()
+    };
     const handleClose = () => {
         setAnchorEl(null);
-    };
+    }
 
     return (
         <div>
@@ -44,11 +50,13 @@ export default function MenuElement({ children, options, value }: { children: Re
                     },
                 }}
             >
-                {options.map((option) => (
+                {options.map((option, index) => (
                     <MenuItem
-                        key={option}
-                        selected={option === value}
-                        onClick={handleClose}
+                        key={getId(option)}
+                        selected={getId(option) === value}
+                        onClick={() => {
+                            handleChoose(index)
+                        }}
                         sx={{
                             borderLeft: '6px solid transparent',
                             fontFamily: t.typography.bodyMedium.fontFamily,
@@ -66,7 +74,7 @@ export default function MenuElement({ children, options, value }: { children: Re
                             }
                         }}
                     >
-                        {option}
+                        {getLabel(option)}
                     </MenuItem>
                 ))}
             </Menu>

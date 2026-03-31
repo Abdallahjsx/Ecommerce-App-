@@ -3,8 +3,11 @@
 import { Gradient_Button } from "@/components/ui/gradientButton";
 import { Button, Typography, IconButton, Rating } from "@mui/material";
 import { Box, Stack } from "@mui/material";
-import { HeartIcon, StarIcon, OfferIcon } from "../../../features/brandProfile/Icons";
+import { StarIcon, OfferIcon, OutlineHeartIcon, FilledHeartIcon } from "../../../features/brandProfile/Icons";
 import { Product } from "./ShopCard";
+import { useState } from "react";
+import { useToggleToWishlist } from "@/features/wishlist/hooks/useToggleToWishlist.hook";
+import { useRouter } from "next/navigation";
 
 export default function ListedShopCard({
     name,
@@ -18,7 +21,15 @@ export default function ListedShopCard({
     discount,
     hasDiscount = false,
     isSale = false,
-}: Product) {
+    id,
+    isInWishlist,
+    onAddToCart
+}: Product & { onAddToCart: () => void }) {
+    const router = useRouter();
+    const [isLiked, setIsLiked] = useState(isInWishlist)
+    const { mutate: toggleToWishlist } = useToggleToWishlist(() => {
+        setIsLiked(!isLiked)
+    })
     return (
         <Box
             sx={{
@@ -33,7 +44,10 @@ export default function ListedShopCard({
                 width: "100%",
                 position: "relative",
                 border: "1px solid rgba(0, 0, 0, 0.03)",
+                px: 1,
+                cursor: "pointer",
             }}
+            onClick={() => router.push(`/products/${id}`)}
         >
             {/* Badge */}
             {(hasDiscount || isSale) && (
@@ -217,8 +231,12 @@ export default function ListedShopCard({
                                 height: { xs: 20, md: 24 },
                             },
                         }}
+                        onClick={(e) => {
+                            toggleToWishlist(id)
+                            e.stopPropagation();
+                        }}
                     >
-                        <HeartIcon />
+                        {isLiked ? <FilledHeartIcon /> : <OutlineHeartIcon />}
                     </IconButton>
                     <Gradient_Button
                         variant="primary"
@@ -230,6 +248,10 @@ export default function ListedShopCard({
                             fontWeight: 600,
                             textTransform: "none",
                             height: { xs: "40px", md: "48px" },
+                        }}
+                        onClick={(e) => {
+                            e?.stopPropagation?.();
+                            onAddToCart()
                         }}
                     >
                         <Typography

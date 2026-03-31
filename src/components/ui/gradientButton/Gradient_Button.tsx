@@ -16,7 +16,7 @@ interface GradientButtonProps {
   variant?: ButtonVariant;
   disabled?: boolean;
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement> | undefined) => void;
   type?: "button" | "submit" | "reset";
   sx?: SxProps<Theme>;
   state?: ButtonState;

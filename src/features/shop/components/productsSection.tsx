@@ -8,9 +8,16 @@ import { useState } from "react";
 import ListedShopCard from "@/components/ui/cards/listedShopCard";
 import Controllers from "./largeScreensControllers";
 import SmallScreensControllers from "./smallScreensControllers";
+import { useAppDispatch } from "@/Redux/store";
+import { setOpenAddToCartDialog, setProductId, setAvailableColors } from "@/Redux/slices/addTocartDialogSlice";
 
 export default function ProductsSection({ viewMode, products, pageIndex }: { viewMode: "grid" | "list", products: any[], pageIndex: number }) {
-
+    const dispatch = useAppDispatch();
+    function handleAddToCart(product: any) {
+        dispatch(setOpenAddToCartDialog(true));
+        dispatch(setProductId(product.id));
+        dispatch(setAvailableColors(product.availableColors));
+    }
     // const sortOptions = [
     //     "Alphabetically, A to Z",
     //     "Alphabetically, Z to A",
@@ -51,6 +58,7 @@ export default function ProductsSection({ viewMode, products, pageIndex }: { vie
                                             ? `${product.discountPercentage}%`
                                             : ""
                                     }
+                                    onAddToCart={() => handleAddToCart(product)}
                                 />
                             </Grid>
                         ) : (
@@ -78,6 +86,7 @@ export default function ProductsSection({ viewMode, products, pageIndex }: { vie
                                             ? `${product.discountPercentage}%`
                                             : ""
                                     }
+                                    onAddToCart={() => handleAddToCart(product)}
                                 />
                             </Grid>
                         )

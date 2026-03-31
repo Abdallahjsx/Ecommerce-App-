@@ -1,5 +1,5 @@
 "use client";
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Stack, Grid, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import FilterationComponent from "./components/filterationComponent";
@@ -14,48 +14,68 @@ import PaginationComponent from "@/components/ui/special/paginationComponent";
 import LargeScreensControllers from "./components/largeScreensControllers";
 import SmallScreensControllers from "./components/smallScreensControllers";
 import SortComponent from "./components/bottomSheets/sortComponent";
+import SmallScreenFilterationComponent from "./components/bottomSheets/filterationComponent";
+import { useGetProducts } from "./hooks/useGetProducts.hook";
+import { useAppSelector } from "@/Redux/store";
+import AddToCartDialog from "@/components/ui/dialog/addToCartDialog";
+import { useAddToCart } from "../cart/hooks/useAddToCart.hook";
 export default function ShopClient() {
+    const filters = useAppSelector((state) => state.filters);
     const t = useTheme()
     const [pageIndex, setPageIndex] = useState<number>(1);
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-    const { data, isLoading, isFetching, isSuccess } = useQuery<any>({
-        queryKey: ["products", pageIndex],
-        queryFn: () => getProductsShop({ pageIndex }),
-        placeholderData: keepPreviousData,
-        staleTime: 5 * 60 * 1000,
-    })
+    const { data, isLoading, isFetching, isSuccess } = useGetProducts({ pageIndex });
+    const { mutateAsync: addToCart } = useAddToCart();
     const [openSorting, setOpenSorting] = useState<boolean>(false);
+    const [openFilteration, setOpenFilteration] = useState<boolean>(false);
+    useEffect(() => {
+        setPageIndex(1);
+    }, [filters]);
+
+    const totalRecords = data?.data.meta.totalRecords;
     return (
-        <Box minHeight={"100vh"} padding={{ xs: "16px", md: "40px" }} bgcolor={t.tokens.backgroundColors.main} overflow="hidden" position="relative">
+        <Box minHeight={"100vh"} paddingX={{ xs: "16px", md: "80px" }} paddingY={{ xs: "16px", md: "20px" }} bgcolor={t.tokens.backgroundColors.main} overflow="hidden" position="relative">
             <BackgroundShapeImage />
 
             <Box position="relative" zIndex={1} height="100%" minHeight={"calc(100vh - 80px)"}>
                 <SearchBar />
-                <Grid container spacing={2} height={"100%"}>
-                    <Grid size={{ xs: 0, lg: 3 }} display={{ xs: "none", lg: "block" }}>
+                <Grid container spacing={2} height={"100%"} >
+                    <Grid size={{ xs: 0, lg: 3 }} display={{ xs: "none", lg: "block" }} >
                         <FilterationComponent />
                     </Grid>
-                    <Grid size={{ xs: 12, lg: 9 }} height={"100%"} minHeight={"calc(100vh - 80px)"}>
-                        <Box display={"flex"} flexDirection={"column"} gap={"20px"} height={"100%"}>
+                    <Grid size={{ xs: 12, lg: 9 }} height={"100%"}  >
+                        <Box display={"flex"} flexDirection={"column"} gap={"20px"} minHeight={"calc(100vh - 80px)"} >
                             <Box display={{ xs: "none", lg: "block" }}>
-                                <LargeScreensControllers viewMode={viewMode} setViewMode={setViewMode} />
+                                <LargeScreensControllers viewMode={viewMode} setViewMode={setViewMode} totalRecords={totalRecords} />
                             </Box>
                             <Box display={{ xs: "block", lg: "none" }}>
-                                <SmallScreensControllers setOpenSorting={setOpenSorting} />
+                                <SmallScreensControllers viewMode={viewMode} setViewMode={setViewMode} setOpenSorting={setOpenSorting} setOpenFilteration={setOpenFilteration} totalRecords={totalRecords} />
                             </Box>
-                            {data && < ProductsSection viewMode={viewMode} products={data.data.data} pageIndex={pageIndex} />}
-                            {isFetching && <CircularProgress color="primary" sx={{ margin: "auto" }} />}
-                            {data && data?.data.meta.totalRecords > 0 && (
-                                <Box mt="auto" pt="20px">
-                                    <PaginationComponent pageIndex={pageIndex} setPageIndex={setPageIndex} totalPages={Math.ceil(data.data.meta.totalRecords / 10)} />
-                                </Box>
-                            )}
+                            <Box height={"100%"} flexGrow={1}>
+                                {data && < ProductsSection viewMode={viewMode} products={data.data.data} pageIndex={pageIndex} />}
+                            </Box>
+
+
+                            {isLoading && <CircularProgress color="primary" sx={{ margin: "auto", alignSelf: "center", position: "absolute", top: "50%", left: "60%" }} />}
+
+
                         </Box>
                     </Grid>
                 </Grid>
+                {data && (data?.data.meta.hasNextPage || data?.data.meta.hasPreviousPage) && (
+                    <Stack mt="auto" pt="20px" direction={"row"} justifyContent={"flex-end"}>
+                        <PaginationComponent pageIndex={pageIndex} setPageIndex={setPageIndex} totalPages={Math.ceil(data.data.meta.totalRecords / 10)} />
+                    </Stack>
+                )}
             </Box>
+            <SmallScreenFilterationComponent open={openFilteration} setOpen={setOpenFilteration} />
             <SortComponent open={openSorting} setOpen={setOpenSorting} />
-        </Box>
+            <AddToCartDialog
+                onAdd={(productId, color, size, quantity) => {
+                    addToCart([{ productId, color, size, quantity }]);
+                }}
+            />
+        </Box >
     )
 }
 

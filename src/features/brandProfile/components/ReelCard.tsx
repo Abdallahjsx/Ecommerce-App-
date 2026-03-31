@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Typography, Stack } from "@mui/material";
-import { EyeIcon, HeartIcon } from "../Icons";
+import { EyeIcon, FilledHeartIcon } from "../Icons";
 
 interface ReelCardProps {
   title: string;
@@ -69,7 +69,7 @@ export default function ReelCard({
             </Typography>
           </Stack>
           <Stack direction="row" spacing={0.5} alignItems="center">
-            <HeartIcon
+            <FilledHeartIcon
               sx={{
                 width: 16,
                 height: 16,

@@ -1,4 +1,4 @@
-export const HeartIcon = (props: any) => (
+export const OutlineHeartIcon = (props: any) => (
   <svg
     width="20"
     height="18"
@@ -12,6 +12,23 @@ export const HeartIcon = (props: any) => (
       fill={props.fill || "#EF4444"}
     />
   </svg>
+);
+
+export const FilledHeartIcon = (props: any) => (
+  <svg
+    width="18"
+    height="16"
+    viewBox="0 0 18 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+    style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingTop: "4px", paddingLeft: "2px" }}
+
+  >
+
+    <path d="M8.86998 13.3833C8.27623 13.9224 7.36217 13.9224 6.76842 13.3755L6.68248 13.2974C2.58092 9.58645 -0.0987726 7.15676 0.00278989 4.12551C0.0496649 2.79739 0.729353 1.52395 1.83091 0.773948C3.89342 -0.632301 6.44029 0.0239486 7.81529 1.63332C9.19029 0.0239486 11.7372 -0.640114 13.7997 0.773948C14.9012 1.52395 15.5809 2.79739 15.6278 4.12551C15.7372 7.15676 13.0497 9.58645 8.9481 13.313L8.86998 13.3833Z" fill="#EF4444" />
+  </svg>
+
 );
 
 export const StarIcon = (props: any) => (

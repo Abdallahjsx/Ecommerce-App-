@@ -1,17 +1,17 @@
 import { Box, Typography, useTheme } from "@mui/material";
-
-export default function InfoColumn() {
-   const theme = useTheme(); 
+import { ProductDetails } from "../types";
+export default function InfoColumn({ product }: { product: ProductDetails }) {
+  const theme = useTheme();
   return (
     <Box
       sx={{
-         width: {
+        width: {
           xs: "100%",
           md: 306,
         },
         display: "flex",
         flexDirection: "column",
-          pr: {
+        pr: {
           xs: 0,
           md: 2.5,
         },
@@ -22,7 +22,7 @@ export default function InfoColumn() {
         sx={{
           fontFamily: "var(--font-inter)",
           fontWeight: 600,
-           fontSize: {
+          fontSize: {
             xs: "18px",
             md: "20px",
           },
@@ -45,7 +45,7 @@ export default function InfoColumn() {
           whiteSpace: "nowrap",
         }}
       >
-        Available Sizes: "39, 40, 41, 42, 43, 44" 
+        Available Sizes: "39, 40, 41, 42, 43, 44"
       </Typography>
 
       <Typography

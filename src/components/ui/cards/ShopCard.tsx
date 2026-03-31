@@ -3,9 +3,12 @@
 import { Gradient_Button } from "@/components/ui/gradientButton";
 import { Button, Typography, IconButton, Rating } from "@mui/material";
 import { Box, Stack } from "@mui/material";
-import { HeartIcon, StarIcon, OfferIcon } from "../../../features/brandProfile/Icons";
+import { useState } from "react";
+import { useToggleToWishlist } from "@/features/wishlist/hooks/useToggleToWishlist.hook";
+import { OutlineHeartIcon, FilledHeartIcon, StarIcon, OfferIcon } from "../../../features/brandProfile/Icons";
+import { useRouter } from "next/navigation";
 export type Product = {
-  id?: string;
+  id: string;
   name: string;
   category: string;
   price: number;
@@ -17,6 +20,7 @@ export type Product = {
   discount?: string;
   hasDiscount?: boolean;
   isSale?: boolean;
+  isInWishlist?: boolean;
 }
 export default function ShopCard({
   name,
@@ -30,7 +34,15 @@ export default function ShopCard({
   discount,
   hasDiscount = false,
   isSale = false,
-}: Product) {
+  isInWishlist,
+  id,
+  onAddToCart
+}: Product & { onAddToCart: () => void }) {
+  const router = useRouter();
+  const [isLiked, setIsLiked] = useState(isInWishlist)
+  const { mutate: toggleToWishlist } = useToggleToWishlist(() => {
+    setIsLiked(!isLiked)
+  })
   return (
     <Box
       sx={{
@@ -43,6 +55,10 @@ export default function ShopCard({
         width: "100%",
         position: "relative",
         border: "1px solid rgba(0, 0, 0, 0.03)",
+        cursor: "pointer",
+      }}
+      onClick={(e) => {
+        router.push(`/products/${id}`)
       }}
     >
       {/* Badge */}
@@ -229,6 +245,10 @@ export default function ShopCard({
                 fontSize: { xs: "12px !important", md: "14px !important" },
               },
             }}
+            onClick={(e) => {
+              e?.stopPropagation?.();
+              onAddToCart()
+            }}
           >
             <Typography
               sx={{
@@ -253,8 +273,12 @@ export default function ShopCard({
                 height: { xs: 16, md: 20 },
               },
             }}
+            onClick={(e) => {
+              toggleToWishlist(id)
+              e?.stopPropagation?.();
+            }}
           >
-            <HeartIcon />
+            {isLiked ? <FilledHeartIcon /> : <OutlineHeartIcon />}
           </IconButton>
         </Stack>
       </Box>

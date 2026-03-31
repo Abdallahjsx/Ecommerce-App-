@@ -2,7 +2,7 @@
 import { Box, Typography } from "@mui/material";
 import { CloseIcon } from "@/iconsComponents/all";
 
-export default function CloasbleBox({ title = "All" }: { title: string }) {
+export default function CloasbleBox({ title = "All", onClose }: { title: string, onClose: () => void }) {
     return (
 
 
@@ -10,7 +10,7 @@ export default function CloasbleBox({ title = "All" }: { title: string }) {
             <Typography variant="subTitle" sx={{ fontSize: "14px", fontWeight: "400", color: "white", whiteSpace: "nowrap" }}>
                 {title}
             </Typography>
-            <CloseIcon width="8" height="8" cursor="pointer" />
+            <CloseIcon width="8" height="8" cursor="pointer" onClick={onClose} />
         </Box>
 
     )

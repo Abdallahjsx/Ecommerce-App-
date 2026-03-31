@@ -3,24 +3,32 @@
 import Image from "next/image";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useRouter } from "next/navigation";
 
 interface YouMightAlsoLikeCardProps {
   image: string;
   title: string;
   price: string;
+  id: number;
 }
 
 export default function YouMightAlsoLikeCard({
   image,
   title,
   price,
+  id,
 }: YouMightAlsoLikeCardProps) {
-    const theme = useTheme();
+  const theme = useTheme();
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/products/${id}`);
+  };
 
   return (
     <Box
       sx={{
-        width: "100%", 
+        width: "100%",
         maxWidth: 141,
         backgroundColor: theme.tokens.mainColors.white,
         border: "1px solid #EBF0FF",
@@ -30,7 +38,13 @@ export default function YouMightAlsoLikeCard({
         flexDirection: "column",
         gap: "8px",
         alignItems: "center",
+        cursor: "pointer",
+        transition: "0.2s",
+        "&:hover": {
+          transform: "translateY(-2px)",
+        },
       }}
+      onClick={handleClick}
     >
       {/* Image */}
       <Box
@@ -82,8 +96,8 @@ export default function YouMightAlsoLikeCard({
           lineHeight: "180%",
           letterSpacing: "0.5px",
           color: "#4B5563",
-          whiteSpace: "nowrap",      
-          overflow: "hidden",        
+          whiteSpace: "nowrap",
+          overflow: "hidden",
           textOverflow: "ellipsis",
         }}
       >

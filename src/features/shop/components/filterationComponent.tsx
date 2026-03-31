@@ -7,9 +7,12 @@ import AppliedFilters from "./filters/applied";
 import CategoryFilter from "./filters/categoryFilter";
 import StockStatusFilter from "./filters/stockStatusFilter";
 import ColorFilter from "./filters/colorFilter";
+import SizeFilter from "./filters/sizeFilter";
+import { useState } from "react";
 export default function FilterationComponent() {
+    const [selectedColor, setSelectedColor] = useState<string[]>([])
     return (
-        <Box width={"100%"} borderRight={"1px solid #ccc"} pr={"20px"}>
+        <Box width={"100%"} borderRight={"1px solid #ccc"} pr={"20px"} >
             <Box display={"flex"} flexDirection={"row"}>
                 <Box>
                     <FilterIcon />
@@ -20,10 +23,12 @@ export default function FilterationComponent() {
             </Box >
             <CustomDivider />
             <AppliedFilters />
-            <CustomDivider />
-            <CategoryFilter />
+            {/* <CustomDivider />
+            <CategoryFilter /> */}
             <CustomDivider />
             <StockStatusFilter />
+            <CustomDivider />
+            <SizeFilter />
             <CustomDivider />
             <ColorFilter />
             <CustomDivider />

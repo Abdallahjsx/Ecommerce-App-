@@ -10,29 +10,15 @@ import { useTheme } from '@mui/material';
 import { Box } from '@mui/material';
 import { useAppSelector } from '@/Redux/store';
 import { useDispatch } from 'react-redux';
-import { setStockStatus } from '@/Redux/slices/shopFiltersSlice';
-export default function StockStatusFilter() {
+import { useGetSizes } from '../../hooks/useLookUps.hook';
+import { sizeType } from '../../types';
+import { setSize } from '@/Redux/slices/shopFiltersSlice';
+export default function SizeFilter() {
 
     const t = useTheme()
-    const { stockStatus } = useAppSelector((state) => state.filters)
+    const { size } = useAppSelector((state) => state.filters)
     const dispatch = useDispatch()
-    const handleStockStatusChange = (value: string) => {
-        console.log(value)
-    }
-    const addInStock = (checked: any) => {
-        if (checked) {
-            dispatch(setStockStatus("InStock"))
-        } else {
-            dispatch(setStockStatus(null))
-        }
-    }
-    const addOutOfStock = (checked: any) => {
-        if (checked) {
-            dispatch(setStockStatus("OutStock"))
-        } else {
-            dispatch(setStockStatus(null))
-        }
-    }
+    const { data, isLoading, isFetching, isSuccess } = useGetSizes()
     return (
         <Accordion disableGutters sx={{ bgcolor: "transparent", border: "none", boxShadow: "none", '&:before': { display: 'none' } }} >
             <AccordionSummary
@@ -41,13 +27,14 @@ export default function StockStatusFilter() {
                 id="panel1-header"
                 sx={{ padding: "0px" }}
             >
-                <Typography component="span" variant="inputLabel" fontSize={"16px"} color="black">Stock Status</Typography>
+                <Typography component="span" variant="inputLabel" fontSize={"16px"} color="black">Size</Typography>
             </AccordionSummary>
             <AccordionDetails >
                 <Box>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox color={"secondary"} checked={stockStatus == "InStock"} onChange={(e) => addInStock(e.target.checked)} />} label="In Stock" />
-                        <FormControlLabel control={<Checkbox color={"secondary"} checked={stockStatus == "OutStock"} onChange={(e) => addOutOfStock(e.target.checked)} />} label="Out of Stock" />
+                        {data?.data.map((s: sizeType) => (
+                            <FormControlLabel key={s.id} control={<Checkbox color={"secondary"} checked={s.id === size?.id} onChange={(e) => dispatch(setSize(s))} />} label={s.name} />
+                        ))}
                     </FormGroup>
                 </Box>
             </AccordionDetails>

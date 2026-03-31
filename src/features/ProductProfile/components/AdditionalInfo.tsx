@@ -1,16 +1,16 @@
 "use client";
 import { Box, Typography, useTheme } from "@mui/material";
 import AdditionalInfoCard from "./additionalInfoCard";
-export default function AdditionalInfo() {
-  const theme = useTheme();  
+import { ProductDetails } from "../types";
+export default function AdditionalInfo({ product }: { product: ProductDetails }) {
+  const theme = useTheme();
   return (
     <Box
       sx={{
         width: "100%",
         maxWidth: "1348px",
         borderBottom: `1px solid ${theme.tokens.separatingColors.border}`,
-        mt: 4,
-        pb: 4,
+        pb: "25px",
       }}
     >
       <Typography
@@ -42,28 +42,28 @@ export default function AdditionalInfo() {
       >
         {/* Left Column with border */}
         <Box sx={{
-            borderRight: {
-              xs: "none",
-              md: `1px solid ${theme.tokens.separatingColors.border}`,
-            },
-            borderBottom: {
-              xs: `1px solid ${theme.tokens.separatingColors.border}`,
-              md: "none",
-            },
-            pr: {
-              xs: 0,
-              md: 0.5,
-            },
-            pb: {
-              xs: 3,
-              md: 0,
-            },
-          }}>
-          <AdditionalInfoCard />
+          borderRight: {
+            xs: "none",
+            md: `1px solid ${theme.tokens.separatingColors.border}`,
+          },
+          borderBottom: {
+            xs: `1px solid ${theme.tokens.separatingColors.border}`,
+            md: "none",
+          },
+          pr: {
+            xs: 0,
+            md: 0.5,
+          },
+          pb: {
+            xs: 3,
+            md: 0,
+          },
+        }}>
+          <AdditionalInfoCard product={product} />
         </Box>
 
         {/* Right Column */}
-        <AdditionalInfoCard />
+        <AdditionalInfoCard product={product} />
       </Box>
     </Box>
   );

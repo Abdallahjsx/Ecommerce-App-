@@ -1,29 +1,36 @@
 import { Box, Typography } from "@mui/material"
 import { CloseIcon } from "@/iconsComponents/all";
 import CloasbleBox from "@/components/ui/special/closableBox";
-export default function AppliedFilters() {
+import { useAppDispatch, useAppSelector } from "@/Redux/store";
+import { clearAllFilters, removeColor, setMainCategory, setPriceRange, setStockStatus, setColors, setSearch, setSortItem, setSize } from "@/Redux/slices/shopFiltersSlice";
+
+export default function AppliedFilters({ smallScreen = false }: { smallScreen?: boolean }) {
+    const dispatch = useAppDispatch();
+    const { mainCategory, subCategories, priceRange, stockStatus, colors, Search, SortItem, size } = useAppSelector((state) => state.filters);
     return (
 
         <Box>
-            <Box display={"flex"} justifyContent={"space-between"}>
+            {!smallScreen && <Box display={"flex"} justifyContent={"space-between"}>
                 <Typography variant="subTitle" fontWeight={"400"} fontSize={"16px"}>
                     Applied Filters
                 </Typography>
-                <Typography variant="subTitle" fontSize={"12px"} fontWeight={"600"} sx={{ textDecoration: "underline", cursor: "pointer" }}>
+                <Typography variant="subTitle" fontSize={"12px"} fontWeight={"600"} sx={{ textDecoration: "underline", cursor: "pointer" }}
+                    onClick={() => dispatch(clearAllFilters())}>
                     clear all
                 </Typography>
-            </Box>
+            </Box>}
             <Box display={"flex"} gap={"10px"} flexWrap={"wrap"} width={"100%"} alignItems={"center"} mt={"16px"}>
-                <CloasbleBox title="All" />
-                <CloasbleBox title="Red" />
-                <CloasbleBox title="Running Shoes" />
-                <CloasbleBox title="Red" />
+                {mainCategory && <CloasbleBox title={mainCategory.name} onClose={() => dispatch(setMainCategory(null))} />}
 
-                <CloasbleBox title="Running Shoes" />
-                <CloasbleBox title="Running Shoes" />
-                <CloasbleBox title="Red" />
+                {stockStatus && <CloasbleBox title={stockStatus} onClose={() => dispatch(setStockStatus(null))} />}
+                {colors && colors.length > 0 && colors.map((color, index) => (
+                    <CloasbleBox key={index} title={color.name} onClose={() => dispatch(removeColor(color))} />
+                ))}
+                {SortItem && <CloasbleBox title={SortItem.label} onClose={() => dispatch(setSortItem(null))} />}
+                {size && <CloasbleBox title={size.name} onClose={() => {
+                    dispatch(setSize(null))
+                }} />}
 
-                <CloasbleBox title="Running Shoes" />
             </Box>
         </Box>
 
