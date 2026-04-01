@@ -7,10 +7,17 @@ import ProductImagesSlider from "./components/ProductImagesSlider";
 import ProductInfoSection from "./components/ProductInfoSection";
 import AdditionalInfo from "./components/AdditionalInfo";
 import ProductBottomSection from "./components/ProductBottomSection";
+import { ProductDetails } from "./types";
+import AddToCartDialog from "@/components/ui/dialog/addToCartDialog";
+import { useAddToCart } from "../cart/hooks/useAddToCart.hook";
+import { useAppSelector } from "@/Redux/store";
+import { useRouter } from "next/navigation";
 
-export default function ProductProfile() {
+export default function ProductProfile({ product }: { product: ProductDetails }) {
   const theme = useTheme();
-
+  const token = useAppSelector((state) => state.auth.token);
+  const router = useRouter();
+  const { mutate: addToCart } = useAddToCart();
   return (
     <Box
       sx={{
@@ -39,20 +46,19 @@ export default function ProductProfile() {
           sx={{
             width: "100%",
             maxWidth: "1348px",
-            height: { xs: "auto", md: "521px" }, // ✅ Responsive fix
+            // height: { xs: "auto", md: "521px" }, // ✅ Responsive fix
             display: "flex",
             flexDirection: {
               xs: "column",
               md: "row",
             },
             gap: "26px",
-            borderBottom: `1px solid ${theme.tokens.separatingColors.border}`,
           }}
         >
           {/* 🟣 Left Column (Slider Section) */}
           <Box
             sx={{
-              width: { xs: "100%", md: "646px" }, 
+              width: { xs: "100%", md: "646px" },
             }}
           >
             <Box
@@ -77,15 +83,22 @@ export default function ProductProfile() {
                   display: "flex",
                   alignItems: "center",
                   gap: 1,
+
                 }}
               >
-                <Image
-                  src="/assets/icons/brand-logo-icon.svg"
-                  alt="Brand Logo"
-                  width={47}
-                  height={47}
-                  style={{ objectFit: "contain" }}
-                />
+                <Box sx={{ width: "47px", height: "47px", borderRadius: "50%", overflow: "hidden" }}>
+                  <Image
+                    onError={(e) => {
+                      e.currentTarget.src = "/assets/icons/brand-logo-icon.svg";
+                    }}
+                    src={product?.brand?.logoUrl || "/assets/icons/brand-logo-icon.svg"}
+                    alt="Brand Logo"
+                    width={47}
+                    height={47}
+                    style={{ objectFit: "contain" }}
+                  />
+                </Box>
+
 
                 <Typography
                   sx={{
@@ -98,28 +111,38 @@ export default function ProductProfile() {
                     WebkitTextFillColor: "transparent",
                   }}
                 >
-                  Brand 1
+                  {product?.brand?.displayName}
                 </Typography>
               </Box>
 
               {/* Product Images Slider */}
-              <ProductImagesSlider />
+              <ProductImagesSlider product={product} />
             </Box>
           </Box>
 
           {/* 🟢 Right Column (Product Info Section) */}
           <Box
             sx={{
-              width: { xs: "100%", md: "676px" }, 
+              width: { xs: "100%", md: "676px" },
             }}
           >
-            <ProductInfoSection />
+            <ProductInfoSection product={product} />
           </Box>
         </Box>
+        <Box sx={{ borderTop: `1px solid ${theme.tokens.separatingColors.border}`, pt: "25px", mt: 5 }}>
+          {/* {product.productInformations.length > 0 && <AdditionalInfo product={product} />} */}
+          <ProductBottomSection product={product} />
+        </Box>
 
-        <AdditionalInfo />
-        <ProductBottomSection />
+
       </Container>
+      <AddToCartDialog onAdd={(productId, color, size, quantity) => {
+        if (token) {
+          addToCart([{ productId, color, size, quantity }]);
+        } else {
+          router.push("/login");
+        }
+      }} />
     </Box>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import ShopCard from "@/features/brandProfile/components/ShopCard";
+import ShopCard from "@/components/ui/cards/ShopCard";
 import { Grid, Box, Skeleton, Typography } from "@mui/material";
 import React from "react";
 import { useBrandProducts } from "@/features/brandProfile/hooks/useBrandProducts";

@@ -26,7 +26,7 @@ export default function SideBarList({
   return (
     <Box
       sx={{
-        display: ["block", "block", "none"],
+        display: { xs: "block", lg: "none" },
         position: "fixed",
         left: `${shown ? "0px" : "-100vw"}`,
         zIndex: -11,
@@ -40,7 +40,7 @@ export default function SideBarList({
       <Box
         sx={{
           padding: "6px 20px 153px 12px",
-          display: ["flex", "flex", "none"],
+          display: { xs: "flex", lg: "none" },
           flexDirection: "column",
           overflowY: "scroll",
           scrollbarWidth: "none",

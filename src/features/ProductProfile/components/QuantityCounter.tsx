@@ -2,12 +2,32 @@
 import { useState } from "react";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 
-export default function QuantityCounter() {
+export default function QuantityCounter({ 
+  max = 1, 
+  value, 
+  onChange 
+}: { 
+  max?: number; 
+  value?: number; 
+  onChange?: (val: number) => void 
+}) {
   const theme = useTheme();
-  const [quantity, setQuantity] = useState(1);
+  const [internalQuantity, setInternalQuantity] = useState(1);
+  
+  const quantity = value !== undefined ? value : internalQuantity;
+  const setQuantity = (val: number | ((prev: number) => number)) => {
+    const nextVal = typeof val === "function" ? val(quantity) : val;
+    if (onChange) {
+      onChange(nextVal);
+    } else {
+      setInternalQuantity(nextVal);
+    }
+  };
 
   const handleIncrement = () => {
-    setQuantity((prev) => prev + 1);
+    if (quantity < max) {
+      setQuantity((prev) => prev + 1);
+    }
   };
 
   const handleDecrement = () => {
@@ -40,8 +60,10 @@ export default function QuantityCounter() {
         {/* Plus */}
         <IconButton
           onClick={handleIncrement}
+          disabled={quantity >= max}
           sx={{
             p: 0,
+            opacity: quantity >= max ? 0.3 : 1
           }}
         >
           <Box

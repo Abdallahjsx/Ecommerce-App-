@@ -6,9 +6,13 @@ import Comment from "@/components/ui/comment/Comment";
 import RatingStars from "@/components/ui/ratingStars/RatingStars";
 import YouMightAlsoLikeCard from "@/components/ui/cards/YouMightAlsoLikeCard";
 import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
+import { ProductDetails } from "../types";
+import { useAppDispatch } from "@/Redux/store";
+import { setOpenAddToCartDialog, setAvailableColors, setProductId } from "@/Redux/slices/addTocartDialogSlice";
 
-export default function ProductBottomSection() {
+export default function ProductBottomSection({ product }: { product: ProductDetails }) {
   const theme = useTheme();
+  const dispatch = useAppDispatch();
 
   const reviews = [
     {
@@ -58,6 +62,7 @@ export default function ProductBottomSection() {
           justifyContent: "space-between",
           flexDirection: { xs: "column", md: "row" },
           gap: { xs: 4, md: 0 },
+
         }}
       >
         {/* Left Section */}
@@ -69,7 +74,7 @@ export default function ProductBottomSection() {
             gap: "10px",
           }}
         >
-          {reviews.map((review, index) => (
+          {product.reviews.map((review, index) => (
             <Box
               key={index}
               sx={{
@@ -87,7 +92,7 @@ export default function ProductBottomSection() {
               />
 
               <Comment
-                userName={review.userName}
+                userName={review.user.userName}
                 rating={review.rating}
                 comment={review.comment}
               />
@@ -189,11 +194,11 @@ export default function ProductBottomSection() {
               display: "flex",
               justifyContent: "space-between",
               gap: { xs: 2, sm: 5 },
-              ml: { xs: 0, md: "-100px" }, 
+              ml: { xs: 0, md: "-100px" },
             }}
           >
-            {recommendedProducts.map((product, index) => (
-              
+            {product.relatedProducts.map((product, index) => (
+
               <Box
                 key={index}
                 sx={{
@@ -202,8 +207,9 @@ export default function ProductBottomSection() {
                 }}
               >
                 <YouMightAlsoLikeCard
-                  image={product.image}
-                  title={product.title}
+                  id={product.id}
+                  image={product.pictureUrl}
+                  title={product.name}
                   price={product.price}
                 />
               </Box>
@@ -223,6 +229,11 @@ export default function ProductBottomSection() {
                 width: "100%",
                 height: "54px",
                 borderRadius: theme.tokens.buttons.borderRadius,
+              }}
+              onClick={() => {
+                dispatch(setOpenAddToCartDialog(true));
+                dispatch(setProductId(product.id));
+                dispatch(setAvailableColors(product.availableColors));
               }}
             >
               Add to Cart

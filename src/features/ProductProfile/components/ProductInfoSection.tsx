@@ -1,45 +1,98 @@
-"use client";
-import { Box, Typography, useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Typography, useTheme, Stack } from "@mui/material";
 import Image from "next/image";
-import QuantityCounter from "./QuantityCounter"; 
+import QuantityCounter from "./QuantityCounter";
 import ReviewsSection from "./ReviewsSection";
+import { ProductDetails } from "../types";
+import { ProductColorSize, AvailableSize } from "@/types";
+import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
 
-export default function ProductInfoSection() {
+export default function ProductInfoSection({ product }: { product: ProductDetails }) {
   const theme = useTheme();
-  const colors = ["#FFFFFF", "#678E28", "#F40000", "#000000"];
-  const colorBoxStyle = {
-    width: "31px",
-    height: "29px",
-    boxShadow: "0px 4px 10px rgba(0,0,0,0.25)",
-    borderRadius: "50%",
-    cursor: "pointer",
+
+  const [selectedColor, setSelectedColor] = useState<ProductColorSize | null>(null);
+  const [selectedSize, setSelectedSize] = useState<AvailableSize | null>(null);
+  const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    if (product.availableColors && product.availableColors.length > 0) {
+      const firstColor = product.availableColors[0];
+      setSelectedColor(firstColor);
+      if (firstColor.availableSizes && firstColor.availableSizes.length > 0) {
+        setSelectedSize(firstColor.availableSizes[0]);
+      } else {
+        setSelectedSize(null);
+      }
+      setQuantity(1);
+    }
+  }, [product]);
+
+  const handleColorClick = (color: ProductColorSize) => {
+    setSelectedColor(color);
+    if (color.availableSizes && color.availableSizes.length > 0) {
+      setSelectedSize(color.availableSizes[0]);
+    } else {
+      setSelectedSize(null);
+    }
+    setQuantity(1);
   };
 
-  const sizes = ["XL", "M", "L", "XXL"];
-  const sizeBoxStyle = {
+  const handleSizeClick = (size: AvailableSize) => {
+    setSelectedSize(size);
+    setQuantity(1);
+  };
+
+  // const handleAdd = () => {
+  //   if (selectedColor && selectedSize && quantity > 0) {
+  //     // Logic for adding to cart
+  //     alert(`Added to Cart: ${product.name} - ${selectedColor.name}, Size: ${selectedSize.size}, Quantity: ${quantity}`);
+  //   }
+  // };
+
+  const colorBoxStyle = (isSelected: boolean) => ({
+    width: "31px",
+    height: "29px",
+    boxShadow: isSelected
+      ? `0px 0px 0px 2px ${theme.tokens.backgroundColors.main}, 0px 0px 0px 4px ${theme.palette.primary.main}`
+      : "0px 4px 10px rgba(0,0,0,0.25)",
+    borderRadius: "50%",
+    cursor: "pointer",
+    transition: "all 0.2s ease-in-out",
+    "&:hover": {
+      transform: "scale(1.1)",
+    }
+  });
+
+  const sizeBoxStyle = (isSelected: boolean) => ({
     width: { xs: "40px", md: "31px" },
     height: { xs: "36px", md: "29px" },
-    borderRadius: "50%",
-    backgroundColor: theme.tokens.mainColors.white,
+    borderRadius: "20px",
+    backgroundColor: isSelected ? theme.palette.primary.main : theme.tokens.mainColors.white,
+    color: isSelected ? theme.tokens.mainColors.white : theme.tokens.typographyColors.body,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     boxShadow: "0px 4px 10px rgba(0,0,0,0.15)",
     cursor: "pointer",
-  };
-  const textStyle = {
+    transition: "all 0.2s ease",
+    border: `1px solid ${isSelected ? theme.palette.primary.main : "transparent"}`,
+    "&:hover": {
+      borderColor: theme.palette.primary.main,
+    }
+  });
+
+  const textStyle = (isSelected: boolean) => ({
     fontFamily: "var(--font-inter)",
-    fontWeight: 500,
+    fontWeight: isSelected ? 600 : 500,
     fontSize: "14px",
     lineHeight: "20px",
     letterSpacing: "0.1px",
-    color: theme.tokens.typographyColors.body,
-  };
+  });
 
   return (
     <Box sx={{ width: "100%", maxWidth: { xs: "100%", md: "616px" } }}>
       {/* Product Title and Favorite */}
-      <Box sx={{width: "100%", display: "flex", alignItems: "center", gap: "21px" }}>
+      <Box sx={{ width: "100%", display: "flex", alignItems: "center", gap: "21px" }}>
         <Typography
           sx={{
             fontFamily: "var(--font-inter)",
@@ -50,7 +103,7 @@ export default function ProductInfoSection() {
             color: theme.palette.primary.main,
           }}
         >
-          Nike Air Zoom Pegasus 36 Miami
+          {product.name}
         </Typography>
 
         <Box sx={{ marginTop: { xs: "0px", md: "-5px" } }}>
@@ -76,7 +129,7 @@ export default function ProductInfoSection() {
           color: "#4B5563",
         }}
       >
-        LE 2500.00 EGP
+        {product.price}
       </Typography>
 
       {/* Color Selector */}
@@ -99,7 +152,7 @@ export default function ProductInfoSection() {
             color: theme.palette.primary.main,
           }}
         >
-          color:
+          color: {selectedColor?.name || ""}
         </Typography>
 
         <Box
@@ -108,14 +161,16 @@ export default function ProductInfoSection() {
             display: "flex",
             mt: "4px",
             flexWrap: "wrap",
+            pb: 1, // Add some padding for the selection rings
           }}
         >
-          {colors.map((color, index) => (
+          {product.availableColors.map((color) => (
             <Box
-              key={index}
+              key={color.id}
+              onClick={() => handleColorClick(color)}
               sx={{
-                ...colorBoxStyle,
-                backgroundColor: color,
+                ...colorBoxStyle(selectedColor?.id === color.id),
+                backgroundColor: color.hexCode,
               }}
             />
           ))}
@@ -150,14 +205,18 @@ export default function ProductInfoSection() {
           sx={{
             width: "100%",
             display: "flex",
-            gap: "8px", 
+            gap: "8px",
             mt: "4px",
             flexWrap: "wrap",
           }}
         >
-          {sizes.map((size, index) => (
-            <Box key={index} sx={sizeBoxStyle}>
-              <Typography sx={textStyle}>{size}</Typography>
+          {(selectedColor?.availableSizes || []).map((size) => (
+            <Box
+              key={size.id}
+              sx={sizeBoxStyle(selectedSize?.id === size.id)}
+              onClick={() => handleSizeClick(size)}
+            >
+              <Typography sx={textStyle(selectedSize?.id === size.id)}>{size.size}</Typography>
             </Box>
           ))}
         </Box>
@@ -179,9 +238,13 @@ export default function ProductInfoSection() {
             color: theme.palette.primary.main,
           }}
         >
-          Quantity
+          Quantity {selectedSize ? `(${selectedSize.quantity} available)` : ""}
         </Typography>
-        <QuantityCounter />
+        {/* <QuantityCounter
+          max={selectedSize?.quantity || 0}
+          value={quantity}
+          onChange={setQuantity}
+        /> */}
       </Box>
 
       {/* Description Section */}
@@ -214,10 +277,10 @@ export default function ProductInfoSection() {
             color: "#8C8C8C",
           }}
         >
-          Nike Air Zoom Pegasus 36 Miami delivers lightweight comfort and responsive cushioning. With breathable mesh and a bold Miami-inspired design, it’s perfect for running or everyday wear.
+          {product.description}
         </Typography>
-        <ReviewsSection />
+        <ReviewsSection review={product.reviewsSummary} />
       </Box>
     </Box>
-  );
+  )
 }

@@ -10,10 +10,14 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
+# Disable telemetry during the build
+ENV NEXT_TELEMETRY_DISABLED 1
 RUN npm run build
 
-# Stage 3: Serve with Nginx
+# Stage 3: Runner
 FROM nginx:alpine AS runner
+# Copy the static export from the builder stage to the nginx html directory
 COPY --from=builder /app/out /usr/share/nginx/html
+# Expose port 80
 EXPOSE 80
+# Nginx starts automatically

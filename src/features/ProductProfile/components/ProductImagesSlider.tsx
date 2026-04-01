@@ -2,15 +2,17 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
 import Image from "next/image";
+import { ProductDetails } from "../types";
 
-const images = [
-  "/assets/images/shoes1.png",
-  "/assets/images/shoes2.png",
-  "/assets/images/shoes1.png",
-];
 
-export default function ProductImagesSlider() {
+
+export default function ProductImagesSlider({ product }: { product: ProductDetails }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const images = [
+    product.mediaUrl,
+    product.mediaUrl,
+    product.mediaUrl,
+  ];
 
   return (
     <Box
@@ -18,9 +20,9 @@ export default function ProductImagesSlider() {
         width: "100%",
         maxWidth: {
           xs: "100%",
-          sm: "500px",  
-          md: "600px",  
-          lg: "646px",  
+          sm: "500px",
+          md: "600px",
+          lg: "646px",
         },
         display: "flex",
         flexDirection: "column",
@@ -30,8 +32,7 @@ export default function ProductImagesSlider() {
       {/* Image Box */}
       <Box
         sx={{
-          width: "100%",
-          aspectRatio: "646 / 310.22",
+          width: "fit-content",
           borderRadius: "5px",
           border: "1px solid #D0D5DD",
           boxShadow: "0px 4px 4px 0px #00000040",
@@ -42,8 +43,9 @@ export default function ProductImagesSlider() {
         <Image
           src={images[currentIndex]}
           alt="product"
-          fill
-          style={{ objectFit: "cover", objectPosition: "center 65%" }}
+          width={646}
+          height={310.22}
+          style={{ objectFit: "cover" }}
         />
       </Box>
 

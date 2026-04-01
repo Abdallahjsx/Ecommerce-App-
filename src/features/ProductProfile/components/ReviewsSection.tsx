@@ -1,8 +1,9 @@
 "use client";
 import { Box, Typography, useTheme } from "@mui/material";
 import RatingStars from "@/components/ui/ratingStars/RatingStars";
+import { reviewsSummaryType } from "../types";
 
-export default function ReviewsSection() {
+export default function ReviewsSection({ review }: { review: reviewsSummaryType }) {
   const theme = useTheme();
 
   return (
@@ -47,8 +48,8 @@ export default function ReviewsSection() {
         }}
       >
         {/* Rating Star component */}
-        <RatingStars rating={4} />
-        
+        <RatingStars rating={review?.averageRating || 0} />
+
         <Box
           sx={{
             display: "flex",
@@ -68,7 +69,7 @@ export default function ReviewsSection() {
               color: "#9098B1",
             }}
           >
-            4.5
+            {review?.averageRating || 0}
           </Typography>
 
           {/* عدد الريفيوز */}
@@ -83,7 +84,7 @@ export default function ReviewsSection() {
               whiteSpace: "nowrap",
             }}
           >
-            (5 Review)
+            ({review?.totalReviews || 0} Review)
           </Typography>
         </Box>
       </Box>

@@ -1,6 +1,8 @@
 "use client";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
+import filtersReducer from "./slices/shopFiltersSlice";
+import addToCartDialogReducer from "./slices/addTocartDialogSlice";
 import {
   persistStore,
   persistReducer,
@@ -16,11 +18,14 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  filters: filtersReducer,
+  addToCartDialog: addToCartDialogReducer,
 });
 
 
 const persistConfig = {
   key: "root",
+  whitelist: ["auth"],
   storage,
 };
 
