@@ -1,7 +1,7 @@
 import axios from "axios";
 export const apiCall = axios.create({
   baseURL: "https://alluvo-api-stating.runasp.net",
-  timeout: 1000,
+  timeout: 5000,
   headers: { "Content-Type": "application/json", Accept: "text/plain" },
 });
 apiCall.interceptors.request.use((config: any) => {

@@ -6,15 +6,15 @@ import { EyeIcon, HeartIcon } from "../Icons";
 interface ReelCardProps {
   title: string;
   thumbnailUrl: string;
-  views: number;
-  likes: number;
+  numOfWatches: number;
+  numOfLikes: number;
 }
 
 export default function ReelCard({
   title,
   thumbnailUrl,
-  views,
-  likes,
+  numOfWatches,
+  numOfLikes,
 }: ReelCardProps) {
   return (
     <Box
@@ -65,7 +65,7 @@ export default function ReelCard({
               variant="body2"
               sx={{ color: "white", fontWeight: 600 }}
             >
-              {views}
+              {numOfWatches}
             </Typography>
           </Stack>
           <Stack direction="row" spacing={0.5} alignItems="center">
@@ -81,7 +81,7 @@ export default function ReelCard({
               variant="body2"
               sx={{ color: "white", fontWeight: 600 }}
             >
-              {likes}
+              {numOfLikes}
             </Typography>
           </Stack>
         </Stack>

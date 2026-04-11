@@ -6,10 +6,14 @@ import {
   useTheme,
   SxProps,
   Theme,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
 import Image from "next/image";
 import eyeIcon from "../../../../public/assets/icons/eye-icon.svg";
 import { FormikProps } from "formik";
+import { useState } from "react";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 type Props<T> = {
   myform: FormikProps<T>;
@@ -35,6 +39,12 @@ export default function TextInput<T>({
   rows,
 }: Props<T>) {
   const theme = useTheme();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const isPassword = type === "password";
+  const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
   return (
     <div
@@ -61,11 +71,29 @@ export default function TextInput<T>({
 
           onChange={myform.handleChange}
           onBlur={myform.handleBlur}
-          type={type}
+          type={inputType}
           placeholder={placeholder}
           variant="outlined"
           multiline={multiline}  
           rows={rows}             
+          InputProps={
+            isPassword
+              ? {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                        sx={{ color: "#1B2351", opacity: 0.7 }}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }
+              : undefined
+          }
           sx={{
             width: "100%",
             "& .MuiOutlinedInput-root": {
@@ -84,14 +112,6 @@ export default function TextInput<T>({
             ...customSx,
           }}
         />
-
-        {type === "password" && (
-          <img
-            style={{ position: "absolute", right: "10px", top: "30%" }}
-            src={eyeIcon.src}
-            alt=""
-          />
-        )}
       </div>
 
       {/* Error Message */}

@@ -117,7 +117,9 @@ export default function NavBar() {
                     component={"a"}
                     variant="link"
                     href={
-                      l === "Contact Us"
+                      l === "Home"
+                        ? "/home"
+                        : l === "Contact Us"
                         ? "/support/contact-us"
                         : l === "FAQS"
                         ? "/faqs"
@@ -176,25 +178,27 @@ export default function NavBar() {
                 {openedNotifications && <NotificationList />}
 
                 {/* Avatar */}
-                <div
-                  style={{ position: "relative", cursor: "pointer" }}
-                  onClick={() => {
-                    setUserCard(!useCard);
-                    setOpenNotifications(false);
-                  }}
-                >
+                <Link href="/myProfile">
                   <div
-                    className={styles.roundedImg}
-                    style={{
-                      border: `1px solid ${t.tokens.separatingColors.border}`,
+                    style={{ position: "relative", cursor: "pointer" }}
+                    onClick={() => {
+                      setUserCard(!useCard);
+                      setOpenNotifications(false);
                     }}
                   >
-                    <Avatar
-                      style={{ width: "100%", height: "100%" }}
-                      src="/assets/images/user-img.png"
-                    />
+                    <div
+                      className={styles.roundedImg}
+                      style={{
+                        border: `1px solid ${t.tokens.separatingColors.border}`,
+                      }}
+                    >
+                      <Avatar
+                        style={{ width: "100%", height: "100%" }}
+                        src="/assets/images/user-img.png"
+                      />
+                    </div>
                   </div>
-                </div>
+                </Link>
 
               </div>
             ) : (
