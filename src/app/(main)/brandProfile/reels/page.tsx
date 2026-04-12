@@ -37,8 +37,8 @@ export default function ReelsPage() {
                 <ReelCard
                   title={reel.title}
                   thumbnailUrl={reel.thumbnailUrl}
-                  views={reel.numOfWatches}
-                  likes={reel.numOfLikes}
+                  numOfWatches={reel.numOfWatches}
+                  numOfLikes={reel.numOfLikes}
                 />
               </Grid>
             ))}

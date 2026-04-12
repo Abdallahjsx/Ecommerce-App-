@@ -1,14 +1,10 @@
 "use client";
-import { Box, Stack, Grid, Typography } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-
+import { Box, Stack, Grid, Skeleton } from "@mui/material";
 import FilterationComponent from "./components/filterationComponent";
 import { useTheme } from "@mui/material";
 import SearchBar from "./components/searchBar";
 import BackgroundShapeImage from "@/components/ui/BackgroundShape/BackgroundShapeImage";
 import ProductsSection from "./components/productsSection";
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { getProductsShop } from "./services";
 import { useEffect, useState } from "react";
 import PaginationComponent from "@/components/ui/special/paginationComponent";
 import LargeScreensControllers from "./components/largeScreensControllers";
@@ -64,7 +60,13 @@ export default function ShopClient() {
                             </Box>
 
 
-                            {isLoading && <CircularProgress color="primary" sx={{ margin: "auto", alignSelf: "center", position: "absolute", top: "50%", left: "60%" }} />}
+                            {isLoading && <Grid container spacing={3}>
+                                {Array.from({ length: 8 }).map((_, i) => (
+                                    <Grid key={i} size={{ xs: 6, sm: 4, md: 3 }}>
+                                        <Skeleton variant="rectangular" width="100%" height={350} sx={{ borderRadius: "16px" }} />
+                                    </Grid>
+                                ))}
+                            </Grid>}
 
 
                         </Box>
