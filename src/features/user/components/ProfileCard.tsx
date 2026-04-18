@@ -2,7 +2,7 @@
 import { Box } from "@mui/material";
 import {useUser} from "../hooks/useUser";
 import GuestProfileCard from "./GuestProfileCard";
-import LoggedInProfileCard from "./LoggedInProfileCard";
+import LoggedInProfileCard from "./userCard";
 
 const ProfileCard = () => {
   const { isLoggedIn } = useUser();

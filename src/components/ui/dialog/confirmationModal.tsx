@@ -10,13 +10,21 @@ interface DeleteAccountModalProps {
   onClose: () => void;
   onConfirm: () => void;
   isPending?: boolean;
+  message?: string;
+  subMessage?: string;
+  actionLabel?: string;
+  isPendingLabel?: string;
 }
 
-const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
+const ConfirmationModal: React.FC<DeleteAccountModalProps> = ({
   open,
   onClose,
   onConfirm,
   isPending,
+  message,
+  subMessage,
+  actionLabel,
+  isPendingLabel,
 }) => {
   return (
     <Dialog
@@ -78,7 +86,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
             lineHeight: 1.2,
           }}
         >
-          You are going to delete your account
+          {message}
         </Typography>
 
         <Typography
@@ -89,7 +97,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
             mb: 4,
           }}
         >
-          You won't be able to restore your data
+          {subMessage}
         </Typography>
 
         {/* Actions */}
@@ -117,7 +125,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
               flex: 1,
             }}
           >
-            {isPending ? "Deleting..." : "Delete"}
+            {isPending ? isPendingLabel : actionLabel}
           </Gradient_Button>
         </Stack>
       </Box>
@@ -125,4 +133,4 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
   );
 };
 
-export default DeleteAccountModal;
+export default ConfirmationModal;

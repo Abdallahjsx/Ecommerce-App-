@@ -7,12 +7,12 @@ import TextInput from "@/components/ui/textInput/TextInput";
 import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
-import { 
-  useUpdateProfile, 
-  useUpdatePassword, 
-  useDeleteAccount 
+import {
+  useUpdateProfile,
+  useUpdatePassword,
+  useDeleteAccount
 } from "../hooks/useProfileActions";
-import DeleteAccountModal from "./DeleteAccountModal";
+import ConfirmationModal from "../../../components/ui/dialog/confirmationModal";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required("First name is required"),
@@ -170,7 +170,7 @@ export default function ProfileForm() {
         )}
       </Formik>
 
-      <DeleteAccountModal 
+      <ConfirmationModal
         open={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
@@ -178,6 +178,10 @@ export default function ProfileForm() {
           setIsDeleteModalOpen(false);
         }}
         isPending={isDeleting}
+        message="You are going to delete your account"
+        subMessage="You won't be able to restore your data"
+        actionLabel="Delete"
+        isPendingLabel="Deleting..."
       />
     </Box>
   );

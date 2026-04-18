@@ -1,5 +1,6 @@
 "use client";
-
+import { useContext } from "react";
+import { useToaster } from "@/providers/ToasterProvider";
 import { Box, Container, Typography, useTheme } from "@mui/material";
 import BackgroundShapeImage from "@/components/ui/BackgroundShape/BackgroundShapeImage";
 import CartProductCard from "@/components/ui/cards/CartProductCard";
@@ -20,6 +21,7 @@ type CartProduct = {
 
 export default function CartPage() {
   const theme = useTheme();
+  const { showToast } = useToaster();
 
   const [cartItems, setCartItems] = useState<CartProduct[]>([
     {
@@ -81,9 +83,9 @@ export default function CartPage() {
       prev.map((item) =>
         item.id === id
           ? {
-              ...item,
-              quantity: item.quantity > 1 ? item.quantity - 1 : 1,
-            }
+            ...item,
+            quantity: item.quantity > 1 ? item.quantity - 1 : 1,
+          }
           : item,
       ),
     );
@@ -114,6 +116,9 @@ export default function CartPage() {
         }}
       >
         <Typography
+          onClick={() => {
+            showToast("this is a test message for error", "error") // you can remove it it is just for test 
+          }}
           sx={{
             width: "136px",
             height: "77px",

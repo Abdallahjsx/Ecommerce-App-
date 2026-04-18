@@ -1,6 +1,6 @@
 "use client";
 import { Avatar, Box, Typography, IconButton } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Link from "next/link";
@@ -21,6 +21,7 @@ import UserCard from "@/features/user/components/userCard";
 import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
 import { routes } from "@/config/routes";
+import { truncate } from "fs";
 
 export default function NavBar() {
   const t = useTheme();
@@ -32,11 +33,35 @@ export default function NavBar() {
   const [loggedIn, setLoggedIn] = useState(token !== null);
   const [shown, setShown] = useState(false);
   const [openedNotifications, setOpenNotifications] = useState(false);
-  const [useCard, setUserCard] = useState(false);
+  const [userCard, setUserCard] = useState(false);
+  const notificationRef = useRef<HTMLDivElement>(null);
+  const userCardRef = useRef<HTMLDivElement>(null);
 
   // useEffect(() => {
   //   setWidth(window.innerWidth);
   // }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+        setOpenNotifications(false);
+      }
+      if (userCardRef.current && !userCardRef.current.contains(event.target as Node)) {
+        setUserCard(false);
+      }
+    }
+    if (openedNotifications) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    if (userCard) {
+      document.addEventListener("mousedown", handleClickOutside);
+
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [notificationRef, openedNotifications, userCard, userCardRef]);
 
   useEffect(() => {
     setLoggedIn(token !== null);
@@ -141,56 +166,54 @@ export default function NavBar() {
             {loggedIn ? (
               <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
                 {/* Bell */}
-                <div
-                  style={{ paddingTop: 4, cursor: "pointer" }}
-                  onClick={() => {
-                    setOpenNotifications(!openedNotifications);
-                    setUserCard(false);
-                  }}
-                >
-                  <BellIcon />
+                <div style={{ position: "relative" }}>
+                  <div
+                    style={{ position: "relative", cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px" }}
+                    onClick={() => {
+                      setOpenNotifications(true);
+                    }}
+                  >
+                    <BellIcon />
+                    <Box sx={{ position: "absolute", top: "1px", right: "3px", backgroundColor: "#47C0D2", borderRadius: "50%", width: "15px", height: "15px", display: "flex", justifyContent: "center", alignItems: "center", color: "white", fontSize: "12px" }}>{3}</Box>
+
+                  </div>
+                  {openedNotifications && <div ref={notificationRef}><NotificationList /></div>}
                 </div>
 
                 {/* Bag */}
                 <Link href="/cart">
                   <div
                     style={{
-                      position: "relative",
-                      width: "35px",
-                      height: "35px",
                       cursor: "pointer",
                     }}
                   >
                     <BagIcon />
-
-                    <div className={styles.circle}>{1}</div>
                   </div>
                 </Link>
 
-                {openedNotifications && <NotificationList />}
+
 
                 {/* Avatar */}
-                <Link href="/myProfile">
+                <div
+                  style={{ position: "relative", cursor: "pointer" }}
+                  onClick={() => {
+                    setUserCard(true);
+                    setOpenNotifications(false);
+                  }}
+                >
                   <div
-                    style={{ position: "relative", cursor: "pointer" }}
-                    onClick={() => {
-                      setUserCard(!useCard);
-                      setOpenNotifications(false);
+                    className={styles.roundedImg}
+                    style={{
+                      border: `1px solid ${t.tokens.separatingColors.border}`,
                     }}
                   >
-                    <div
-                      className={styles.roundedImg}
-                      style={{
-                        border: `1px solid ${t.tokens.separatingColors.border}`,
-                      }}
-                    >
-                      <Avatar
-                        style={{ width: "100%", height: "100%" }}
-                        src="/assets/images/user-img.png"
-                      />
-                    </div>
+                    <Avatar
+                      style={{ width: "100%", height: "100%" }}
+                      src="/assets/images/user-img.png"
+                    />
                   </div>
-                </Link>
+                  {userCard && <div ref={userCardRef}><UserCard setUserCard={setUserCard} /></div>}
+                </div>
               </div>
             ) : (
               <Typography
@@ -231,9 +254,7 @@ export default function NavBar() {
         </div>
       </Box>
 
-      {useCard && <UserCard />}
 
-      {useCard && <UserCard />}
       <SideBarList shown={shown} loggedIn={loggedIn} />
     </Box>
   );

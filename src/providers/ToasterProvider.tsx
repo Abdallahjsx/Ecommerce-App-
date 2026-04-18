@@ -15,7 +15,7 @@ type ToasterContextType = {
   showToast: (message: string, type?: ToastType) => void;
 };
 
-const ToasterContext = createContext<ToasterContextType | undefined>(undefined);
+export const ToasterContext = createContext<ToasterContextType | undefined>(undefined);
 
 export function ToasterProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<ToastData[]>([]);

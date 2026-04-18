@@ -8,14 +8,6 @@ export default function BagIcons() {
   return (
     <svg
       className={styles.icon}
-
-      style={{
-        cursor: "pointer",
-        position: "absolute",
-        bottom: "0px",
-        left: "0px",
-        padding: "0px",
-      }}
       width="24"
       height="24"
       viewBox="0 0 24 24"
