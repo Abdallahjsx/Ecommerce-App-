@@ -15,16 +15,6 @@ export const routes = [
         private: false,
     },
     {
-        title: "Cart",
-        path: "/cart",
-        private: true,
-    },
-    {
-        title: "Profile",
-        path: "/myProfile",
-        private: true,
-    },
-    {
         title: "Contact Us",
         path: "/support/contact-us",
         private: false,
