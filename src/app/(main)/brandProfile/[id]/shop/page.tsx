@@ -4,10 +4,12 @@ import ShopCard from "@/components/ui/cards/ShopCard";
 import { Grid, Box, Skeleton, Typography } from "@mui/material";
 import React from "react";
 import { useBrandProducts } from "@/features/brandProfile/hooks/useBrandProducts";
-import { Product } from "@/components/ui/cards/ShopCard";
+import { useParams } from "next/navigation";
 
 export default function Shop() {
-  const { data: products, loading, error } = useBrandProducts(1);
+  const params = useParams();
+  const id = Number(params.id);
+  const { data: products, loading, error } = useBrandProducts(id);
 
   if (error) {
     return (
@@ -51,6 +53,7 @@ export default function Shop() {
                 }
                 hasDiscount={product.haveOffer}
                 isSale={product.haveOffer}
+                onAddToCart={() => {}}
                 discount={
                   product.discountPercentage
                     ? `${product.discountPercentage}%`

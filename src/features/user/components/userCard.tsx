@@ -5,10 +5,16 @@ import { logoutUser } from "@/features/user/services/userService";
 import { useDispatch } from "react-redux";
 import { clearToken } from "@/Redux/slices/authSlice";
 import { useRouter } from "next/navigation";
+import { useUser } from "../hooks/useUser";
+import { Avatar } from "@mui/material";
+
+
 export default function UserCard({ setUserCard }: { setUserCard: (value: boolean) => void }) {
   const theme = useTheme();
   const dispatch = useDispatch();
   const router = useRouter();
+  const { user, loading } = useUser();
+
   const handleLogout = async () => {
     try {
       await logoutUser(); // استدعاء الـ endpoint
@@ -60,6 +66,27 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
         }}
       />
 
+      {/* Profile Image (Avatar) */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: "24px",
+          right: "24px",
+          zIndex: 2,
+        }}
+      >
+        <Avatar
+          src={user?.profileImageUrl || "/assets/images/user-img.png"}
+          sx={{
+            width: 80,
+            height: 80,
+            border: `2px solid ${theme.palette.background.paper}`,
+            boxShadow: theme.shadows[2],
+          }}
+        />
+      </Box>
+
+
       {/* محتوى البروفايل */}
       <Box
         sx={{
@@ -83,7 +110,7 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
             textAlign: "left",
           }}
         >
-          Abd Al Rehman
+          {loading ? "Loading..." : user ? `${user.firstName} ${user.lastName}` : "Welcome"}
         </Typography>
 
         {/* الرقم + Edit */}
@@ -101,10 +128,14 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
               fontWeight: 400,
             }}
           >
-            01205990923
+            {user?.phoneNumber || ""}
           </Typography>
 
           <Typography
+            onClick={() => {
+              router.push("/myProfile");
+              setUserCard?.(false);
+            }}
             sx={{
               fontFamily: "Font Type, sans-serif",
               fontWeight: 400,

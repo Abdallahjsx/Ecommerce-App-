@@ -6,46 +6,48 @@ import { gradientTextStyleTab } from "@/app/(main)/brandProfile/style";
 import ReelOlderPopular from "./ReelOlderPopular";
 
 interface BrandTabsProps {
+  brandId: number;
   activeTabIndex: number;
   pathname: string;
   selected: "Older" | "Popular";
   setSelected: (value: "Older" | "Popular") => void;
 }
 
-const tabsData = [
-  {
-    label: "Reels",
-    href: "/brandProfile/reels",
-    icon: "/assets/icons/Reel.svg",
-  },
-  {
-    label: "Shop",
-    href: "/brandProfile/shop",
-    icon: "/assets/icons/Shop.svg",
-  },
-  {
-    label: "Offers",
-    href: "/brandProfile/offers",
-    icon: "/assets/icons/offer.svg",
-  },
-  {
-    label: "Reviews",
-    href: "/brandProfile/reviews",
-    icon: "/assets/icons/Reviews.svg",
-  },
-  {
-    label: "Policy",
-    href: "/brandProfile/policy",
-    icon: "/assets/icons/Policy.svg",
-  },
-];
-
 export default function BrandTabs({
+  brandId,
   activeTabIndex,
   pathname,
   selected,
   setSelected,
 }: BrandTabsProps) {
+  const tabsData = [
+    {
+      label: "Reels",
+      href: `/brandProfile/${brandId}/reels`,
+      icon: "/assets/icons/Reel.svg",
+    },
+    {
+      label: "Shop",
+      href: `/brandProfile/${brandId}/shop`,
+      icon: "/assets/icons/Shop.svg",
+    },
+    {
+      label: "Offers",
+      href: `/brandProfile/${brandId}/offers`,
+      icon: "/assets/icons/offer.svg",
+    },
+    {
+      label: "Reviews",
+      href: `/brandProfile/${brandId}/reviews`,
+      icon: "/assets/icons/Reviews.svg",
+    },
+    {
+      label: "Policy",
+      href: `/brandProfile/${brandId}/policy`,
+      icon: "/assets/icons/Policy.svg",
+    },
+  ];
+
   return (
     <Box sx={{ mt: 8 }}>
       <Stack
@@ -102,7 +104,7 @@ export default function BrandTabs({
           ))}
         </Tabs>
 
-        {pathname === "/brandProfile/reels" && (
+        {pathname === `/brandProfile/${brandId}/reels` && (
           <Box
             sx={{
               width: { xs: "100%", md: "auto" },

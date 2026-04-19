@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Typography, Switch, Stack } from "@mui/material";
+import { Box, Typography, Switch, Stack, CircularProgress } from "@mui/material";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import TextInput from "@/components/ui/textInput/TextInput";
@@ -13,28 +13,58 @@ import {
   useDeleteAccount
 } from "../hooks/useProfileActions";
 import ConfirmationModal from "../../../components/ui/dialog/confirmationModal";
+import { useUser } from "../../user/hooks/useUser";
 
-const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required("First name is required"),
-  lastName: Yup.string().required("Last name is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  phoneNumber: Yup.string().required("Phone is required"),
-  password: Yup.string().min(8, "Password must be at least 8 characters"),
-});
+const validationSchema = Yup.object().shape(
+  {
+    firstName: Yup.string().required("First name is required"),
+    lastName: Yup.string().required("Last name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    phoneNumber: Yup.string().required("Phone is required"),
+    currentPassword: Yup.string().when("password", {
+      is: (val: string) => val && val.length > 0,
+      then: (schema) => schema.required("Current password is required to set a new one"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters")
+      .when("currentPassword", {
+        is: (val: string) => val && val.length > 0,
+        then: (schema) => schema.required("New password is required"),
+        otherwise: (schema) => schema.notRequired(),
+      })
+      .test(
+        "passwords-match",
+        "New password must be different from current password",
+        function (value) {
+          return !value || value !== this.parent.currentPassword;
+        }
+      ),
+  },
+  [
+    ["password", "currentPassword"], // 🔹 This is how you tell Yup to resolve cyclic dependencies
+  ]
+);
+
+
 
 export default function ProfileForm() {
   const [notifications, setNotifications] = useState(true);
+  const [showPasswordChange, setShowPasswordChange] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+
+  const { user, loading: isUserLoading } = useUser();
   const { mutate: updateProfile, isPending: isUpdatingProfile } = useUpdateProfile();
   const { mutate: updatePassword, isPending: isUpdatingPassword } = useUpdatePassword();
   const { mutate: deleteAccount, isPending: isDeleting } = useDeleteAccount();
 
   const initialValues = {
-    firstName: "Ashrakat",
-    lastName: "Rafaat",
-    email: "gmail@example.com",
-    phoneNumber: "+20 125555500",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
+    phoneNumber: user?.phoneNumber || "",
+    currentPassword: "",
     password: "",
   };
 
@@ -48,9 +78,9 @@ export default function ProfileForm() {
     });
 
     // If password is provided, update it
-    if (values.password) {
+    if (values.password && values.currentPassword) {
       updatePassword({
-        currentPassword: "Ash 1234", // This needs to be captured or coming from somewhere
+        currentPassword: values.currentPassword,
         newPassword: values.password,
       });
     }
@@ -61,12 +91,28 @@ export default function ProfileForm() {
       backgroundColor: "#D9EAEA",
       borderRadius: "12px",
       "& fieldset": { border: "none" },
+      "&.Mui-focused": {
+        backgroundColor: "#D9EAEA",
+      },
     },
     "& .MuiInputBase-input": {
       color: "#1B2351",
       fontWeight: 500,
-    }
+      "&:-webkit-autofill": {
+        WebkitBoxShadow: "0 0 0 1000px #D9EAEA inset",
+        WebkitTextFillColor: "#1B2351",
+      },
+    },
   };
+
+
+  if (isUserLoading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", py: 8 }}>
+        <CircularProgress color="primary" size={40} />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ maxWidth: 600, mx: "auto", mt: 4 }}>
@@ -74,6 +120,7 @@ export default function ProfileForm() {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
+        enableReinitialize
       >
         {(formik) => (
           <Form>
@@ -98,19 +145,12 @@ export default function ProfileForm() {
               placeholder="Email"
               myform={formik}
               hideLabel
-              customSx={inputStyle}
+              disabled // Email usually fixed for identity or handled separately
+              customSx={{...inputStyle, opacity: 0.7}}
             />
             <TextInput
               name="phoneNumber"
               placeholder="Phone Number"
-              myform={formik}
-              hideLabel
-              customSx={inputStyle}
-            />
-            <TextInput
-              name="password"
-              type="password"
-              placeholder="New Password (optional)"
               myform={formik}
               hideLabel
               customSx={inputStyle}
@@ -120,7 +160,51 @@ export default function ProfileForm() {
               direction="row"
               alignItems="center"
               justifyContent="space-between"
-              sx={{ mb: 4 }}
+              sx={{ mb: showPasswordChange ? 1 : 2, mt: 3 }}
+            >
+              <Typography variant="body1" color="primary" fontWeight={500}>
+                Change Password
+              </Typography>
+              <Switch
+                checked={showPasswordChange}
+                onChange={(e) => setShowPasswordChange(e.target.checked)}
+                sx={{
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    color: "#47C0D2",
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                    backgroundColor: "#47C0D2",
+                  },
+                }}
+              />
+            </Stack>
+
+            {showPasswordChange && (
+              <Stack spacing={2} sx={{ mb: 2 }}>
+                <TextInput
+                  name="currentPassword"
+                  type="password"
+                  placeholder="Current Password"
+                  myform={formik}
+                  hideLabel
+                  customSx={inputStyle}
+                />
+                <TextInput
+                  name="password"
+                  type="password"
+                  placeholder="New Password"
+                  myform={formik}
+                  hideLabel
+                  customSx={inputStyle}
+                />
+              </Stack>
+            )}
+
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{ mb: 4, mt: 2 }}
             >
               <Typography variant="body1" color="primary" fontWeight={500}>
                 Notifications
@@ -186,4 +270,5 @@ export default function ProfileForm() {
     </Box>
   );
 }
+
 

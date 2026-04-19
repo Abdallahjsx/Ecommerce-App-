@@ -21,7 +21,7 @@ export const routes = [
     },
     {
         title: "Profile",
-        path: "/profile",
+        path: "/myProfile",
         private: true,
     },
     {

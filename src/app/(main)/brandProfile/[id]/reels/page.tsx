@@ -4,9 +4,12 @@ import { Grid, Box, Skeleton, Typography } from "@mui/material";
 import React from "react";
 import { useBrandReels } from "@/features/brandProfile/hooks/useBrandReels";
 import ReelCard from "@/features/brandProfile/components/ReelCard";
+import { useParams } from "next/navigation";
 
 export default function ReelsPage() {
-  const { data: reels, loading, error } = useBrandReels(1);
+  const params = useParams();
+  const id = Number(params.id);
+  const { data: reels, loading, error } = useBrandReels(id);
 
   if (error) {
     return (
@@ -29,7 +32,7 @@ export default function ReelsPage() {
                 />
               </Grid>
             ))
-          : reels.map((reel) => (
+          : reels.map((reel: any) => (
               <Grid
                 key={reel.reelId}
                 size={{ xs: 4, sm: 6, md: 4, lg: 3, xl: 2.4 }}

@@ -3,8 +3,11 @@
 import { Box, Typography, Stack, Container } from "@mui/material";
 import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
+  const router = useRouter();
+
   return (
     <Box
       sx={{
@@ -92,6 +95,7 @@ export default function Hero() {
                 mb:2,
                 mx: { xs: "auto", md: 0 },
               }}
+              onClick={() => router.push("/shop")}
             >
               Explore More
             </Gradient_Button>
@@ -110,7 +114,7 @@ export default function Hero() {
             }}
           >
             <Image
-              src="/assets/images/Page.png" // Using an existing high-quality asset as placeholder
+              src="/assets/images/heroImage.jpeg"
               alt="Lifestyle"
               fill
               style={{ objectFit: "cover" }}

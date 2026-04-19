@@ -5,6 +5,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import userImg from "../../../../public/assets/images/user-img.png";
 import { useRef } from "react";
 import { useUpdateProfileImage } from "../hooks/useProfileActions";
+import { useUser } from "../../user/hooks/useUser";
+
+
 
 const recentlyViewed = [
   { id: 1, image: "/assets/images/user-img.png" },
@@ -16,7 +19,9 @@ const recentlyViewed = [
 
 const Header = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { user } = useUser();
   const { mutate: updateImage, isPending: isUploading } = useUpdateProfileImage();
+
 
   const handleEditClick = () => {
     fileInputRef.current?.click();
@@ -34,7 +39,7 @@ const Header = () => {
       {/* Profile Avatar Section */}
       <Box sx={{ position: "relative", mb: 2 }}>
         <Avatar
-          src={userImg.src}
+          src={user?.profileImageUrl || userImg.src}
           sx={{
             width: 230,
             height: 230,

@@ -2,7 +2,6 @@
 
 import { Box, Typography, Stack, Container, Grid, Skeleton } from "@mui/material";
 import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
-import Image from "next/image";
 import ShopCard from "../../../components/ui/cards/ShopCard";
 import { useProducts } from "../../products/hooks/useProducts";
 import Link from "next/link";
@@ -45,7 +44,7 @@ export default function OffersSection() {
       <Container maxWidth="lg">
         <Stack direction="row" alignItems="center" justifyContent="center" spacing={2} sx={{ mb: 6 }}>
           <Typography variant="h3" sx={{ fontWeight: 900, color: "#1B2351", textAlign: "center" }}>
-            Today's <Typography component="span" sx={{ fontSize: "inherit", fontWeight: "inherit", color: "#47C0D2" }}>Offers</Typography>
+            Todays <Typography component="span" sx={{ fontSize: "inherit", fontWeight: "inherit", color: "#47C0D2" }}>Offers</Typography>
           </Typography>
         </Stack>
 
@@ -168,7 +167,7 @@ export default function OffersSection() {
         </Grid>
 
         <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
-          <Link href="/products" style={{ textDecoration: "none", width: "100%", maxWidth: "400px" }}>
+          <Link href="/shop" style={{ textDecoration: "none", width: "100%", maxWidth: "400px" }}>
             <Box
               sx={{
                 width: "100%",

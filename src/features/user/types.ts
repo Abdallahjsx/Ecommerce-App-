@@ -1,14 +1,23 @@
 // src/features/user/types.ts
 export type User = {
-  id: string;
-  name: string;
-  email?: string;
-  phone?: string;
-  avatar?: string | null;
+  role: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  gender: string;
+  dateOfBirth: string;
+  profileImageUrl: string;
 };
 
 export type ApiResponse<T = any> = {
   success: boolean;
-  data?: T;
-  message?: string;
+  statusCode: number;
+  message: {
+    en: string;
+    ar: string;
+  };
+  data: T;
+  errors: any[] | null;
 };
+

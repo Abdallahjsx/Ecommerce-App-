@@ -1,17 +1,20 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { profileService } from "../services/profileService";
 import { useToaster } from "@/providers/ToasterProvider";
 import { useAppDispatch } from "@/Redux/hooks";
 import { clearToken } from "@/Redux/slices/authSlice";
 import { UpdateProfileRequest, UpdatePasswordRequest } from "../types";
 
+
 export const useUpdateProfile = () => {
   const { showToast } = useToaster();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data: UpdateProfileRequest) => profileService.updateProfile(data),
     onSuccess: (response) => {
       showToast(response.message.en, "success");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     },
     onError: (error: any) => {
       const message = error.response?.data?.message?.en || "Failed to update profile";
@@ -22,11 +25,13 @@ export const useUpdateProfile = () => {
 
 export const useUpdatePassword = () => {
   const { showToast } = useToaster();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data: UpdatePasswordRequest) => profileService.updatePassword(data),
     onSuccess: (response) => {
       showToast(response.message.en, "success");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     },
     onError: (error: any) => {
       const message = error.response?.data?.message?.en || "Failed to update password";

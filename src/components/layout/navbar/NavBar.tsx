@@ -22,10 +22,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
 import { routes } from "@/config/routes";
 import { truncate } from "fs";
+import { usePathname } from "next/navigation";
+import { useUser } from "@/features/user/hooks/useUser";
+
 
 export default function NavBar() {
   const t = useTheme();
   const isDesktop = useMediaQuery("(min-width:900px)");
+  const { user } = useUser();
+
 
   const token = useSelector((state: RootState) => state.auth.token);
   const dispatch = useAppDispatch();
@@ -37,16 +42,30 @@ export default function NavBar() {
   const notificationRef = useRef<HTMLDivElement>(null);
   const userCardRef = useRef<HTMLDivElement>(null);
 
+  const pathname = usePathname();
+  const isActive = (path: string) => {
+    if (path === "/") {
+      return pathname === "/";
+    }
+    // Remove trailing slash for comparison if necessary, but usually pathname is controlled
+    return pathname === path || pathname.startsWith(path + "/");
+  };
   // useEffect(() => {
   //   setWidth(window.innerWidth);
   // }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target as Node)
+      ) {
         setOpenNotifications(false);
       }
-      if (userCardRef.current && !userCardRef.current.contains(event.target as Node)) {
+      if (
+        userCardRef.current &&
+        !userCardRef.current.contains(event.target as Node)
+      ) {
         setUserCard(false);
       }
     }
@@ -55,7 +74,6 @@ export default function NavBar() {
     }
     if (userCard) {
       document.addEventListener("mousedown", handleClickOutside);
-
     }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -135,18 +153,25 @@ export default function NavBar() {
           sx={{ display: ["none", "none", "none", "flex"] }}
         >
           <ul>
-            {routes.map(
-              (link, index) =>
-                (link.private && loggedIn) ||
-                (!link.private && (
-                  <li key={index}>
+            {routes.map((link, index) => {
+              if (link.private && !loggedIn) return null;
+
+              const active = isActive(link.path);
+
+              return (
+                <li
+                  key={index}
+                  className={`${styles.navItem} ${active ? styles.activeLi : ""}`}
+                >
+                  <Link href={link.path} passHref>
                     <Typography
-                      className={styles.link}
-                      component={"a"}
+                      className={`${styles.link} ${active ? styles.active : ""}`}
+                      component="span" // Using span because Link adds the <a> or behaves like one
                       variant="link"
-                      href={link.path}
-                      color="#111827"
                       sx={{
+                        color: active ? t.palette.secondary.main : "#111827",
+                        cursor: "pointer",
+                        display: "inline-block",
                         "&:hover": {
                           color: t.palette.secondary.main,
                         },
@@ -154,9 +179,10 @@ export default function NavBar() {
                     >
                       {link.title}
                     </Typography>
-                  </li>
-                )),
-            )}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </Box>
 
@@ -168,16 +194,43 @@ export default function NavBar() {
                 {/* Bell */}
                 <div style={{ position: "relative" }}>
                   <div
-                    style={{ position: "relative", cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px" }}
+                    style={{
+                      position: "relative",
+                      cursor: "pointer",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "5px",
+                    }}
                     onClick={() => {
                       setOpenNotifications(true);
                     }}
                   >
                     <BellIcon />
-                    <Box sx={{ position: "absolute", top: "1px", right: "3px", backgroundColor: "#47C0D2", borderRadius: "50%", width: "15px", height: "15px", display: "flex", justifyContent: "center", alignItems: "center", color: "white", fontSize: "12px" }}>{3}</Box>
-
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: "1px",
+                        right: "3px",
+                        backgroundColor: "#47C0D2",
+                        borderRadius: "50%",
+                        width: "15px",
+                        height: "15px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "white",
+                        fontSize: "12px",
+                      }}
+                    >
+                      {3}
+                    </Box>
                   </div>
-                  {openedNotifications && <div ref={notificationRef}><NotificationList /></div>}
+                  {openedNotifications && (
+                    <div ref={notificationRef}>
+                      <NotificationList />
+                    </div>
+                  )}
                 </div>
 
                 {/* Bag */}
@@ -190,8 +243,6 @@ export default function NavBar() {
                     <BagIcon />
                   </div>
                 </Link>
-
-
 
                 {/* Avatar */}
                 <div
@@ -209,10 +260,14 @@ export default function NavBar() {
                   >
                     <Avatar
                       style={{ width: "100%", height: "100%" }}
-                      src="/assets/images/user-img.png"
+                      src={user?.profileImageUrl || "/assets/images/user-img.png"}
                     />
                   </div>
-                  {userCard && <div ref={userCardRef}><UserCard setUserCard={setUserCard} /></div>}
+                  {userCard && (
+                    <div ref={userCardRef}>
+                      <UserCard setUserCard={setUserCard} />
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (
@@ -253,7 +308,6 @@ export default function NavBar() {
           </div>
         </div>
       </Box>
-
 
       <SideBarList shown={shown} loggedIn={loggedIn} />
     </Box>

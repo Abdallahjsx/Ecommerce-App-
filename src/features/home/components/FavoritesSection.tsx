@@ -74,7 +74,7 @@ export default function FavoritesSection() {
         </Grid>
 
         <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
-          <Link href="/products" style={{ textDecoration: "none", width: "100%", maxWidth: "400px" }}>
+          <Link href="/shop" style={{ textDecoration: "none", width: "100%", maxWidth: "400px" }}>
             <Box
               sx={{
                 width: "100%",

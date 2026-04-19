@@ -2,7 +2,9 @@
 import { Box, Container, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
+import Link from "next/link";
 import BackgroundShapeImage from "@/components/ui/BackgroundShape/BackgroundShapeImage";
+
 import ProductImagesSlider from "./components/ProductImagesSlider";
 import ProductInfoSection from "./components/ProductInfoSection";
 import AdditionalInfo from "./components/AdditionalInfo";
@@ -79,11 +81,20 @@ export default function ProductProfile({ product }: { product: ProductDetails })
             >
               {/* Brand Section */}
               <Box
+                component={Link}
+                href={`/brandProfile/${product.brand.id}/reels`}
                 sx={{
                   display: "flex",
                   alignItems: "center",
                   gap: 1,
-
+                  textDecoration: "none",
+                  width: "fit-content",
+                  "&:hover": {
+                    "& .brand-name": {
+                      textDecoration: "underline",
+                      textDecorationColor: theme.palette.primary.main
+                    }
+                  }
                 }}
               >
                 <Box sx={{ width: "47px", height: "47px", borderRadius: "50%", overflow: "hidden" }}>
@@ -101,6 +112,7 @@ export default function ProductProfile({ product }: { product: ProductDetails })
 
 
                 <Typography
+                  className="brand-name"
                   sx={{
                     fontFamily: "Inter",
                     fontWeight: 400,
@@ -114,6 +126,7 @@ export default function ProductProfile({ product }: { product: ProductDetails })
                   {product?.brand?.displayName}
                 </Typography>
               </Box>
+
 
               {/* Product Images Slider */}
               <ProductImagesSlider product={product} />

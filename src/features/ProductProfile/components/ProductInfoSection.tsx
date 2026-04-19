@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Typography, useTheme, Stack } from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 import QuantityCounter from "./QuantityCounter";
 import ReviewsSection from "./ReviewsSection";
 import { ProductDetails } from "../types";
@@ -91,6 +92,26 @@ export default function ProductInfoSection({ product }: { product: ProductDetail
 
   return (
     <Box sx={{ width: "100%", maxWidth: { xs: "100%", md: "616px" } }}>
+      {/* Brand Name Link */}
+      {product.brand && (
+        <Typography
+          component={Link}
+          href={`/brandProfile/${product.brand.id}/reels`}
+          sx={{
+            fontFamily: "var(--font-inter)",
+            fontWeight: 500,
+            fontSize: "14px",
+            color: "#47C0D2",
+            textDecoration: "none",
+            "&:hover": { textDecoration: "underline" },
+            mb: 1,
+            display: "inline-block"
+          }}
+        >
+          {product.brand.displayName}
+        </Typography>
+      )}
+
       {/* Product Title and Favorite */}
       <Box sx={{ width: "100%", display: "flex", alignItems: "center", gap: "21px" }}>
         <Typography
@@ -103,6 +124,7 @@ export default function ProductInfoSection({ product }: { product: ProductDetail
             color: theme.palette.primary.main,
           }}
         >
+
           {product.name}
         </Typography>
 

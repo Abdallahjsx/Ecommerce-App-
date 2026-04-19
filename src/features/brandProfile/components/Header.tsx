@@ -11,8 +11,9 @@ import { toggleFollowBrand } from "../services";
 import { useToaster } from "@/providers/ToasterProvider";
 import { StarIcon } from "../Icons";
 
-export default function Header() {
-  const { data, loading, error } = useBrandInfo(1);
+export default function Header({ brandId }: { brandId: number }) {
+  const { data, loading, error } = useBrandInfo(brandId);
+
   const { showToast } = useToaster();
   const [isFollowed, setIsFollowed] = useState(false);
   const [followersCount, setFollowersCount] = useState(0);
@@ -31,7 +32,7 @@ export default function Header() {
     setFollowersCount(prevFollowed ? prevCount - 1 : prevCount + 1);
 
     try {
-      const res = await toggleFollowBrand(1);
+      const res = await toggleFollowBrand(brandId);
       if (!res.success) {
         throw new Error(res.message?.en || "Failed to toggle follow");
       }
