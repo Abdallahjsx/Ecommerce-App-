@@ -15,7 +15,6 @@ import { useAppDispatch } from "@/Redux/store";
 import { setToken } from "@/Redux/slices/authSlice";
 
 import NotificationList from "@/features/notifications/components/NotificationList";
-import ProfileCard from "@/features/user/components/ProfileCard";
 import UserCard from "@/features/user/components/userCard";
 
 import { useSelector } from "react-redux";

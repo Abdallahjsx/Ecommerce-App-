@@ -145,8 +145,8 @@ export default function ProfileForm() {
               placeholder="Email"
               myform={formik}
               hideLabel
-              disabled // Email usually fixed for identity or handled separately
-              customSx={{...inputStyle, opacity: 0.7}}
+              disabled={true} // Email usually fixed for identity or handled separately
+              customSx={{ ...inputStyle, opacity: 0.7 }}
             />
             <TextInput
               name="phoneNumber"

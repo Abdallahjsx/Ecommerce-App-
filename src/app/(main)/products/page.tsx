@@ -3,12 +3,13 @@
 import { Box, Container, Grid, Typography, Stack, Breadcrumbs, Link as MuiLink, Skeleton } from "@mui/material";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import ShopCard from "@/components/ui/cards/ShopCard";
 import { useProducts } from "@/features/products/hooks/useProducts";
 import BackgroundShapeImage from "@/components/ui/BackgroundShape/BackgroundShapeImage";
 import { Gradient_Button } from "@/components/ui/gradientButton";
 
-export default function ProductsPage() {
+function ProductsContent() {
   const searchParams = useSearchParams();
   const haveOffer = searchParams.get("HaveOffer") === "true";
   const category = searchParams.get("Category");
@@ -114,5 +115,13 @@ export default function ProductsPage() {
         )}
       </Container>
     </Box>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<Box sx={{ minHeight: "100vh", display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Skeleton variant="rectangular" width="100%" height="100%" /></Box>}>
+      <ProductsContent />
+    </Suspense>
   );
 }
