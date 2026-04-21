@@ -5,6 +5,8 @@ import {
   interFont,
   cinzelDecorativeFont,
   latoFont,
+  manropeFont,
+  plusJakartaSansFont,
 } from "../config/fonts";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import ThemeProviderWrapper from "@/providers/themeProviderWrapper";
@@ -36,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppinsFont.variable} ${interFont.variable} ${cinzelDecorativeFont.variable} ${latoFont.variable}`}
+      className={`${poppinsFont.variable} ${interFont.variable} ${cinzelDecorativeFont.variable} ${latoFont.variable} ${manropeFont.variable} ${plusJakartaSansFont.variable}`}
     >
       {/* ✅ أضفنا head فيها meta viewport */}
       <head>

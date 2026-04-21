@@ -3,18 +3,18 @@
 import { Box, Typography, Stack, Container, Paper } from "@mui/material";
 
 const brands = [
-  "Mastercard",
-  "Adidas",
-  "Nike",
-  "Gucci",
-  "Louis Vuitton",
-  "Puma",
-  "Apple",
+  { name: "Mastercard", logo: "/assets/images/brands/mastercard.png" },
+  { name: "Adidas", logo: "/assets/images/brands/adidas.png" },
+  { name: "Nike", logo: "/assets/images/brands/nike.png" },
+  { name: "Gucci", logo: "/assets/images/brands/gucci.png" },
+  { name: "LV", logo: "/assets/images/brands/lv.png" },
+  { name: "Puma", logo: "/assets/images/brands/puma.png" },
+  { name: "Apple", logo: "/assets/images/brands/apple.png" },
 ];
 
 export default function TopBrands() {
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="xl" sx={{ py: 8 }}>
       <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 4 }}>
         <Typography variant="h5" sx={{ fontWeight: 800, color: "#1B2351", whiteSpace: "nowrap" }}>
           Top Brands
@@ -38,32 +38,53 @@ export default function TopBrands() {
             key={idx}
             elevation={0}
             sx={{
-              px: 4,
-              py: 1,
-              borderRadius: "100px",
-              backgroundColor: "#F3F4F6",
-              border: "1px solid transparent",
+              width: "191px",
+              height: "74px",
+              display: "flex",
+              alignItems: "center",
+              backgroundColor: "#FCFAF2",
+              gap: "12px",
+              borderRadius: "16px",
+              border: "1px solid #E5E7EB",
+              padding: "16px",
               cursor: "pointer",
               transition: "all 0.3s ease",
               flexShrink: 0,
               "&:hover": {
-                backgroundColor: "white",
                 borderColor: "#47C0D2",
-                boxShadow: "0px 10px 20px rgba(71, 192, 210, 0.1)",
-                transform: "translateY(2px)",
               },
             }}
           >
-            <Typography
-              variant="body2"
+            {/* Logo Placeholder */}
+            <Box
               sx={{
-                fontWeight: 600,
-                color: "#1B2351",
-                whiteSpace: "nowrap",
-                fontSize: "14px",
+                width: "40px",
+                height: "40px",
+                borderRadius: "8px",
+                backgroundColor: "#e0e2e6ff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                overflow: "hidden"
               }}
             >
-              {brand}
+              <Box sx={{ width: "24px", height: "24px", backgroundColor: "#1B2351", opacity: 0.2, borderRadius: "50%" }} />
+            </Box>
+
+            <Typography
+              sx={{
+                fontFamily: "var(--font-manrope)",
+                fontWeight: 600,
+                fontSize: "18x",
+                lineHeight: "32px",
+                letterSpacing: "-0.6px",
+                color: "rgba(4, 12, 60, 1)",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis"
+              }}
+            >
+              {brand.name}
             </Typography>
           </Paper>
         ))}

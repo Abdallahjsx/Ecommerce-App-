@@ -2,7 +2,6 @@
 
 import { Box, Typography, Stack, Container } from "@mui/material";
 import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Hero() {
@@ -12,115 +11,116 @@ export default function Hero() {
     <Box
       sx={{
         width: "100%",
-        minHeight: { xs: "auto", md: "600px" },
-        backgroundColor: "#F7F8F7",
+        minHeight: "800px",
         position: "relative",
         overflow: "hidden",
         display: "flex",
         alignItems: "center",
-        py: { xs: 8, md: 0 },
+        justifyContent: "flex-start",
+        px: { xs: 2 },
+        backgroundImage: 'url("/assets/images/heroImage.jpeg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
-      {/* Background Shapes */}
+      {/* Gradient Overlay for Text Readability */}
       <Box
         sx={{
           position: "absolute",
           top: 0,
-          right: 0,
-          width: "50%",
+          left: 0,
+          width: "100%",
           height: "100%",
-          background: "linear-gradient(225deg, rgba(71, 192, 210, 0.1) 0%, rgba(27, 35, 81, 0.05) 100%)",
-          zIndex: 0,
-          clipPath: "polygon(20% 0, 100% 0, 100% 100%, 0% 100%)",
+          background:
+            "linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.6) 40%, rgba(255, 255, 255, 0) 100%)",
+          zIndex: 1,
         }}
       />
 
-      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          spacing={4}
-          alignItems="center"
-          justifyContent="space-between"
+      <Container sx={{ position: "relative", zIndex: 2 }}>
+        <Box
+          sx={{
+            width: { xs: "100%", md: "660px" },
+            height: { xs: "auto", md: "540px" },
+            maxWidth: "800px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            gap: "16px",
+            textAlign: "left",
+          }}
         >
-          {/* Text Content */}
-          <Box sx={{ maxWidth: { xs: "100%", md: "550px" }, textAlign: { xs: "center", md: "left" } }}>
-            <Typography
-              variant="h1"
-              sx={{
-                fontSize: { xs: "40px", md: "80px" },
-                fontWeight: 900,
-                color: "#1B2351",
-                lineHeight: 1.1,
-                mb: 3,
-                fontFamily: "inherit",
-              }}
-            >
-              All Your <br />
-              <Typography
-                component="span"
-                sx={{
-                  fontSize: "inherit",
-                  fontWeight: "inherit",
-                  color: "#47C0D2",
-                }}
-              >
-                Favorites
-              </Typography> <br />
-              In One Place
-            </Typography>
-            
-            <Typography
-              variant="body1"
-              sx={{
-                color: "rgba(27, 35, 81, 0.7)",
-                fontSize: "18px",
-                lineHeight: 1.6,
-                mb: 6,
-                maxWidth: "450px",
-                mx: { xs: "auto", md: 0 },
-              }}
-            >
-              Our platform turns shopping into an experience you’ll enjoy. Discover products you love, explore exciting offers.
-            </Typography>
+          {/* Label */}
+          <Typography
+            variant="overline"
+            sx={{
+              fontFamily: "var(--font-plus-jakarta)",
+              fontWeight: 600,
+              fontSize: "14px",
+              color: "#47C0D2",
+              mb: -1,
+            }}
+          >
+            NEW SEASON ARRIVAL
+          </Typography>
 
+          {/* Header */}
+          <Typography
+            variant="h1"
+            sx={{
+              fontFamily: "var(--font-manrope)",
+              fontWeight: 400,
+              fontSize: { xs: "48px", md: "90px" },
+              color: "#1B2351",
+              mb: 0,
+            }}
+          >
+            All Your <br />
+            <span style={{ color: "#47C0D2" }}>Favorites</span> <br />
+            In One Place
+          </Typography>
+
+          {/* Subtext */}
+          <Typography
+            variant="body1"
+            sx={{
+              fontFamily: "var(--font-plus-jakarta)",
+              fontWeight: 400,
+              fontSize: "18px",
+              color: "rgba(70, 70, 79, 1)",
+              maxWidth: "100%",
+            }}
+          >
+            Discover the digital boutique where high-end fashion meets social
+            discovery. Curated by experts, chosen by you.
+          </Typography>
+
+          <Box sx={{ mt: 2 }}>
             <Gradient_Button
               variant="primary"
               sx={{
-                height: "60px",
-                px: 6,
-                fontSize: "18px",
-                fontWeight: 700,
-                borderRadius: "12px",
-                background: "linear-gradient(90deg, #1B2351 0%, #47C0D2 100%)",
-                mb:2,
-                mx: { xs: "auto", md: 0 },
+                width: "280px",
+                height: "56px",
+                px: 4,
+                fontSize: "14px",
+                fontWeight: 600,
+                borderRadius: "4px",
+                backgroundColor: "#1B2351",
+                backgroundImage: "none",
+                color: "#FFFFFF",
+                letterSpacing: "1px",
+                textTransform: "uppercase",
+                mx: 0,
+                "&:hover": {
+                  backgroundColor: "#2a356b",
+                },
               }}
               onClick={() => router.push("/shop")}
             >
-              Explore More
+              Explore Collection
             </Gradient_Button>
           </Box>
-
-          {/* Hero Image */}
-          <Box
-            sx={{
-              display:{xs:"none",md:"block"},
-              width: { xs: "50%", md: "500px" },
-              height: { xs: "300px", md: "500px" },
-              position: "relative",
-              borderRadius: "32px",
-              overflow: "hidden",
-              boxShadow: "0px 20px 40px rgba(0,0,0,0.1)",
-            }}
-          >
-            <Image
-              src="/assets/images/heroImage.jpeg"
-              alt="Lifestyle"
-              fill
-              style={{ objectFit: "cover" }}
-            />
-          </Box>
-        </Stack>
+        </Box>
       </Container>
     </Box>
   );

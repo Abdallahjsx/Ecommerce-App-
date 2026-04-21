@@ -1,13 +1,16 @@
 "use client";
 
-import { Box, Typography, Stack } from "@mui/material";
-import { EyeIcon, FilledHeartIcon } from "../Icons";
+import { Box, Typography, Stack, Avatar } from "@mui/material";
+
 
 interface ReelCardProps {
   title: string;
   thumbnailUrl: string;
   numOfWatches: number;
   numOfLikes: number;
+  brandName?: string;
+  brandLogo?: string;
+  description?: string;
 }
 
 export default function ReelCard({
@@ -15,19 +18,26 @@ export default function ReelCard({
   thumbnailUrl,
   numOfWatches,
   numOfLikes,
+  brandName,
+  brandLogo,
+  description,
 }: ReelCardProps) {
   return (
     <Box
       sx={{
         position: "relative",
-        borderRadius: "16px",
+        borderRadius: "24px", 
         overflow: "hidden",
         width: "100%",
-        pt: "150%",
-        backgroundColor: "#f0f0f0",
+        pt: "160%", 
+        backgroundColor: "#0F172A",
         cursor: "pointer",
-        "&:hover .overlay": {
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
+        transition: "transform 0.3s ease",
+        "&:hover": {
+          transform: "scale(1.02)",
+          "& .overlay": {
+            backgroundColor: "rgba(0, 0, 0, 0.4)",
+          },
         },
       }}
     >
@@ -45,7 +55,38 @@ export default function ReelCard({
         }}
       />
 
-      {/* Overlay for stats */}
+      {/* Brand Header Overlay */}
+      {(brandName || brandLogo) && (
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          sx={{
+            position: "absolute",
+            top: 16,
+            left: 16,
+            zIndex: 2,
+            backgroundColor: "rgba(255,255,255,0.1)",
+            backdropFilter: "blur(8px)",
+            borderRadius: "20px",
+            px: 1.5,
+            py: 0.5,
+            border: "1px solid rgba(255,255,255,0.2)"
+          }}
+        >
+          <Avatar 
+            src={brandLogo} 
+            sx={{ width: 18, height: 18, fontSize: "10px", bgcolor: "white", color: "#000" }}
+          >
+            {brandName?.charAt(0)}
+          </Avatar>
+          <Typography variant="caption" sx={{ color: "white", fontWeight: 700, fontSize: "10px" }}>
+            {brandName}
+          </Typography>
+        </Stack>
+      )}
+
+      {/* Bottom Content Overlay */}
       <Box
         className="overlay"
         sx={{
@@ -53,39 +94,49 @@ export default function ReelCard({
           bottom: 0,
           left: 0,
           right: 0,
-          p: 2,
-          background: "linear-gradient(transparent, rgba(0,0,0,0.7))",
+          pt: 1, 
+          pb: 3,
+          px: 2,
+          background: "linear-gradient(transparent, rgba(0,0,0,0.9))",
           transition: "background-color 0.3s ease",
         }}
       >
-        <Stack direction="row" spacing={2} alignItems="center">
-          <Stack direction="row" spacing={0.5} alignItems="center">
-            <EyeIcon sx={{ color: "white", fontSize: 16 }} />
+        <Stack spacing={1}>
+          {/* Title & Description */}
+          <Box>
             <Typography
-              variant="body2"
-              sx={{ color: "white", fontWeight: 600 }}
-            >
-              {numOfWatches}
-            </Typography>
-          </Stack>
-          <Stack direction="row" spacing={0.5} alignItems="center">
-            <FilledHeartIcon
               sx={{
-                width: 16,
-                height: 16,
-                "& path": { fill: "white", stroke: "white" },
+                color: "white",
+                fontWeight: 800,
+                fontSize: "14px",
+                lineHeight: 1.2,
+                mb: 0.5
               }}
-              fill="white"
-            />
-            <Typography
-              variant="body2"
-              sx={{ color: "white", fontWeight: 600 }}
             >
-              {numOfLikes}
+              {title}
             </Typography>
-          </Stack>
+            {description && (
+              <Typography
+                sx={{
+                  color: "rgba(255,255,255,0.7)",
+                  fontSize: "11px",
+                  fontWeight: 500,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  lineHeight: 1.3
+                }}
+              >
+                {description}
+              </Typography>
+            )}
+          </Box>
+
+         
         </Stack>
       </Box>
     </Box>
   );
 }
+

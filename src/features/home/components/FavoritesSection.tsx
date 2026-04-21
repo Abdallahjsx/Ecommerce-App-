@@ -1,94 +1,137 @@
 "use client";
 
-import { Box, Typography, Stack, Container, Grid, Skeleton } from "@mui/material";
-import ShopCard from "../../../components/ui/cards/ShopCard";
+import {
+  Box,
+  Typography,
+  Stack,
+  Skeleton,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { useProducts } from "../../products/hooks/useProducts";
+import FavoriteCard from "./cards/FavoriteCard";
 import Link from "next/link";
+import { Container } from "@mui/system";
 
+/* ================= SECTION ================= */
 export default function FavoritesSection() {
-  const { data: products, loading } = useProducts({ PageSize: 4 });
+  const { data: products, loading } = useProducts({ HaveOffer: true, PageSize: 3 });
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   if (loading) {
     return (
-      <Box sx={{ py: 8 }}>
-        <Container maxWidth="lg">
-          <Skeleton variant="text" width={250} height={50} sx={{ mx: "auto", mb: 2 }} />
-          <Skeleton variant="text" width={400} height={20} sx={{ mx: "auto", mb: 6 }} />
-          <Grid container spacing={4}>
-            {[1, 2, 3, 4].map((i) => (
-              <Grid key={i} size={{ xs: 12, sm: 6, md: 3 }}>
-                <Skeleton variant="rectangular" width="100%" height={320} sx={{ borderRadius: "16px" }} />
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
+      <Box sx={{ py: 12, display: "flex", justifyContent: "center" }}>
+        <Skeleton
+          variant="rectangular"
+          width={900}
+          height={500}
+          sx={{ borderRadius: "12px" }}
+        />
       </Box>
     );
   }
 
   return (
-    <Box sx={{ py: 8 }}>
+    <Box sx={{ py: 15, backgroundColor: "#FCFAF2" }}>
       <Container maxWidth="lg">
-        <Typography
-          variant="h3"
+        {/* Header - Perfectly Centered */}
+        <Stack
+          spacing={2}
+          alignItems="center"
+          sx={{ mb: 12, textAlign: "center" }}
+        >
+          <Typography 
+            variant="h2" 
+            sx={{ 
+              color: "#040C3C", 
+              fontWeight: 900, 
+              fontSize: { xs: "36px", md: "48px" },
+              fontFamily: "var(--font-manrope)",
+              letterSpacing: "-0.5px"
+            }}
+          >
+            Our Favorites
+          </Typography>
+          <Typography 
+            sx={{ 
+              color: "rgba(4, 12, 60, 0.5)", 
+              maxWidth: "500px", 
+              fontSize: "16px",
+              fontWeight: 500,
+              lineHeight: 1.6,
+              textAlign: 'center'
+            }}
+          >
+            Hand-picked by our editorial team for exceptional quality and timeless design.
+          </Typography>
+        </Stack>
+
+        {/* Products Grid - Using native CSS Grid via Box for better control */}
+        <Box
           sx={{
-            color: "#1B2351",
-            fontWeight: 900,
-            mb: 2,
-            textAlign: "center",
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(3, 1fr)",
+            },
+            gap: isMobile ? 8 : 6,
+            justifyItems: "center",
+            alignItems: "start",
           }}
         >
-          Our <Typography component="span" sx={{ fontSize: "inherit", fontWeight: "inherit", color: "#47C0D2" }}>Favorites</Typography>
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            color: "rgba(27, 35, 81, 0.6)",
-            textAlign: "center",
-            mb: 6,
-            maxWidth: "600px",
-            mx: "auto"
-          }}
-        >
-          Explore items that our customers love the most. Handpicked for quality and style.
-        </Typography>
-
-        <Grid container spacing={4}>
-          {products.map((product) => (
-            <Grid key={product.id} size={{ xs: 12, sm: 6, md: 3 }}>
-              <ShopCard
-                id={product.id}
-                name={product.name}
-                category={product.category.name}
-                price={product.discountedPrice || product.price}
-                originalPrice={product.price}
-                imageUrl={product.mediaUrl}
-                rating={product.reviewsSummary.averageRating}
-                reviewsCount={product.reviewsSummary.totalReviews}
-                hasDiscount={product.haveOffer}
-                discount={`-${product.discountPercentage}%`}
-                onAddToCart={() => { }}
-              />
-            </Grid>
-          ))}
-        </Grid>
-
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
-          <Link href="/shop" style={{ textDecoration: "none", width: "100%", maxWidth: "400px" }}>
+          {products?.slice(0, 3).map((product: any, idx: number) => (
             <Box
+              key={product.id}
               sx={{
                 width: "100%",
-                py: 2,
-                border: "2px solid #47C0D2",
-                borderRadius: "16px",
-                textAlign: "center",
-                cursor: "pointer",
-                transition: "all 0.3s ease",
-                "&:hover": { backgroundColor: "rgba(71, 192, 210, 0.05)", transform: "translateY(-4px)" }
+                // Stagger: Low - High - Low pattern (High is center)
+                transform: !isMobile && (idx === 0 || idx === 2) ? "translateY(40px)" : "none",
+                transition: "transform 0.5s ease"
               }}
             >
-              <Typography sx={{ color: "#47C0D2", fontWeight: 800, letterSpacing: "1px" }}>
-                VIEW ALL PRODUCTS
+              <FavoriteCard
+                id={product.id}
+                name={product.name}
+                brand={product.category?.name || "Essentials"}
+                price={product.discountedPrice || product.price}
+                imageUrl={product.mediaUrl}
+              />
+            </Box>
+          ))}
+        </Box>
+
+        {/* View All Button */}
+        <Box sx={{ display: "flex", justifyContent: "center", mt: { xs: 8, md: 14 } }}>
+          <Link href="/shop" style={{ textDecoration: "none" }}>
+            <Box
+              sx={{
+                px: 6,
+                py: 2,
+                border: "1.5px solid #040C3C",
+                borderRadius: "14px",
+                backgroundColor: "transparent",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+                "&:hover": { 
+                  backgroundColor: "#040C3C", 
+                  "& .btn-text": { color: "white" },
+                  transform: "translateY(-2px)" 
+                }
+              }}
+            >
+              <Typography 
+                className="btn-text"
+                sx={{ 
+                  color: "#040C3C", 
+                  fontWeight: 800, 
+                  fontSize: "12px", 
+                  letterSpacing: "1.5px",
+                  fontFamily: "var(--font-manrope)",
+                  transition: "color 0.3s ease"
+                }}
+              >
+                DISCOVER THE COLLECTION
               </Typography>
             </Box>
           </Link>
