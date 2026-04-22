@@ -46,8 +46,9 @@ export default function Hero() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            alignItems: { xs: "center", md: "flex-start" },
             gap: "16px",
-            textAlign: "left",
+            textAlign: { xs: "center", md: "left" },
           }}
         >
           {/* Label */}
@@ -65,20 +66,43 @@ export default function Hero() {
           </Typography>
 
           {/* Header */}
-          <Typography
-            variant="h1"
-            sx={{
-              fontFamily: "var(--font-manrope)",
-              fontWeight: 400,
-              fontSize: { xs: "48px", md: "90px" },
-              color: "#1B2351",
-              mb: 0,
-            }}
-          >
-            All Your <br />
-            <span style={{ color: "#47C0D2" }}>Favorites</span> <br />
-            In One Place
-          </Typography>
+    <Typography
+  variant="h1"
+  sx={{
+    fontFamily: "var(--font-manrope)",
+    fontWeight: 400,
+    fontSize: { xs: "48px", md: "90px" },
+    mb: 0,
+  }}
+>
+  <span
+    style={{
+      background: "linear-gradient(to bottom, #1B2351, #252e61c7)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      display: "inline-block",
+    }}
+  >
+    All Your
+  </span>
+  <br />
+
+  <span
+    style={{
+      background: "linear-gradient(to bottom, #1b2351d7, #47C0D2)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      display: "inline-block",
+    }}
+  >
+    Favorites
+  </span>
+  <br />
+
+  <span style={{ color: "#1B2351" }}>
+    In One Place
+  </span>
+</Typography>
 
           {/* Subtext */}
           <Typography

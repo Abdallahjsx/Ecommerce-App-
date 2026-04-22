@@ -12,15 +12,15 @@ const categories = [
 
 export default function CategoriesSection() {
   return (
-    <Box sx={{ py: 10, backgroundColor: "white" }}>
+    <Box sx={{ py: 10,backgroundColor: "#FCFAF2"  }}>
       <Container maxWidth="lg">
         {/* Left-aligned Header with Custom Underline */}
         <Box sx={{ mb: 8 }}>
           <Typography
             variant="h4"
             sx={{
-              color: "#040C3C", // Navy color from design
-              fontWeight: 800,
+              color: "#040C3C", 
+              fontWeight: 400,
               fontFamily: "var(--font-manrope)",
               fontSize: { xs: "28px", md: "38px" },
               letterSpacing: "-0.5px",
@@ -82,7 +82,7 @@ export default function CategoriesSection() {
                   justifyContent: "center",
                   overflow: "hidden",
                   transition: "all 0.3s ease",
-                  border: "2px solid transparent", // Set base border to avoid jumping
+                  border: "9px solid white", 
                 }}
               >
                 <img

@@ -88,10 +88,10 @@ export default function OffersSection() {
         {/* Header with Integrated Navigation */}
         <Stack direction="row" justifyContent="space-between" alignItems="flex-end" sx={{ mb: 6 }}>
           <Stack spacing={1}>
-            <Typography variant="h2" sx={{ fontWeight: 800, color: "#1B2351", fontSize: { xs: "32px", md: "48px" }, fontFamily: "var(--font-manrope)" }}>
+            <Typography variant="h2" sx={{ fontWeight: 400, color: "#1B2351", fontSize: { xs: "32px", md: "48px" }, fontFamily: "var(--font-manrope)" }}>
               Today's Offers
             </Typography>
-            <Typography variant="body1" sx={{ color: "rgba(27, 35, 81, 0.4)", fontSize: "16px" }}>
+            <Typography variant="body1" sx={{ fontWeight: 400,color: "rgba(27, 35, 81, 0.4)", fontSize: "16px" }}>
               Limited time editorial exclusives for our community.
             </Typography>
           </Stack>

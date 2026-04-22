@@ -45,7 +45,7 @@ export default function FavoritesSection() {
             variant="h2" 
             sx={{ 
               color: "#040C3C", 
-              fontWeight: 900, 
+              fontWeight: 400, 
               fontSize: { xs: "36px", md: "48px" },
               fontFamily: "var(--font-manrope)",
               letterSpacing: "-0.5px"
@@ -73,7 +73,7 @@ export default function FavoritesSection() {
             display: "grid",
             gridTemplateColumns: {
               xs: "1fr",
-              sm: "repeat(3, 1fr)",
+              md: "repeat(3, 1fr)",
             },
             gap: isMobile ? 8 : 6,
             justifyItems: "center",
