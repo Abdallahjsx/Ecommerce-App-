@@ -15,8 +15,6 @@ export default function ToastContainer({ toasts }: { toasts: Toast[] }) {
     <div
       style={{
         position: 'fixed',
-        top: '16px',
-        right: '16px',
         display: 'flex',
         flexDirection: 'column',
         gap: '10px',

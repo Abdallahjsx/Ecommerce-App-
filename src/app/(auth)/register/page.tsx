@@ -19,11 +19,12 @@ import { setToken } from "@/Redux/slices/authSlice";
 export default function Register() {
   // ✅ تعديل النوع ليقبل male أو female أو null
   const router = useRouter();
-  const dispacth = useAppDispatch()
+  const dispacth = useAppDispatch();
   const [selectedGender, setSelectedGender] = useState<"Male" | "Female">(
-    "Male"
+    "Male",
   );
-  const { mutate, error, isPending, isSuccess, data } = useRegister();
+  const { mutate, error, isPending, isSuccess, data, isError, errorMessage } =
+    useRegister();
   const myForm = useFormik({
     validateOnMount: true,
     validateOnChange: true,
@@ -58,7 +59,7 @@ export default function Register() {
         .matches(/\d/, "Password must contain at least one digit")
         .matches(
           /[@$!%*?&]/,
-          "Password must contain at least one special character"
+          "Password must contain at least one special character",
         ),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("Password"), undefined], "Passwords must match")
@@ -91,7 +92,7 @@ export default function Register() {
         <input
           id="profile-upload"
           type="file"
-          name="ProfileImage"          
+          name="ProfileImage"
           accept="image/*"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             const file = e.currentTarget.files?.[0];
@@ -377,7 +378,7 @@ export default function Register() {
               width: ["100%", "100%", "70%"],
             }}
           >
-            {(data ? !JSON.parse(data).success : false) && (
+            {isError && (
               <p
                 style={{
                   textAlign: "center",
@@ -386,7 +387,7 @@ export default function Register() {
                   fontSize: 12,
                 }}
               >
-                {data ? JSON.parse(data).errors[0]?.en : ""}
+                {errorMessage}
               </p>
             )}
           </Box>
@@ -428,23 +429,21 @@ export default function Register() {
               }}
             >
               Already have an account?
-              <Link href="/login" style={{ textDecoration: "none" }}>
-                <Typography
-                  component="a"
-                  href="/login"
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: 500,
-                    fontSize: "11px",
-                    lineHeight: "100%",
-                    color: "#3E548D",
-                    textDecoration: "underline",
-                    cursor: "pointer",
-                  }}
-                >
-                  Sign in
-                </Typography>
-              </Link>
+              <Typography
+                component="a"
+                href="/login"
+                sx={{
+                  fontFamily: "Inter",
+                  fontWeight: 500,
+                  fontSize: "11px",
+                  lineHeight: "100%",
+                  color: "#3E548D",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+              >
+                Sign in
+              </Typography>
             </Typography>
           </Box>
         </Box>

@@ -40,7 +40,17 @@ border-bottom: 3px solid transparent;
 }
 .link{
   transition: all 0.2s ease;
+  text-decoration: none;
 }
+
+.active {
+  font-weight: 600; /* Slightly bolder for active state */
+}
+
+.activeLi {
+  border-bottom: 3px solid #47C0D2 !important;
+}
+
 .roundedImg{
     width: 48px;
     height: 48px;

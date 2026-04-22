@@ -63,3 +63,18 @@ export type TokensColorType={
         separator: string;
     };
    }
+
+export type AvailableSize = {
+    id: number;
+    size: string;
+    quantity: number;
+};
+
+export type ProductColorSize = {
+    id: number;
+    name: string;
+    arName: string;
+    hexCode: string;
+    quantity: number;
+    availableSizes: AvailableSize[];
+};

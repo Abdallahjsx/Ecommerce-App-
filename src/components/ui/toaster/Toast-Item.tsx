@@ -73,7 +73,7 @@ export default function ToastItem({
       open={open}
       autoHideDuration={3000}
       onClose={onClose}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
     >
       <Box sx={{ position: "relative", display: "inline-block" }}>
         <Alert

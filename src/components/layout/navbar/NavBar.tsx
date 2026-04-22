@@ -1,50 +1,99 @@
 "use client";
 import { Avatar, Box, Typography, IconButton } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import Link from "next/link";
+
 import SideBarList from "../sideBar/SideBarList";
 import styles from "./navbar.module.css";
 import BellIcon from "@/iconsComponents/BellIcon";
 import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
 
-import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/Redux/store";
 import { setToken } from "@/Redux/slices/authSlice";
+
 import NotificationList from "@/features/notifications/components/NotificationList";
-import { RootState } from "@/Redux/store";
 import UserCard from "@/features/user/components/userCard";
+
+import { useSelector } from "react-redux";
+import { RootState } from "@/Redux/store";
+import { routes } from "@/config/routes";
+import { usePathname } from "next/navigation";
+import { useUser } from "@/features/user/hooks/useUser";
 
 export default function NavBar() {
   const t = useTheme();
   const isDesktop = useMediaQuery("(min-width:900px)");
+  const { user } = useUser();
 
   const token = useSelector((state: RootState) => state.auth.token);
   const dispatch = useAppDispatch();
 
-  const [loggedIn, setLoggedIn] = useState(token !== null);
+  // ✅ FIX Hydration
+  const [mounted, setMounted] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
   const [shown, setShown] = useState(false);
   const [openedNotifications, setOpenNotifications] = useState(false);
-  const [useCard, setUserCard] = useState(false);
+  const [userCard, setUserCard] = useState(false);
+
+  const notificationRef = useRef<HTMLDivElement>(null);
+  const userCardRef = useRef<HTMLDivElement>(null);
+
+  const pathname = usePathname();
+
+  const isActive = (path: string) => {
+    if (path === "/") return pathname === "/";
+    return pathname === path || pathname.startsWith(path + "/");
+  };
+
+  // ✅ بعد ما الصفحة تحمل
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setLoggedIn(token !== null);
   }, [token]);
 
+  // 👇 optional sync token من localStorage
   useEffect(() => {
-    function detection() {
-      const storedToken = localStorage.getItem("token");
-      if (storedToken !== null) {
-        dispatch(setToken(storedToken));
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      dispatch(setToken(storedToken));
+    }
+  }, [dispatch]);
+
+  // 👇 close dropdowns
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target as Node)
+      ) {
+        setOpenNotifications(false);
+      }
+      if (
+        userCardRef.current &&
+        !userCardRef.current.contains(event.target as Node)
+      ) {
+        setUserCard(false);
       }
     }
 
-    window.addEventListener("storage", detection);
+    if (openedNotifications || userCard) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
     return () => {
-      window.removeEventListener("storage", detection);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dispatch]);
+  }, [openedNotifications, userCard]);
+
+  // ❗ مهم جدًا
+  if (!mounted) return null;
 
   return (
     <Box
@@ -70,9 +119,10 @@ export default function NavBar() {
           style={{ position: "absolute", right: "0px", pointerEvents: "none" }}
         />
 
+        {/* Logo */}
         <div style={{ display: "flex", alignItems: "center" }}>
           <IconButton
-            sx={{ display: ["block", "block", "none"] }}
+            sx={{ display: ["block", "block", "block", "none"] }}
             onClick={() => setShown(!shown)}
           >
             <img
@@ -82,81 +132,102 @@ export default function NavBar() {
             />
           </IconButton>
 
-          <Typography
-            component={"a"}
-            href="#"
-            sx={{ cursor: "pointer" }}
-            variant="titleSpecial"
-          >
+          <Typography component={"a"} href="/" sx={{ cursor: "pointer" }} variant="titleSpecial">
             Alluvo
           </Typography>
         </div>
 
-        <Box
-          className={styles.links}
-          sx={{ display: ["none", "none", "flex"] }}
-        >
+        {/* Links */}
+        <Box className={styles.links} sx={{ display: ["none", "none", "none", "flex"] }}>
           <ul>
-            {["Home", "Shop", "Reels", "Orders", "Contact Us", "FAQS"].map(
-              (l, index) => (
-                <li key={index}>
-                  <Typography
-                    className={styles.link}
-                    component={"a"}
-                    variant="link"
-                    href={
-                      l === "Contact Us"
-                        ? "/support/contact-us"
-                        : l === "FAQS"
-                        ? "/faqs"
-                        : "#"
-                    }
-                    color="#111827"
-                    sx={{
-                      "&:hover": {
-                        color: t.palette.secondary.main,
-                      },
-                    }}
-                  >
-                    {l}
-                  </Typography>
+            {routes.map((link, index) => {
+              if (link.private && !loggedIn) return null;
+
+              const active = isActive(link.path);
+
+              return (
+                <li
+                  key={index}
+                  className={`${styles.navItem} ${active ? styles.activeLi : ""}`}
+                >
+                  <Link href={link.path}>
+                    <Typography
+                      component="span"
+                      className={`${styles.link} ${active ? styles.active : ""}`}
+                      variant="link"
+                      sx={{
+                        color: active ? t.palette.secondary.main : "#111827",
+                        cursor: "pointer",
+                        "&:hover": {
+                          color: t.palette.secondary.main,
+                        },
+                      }}
+                    >
+                      {link.title}
+                    </Typography>
+                  </Link>
                 </li>
-              )
-            )}
+              );
+            })}
           </ul>
         </Box>
 
+        {/* Actions */}
         <div className={styles.actions}>
           <div style={{ display: "flex", gap: 25, alignItems: "center" }}>
             {loggedIn ? (
               <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
-                <div
-                  onClick={() => {
-                    setOpenNotifications(!openedNotifications);
-                    setUserCard(false);
-                  }}
-                  style={{ paddingTop: 4 }}
-                >
-                  <BellIcon />
+                {/* Notifications */}
+                <div style={{ position: "relative" }}>
+                  <div
+                    style={{
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "5px",
+                    }}
+                    onClick={() => setOpenNotifications(true)}
+                  >
+                    <BellIcon />
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: "1px",
+                        right: "3px",
+                        backgroundColor: "#47C0D2",
+                        borderRadius: "50%",
+                        width: "15px",
+                        height: "15px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "white",
+                        fontSize: "12px",
+                      }}
+                    >
+                      3
+                    </Box>
+                  </div>
+
+                  {openedNotifications && (
+                    <div ref={notificationRef}>
+                      <NotificationList />
+                    </div>
+                  )}
                 </div>
 
-                <div
-                  style={{
-                    position: "relative",
-                    width: "35px",
-                    height: "35px",
-                    alignSelf: "flex-start",
-                  }}
-                >
-                  <BagIcon />
-                  <div className={styles.circle}>{1}</div>
-                  {openedNotifications && <NotificationList />}
-                </div>
+                {/* Cart */}
+                <Link href="/cart">
+                  <div style={{ cursor: "pointer" }}>
+                    <BagIcon />
+                  </div>
+                </Link>
 
+                {/* Avatar */}
                 <div
-                  style={{ position: "relative" }}
+                  style={{ position: "relative", cursor: "pointer" }}
                   onClick={() => {
-                    setUserCard(!useCard);
+                    setUserCard(true);
                     setOpenNotifications(false);
                   }}
                 >
@@ -167,23 +238,28 @@ export default function NavBar() {
                     }}
                   >
                     <Avatar
+                      src={user?.profileImageUrl || "/assets/images/user-img.png"}
                       style={{ width: "100%", height: "100%" }}
-                      src="/assets/images/user-img.png"
                     />
                   </div>
+
+                  {userCard && (
+                    <div ref={userCardRef}>
+                      <UserCard setUserCard={setUserCard} />
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (
               <Typography
                 component={"a"}
-                color={t.tokens.typographyColors.title}
                 href="/login"
-                fontFamily={"poppins"}
                 variant="subtitle1"
                 sx={{
                   display: ["none", "none", "block"],
                   fontSize: "16px",
                   fontWeight: 500,
+                  cursor: "pointer",
                   "&:hover": {
                     color: t.palette.secondary.main,
                   },
@@ -193,16 +269,13 @@ export default function NavBar() {
               </Typography>
             )}
 
+            {/* Language */}
             <Typography
-              fontFamily={"poppins"}
               variant="subtitle1"
               sx={{
                 fontSize: "16px",
                 fontWeight: 700,
                 cursor: "pointer",
-                "&:hover": {
-                  color: t.palette.secondary.main,
-                },
               }}
             >
               {isDesktop ? "ع" : "عربي"}
@@ -211,9 +284,7 @@ export default function NavBar() {
         </div>
       </Box>
 
-      {useCard && <UserCard />}
       <SideBarList shown={shown} loggedIn={loggedIn} />
     </Box>
   );
 }
-

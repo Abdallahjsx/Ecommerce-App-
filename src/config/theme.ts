@@ -19,7 +19,7 @@ declare module "@mui/material/styles" {
         boxShadow: string;
         fontSize: string;
         padding: string;
-      
+
       };
       icons: {
         eye: { width: number; height: number };
@@ -80,6 +80,9 @@ declare module "@mui/material/styles" {
       primary: string;
       primaryHover: string;
       primaryPressed: string;
+       gray: string; 
+        grayHover: string;
+        grayPressed: string;
     };
   }
 
@@ -110,8 +113,9 @@ declare module "@mui/material/styles" {
     bodyMedium?: React.CSSProperties;
     captionLarge?: React.CSSProperties;
     captionMedium?: React.CSSProperties;
-    inputLabel:React.CSSProperties;
-    inputError:React.CSSProperties;
+    inputLabel: React.CSSProperties;
+    inputError: React.CSSProperties;
+    subTitle: React.CSSProperties;
     link?: React.CSSProperties;
     lato?: React.CSSProperties;
     captionSmall?: React.CSSProperties;
@@ -132,10 +136,11 @@ declare module "@mui/material/Typography" {
     captionMedium: true;
     inputLabel: true;
     inputError: true;
-    link:true;
-    lato:true;
-    captionSmall:true;
- 
+    subTitle: true,
+    link: true;
+    lato: true;
+    captionSmall: true;
+
   }
 }
 
@@ -236,7 +241,7 @@ export const theme = createTheme({
       eye: { width: 20, height: 20 },
       calendar: { width: 14, height: 13 },
     },
-/////                    <rejected>                     ////////
+    /////                    <rejected>                     ////////
     alerts: {
       successBox: {
         width: "300px",
@@ -369,17 +374,18 @@ export const theme = createTheme({
     titleLarge: { fontFamily: "var(--font-poppins)", fontSize: 36, fontWeight: 700, lineHeight: 1.2 },
     titleMedium: { fontFamily: "var(--font-poppins)", fontSize: 28, fontWeight: 600, lineHeight: 1.2 },
     titleSmall: { fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 600, lineHeight: 1.2 },
-    titleSpecial:{ fontFamily: "var(--font-cinzel)", fontSize: 24, fontWeight: 400, background: "linear-gradient(90deg, #1B2351 0%, #47C0D2 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", textShadow: "0px 4px 4px #00000040" },
+    titleSpecial: { fontFamily: "var(--font-cinzel)", fontSize: 24, fontWeight: 400, background: "linear-gradient(90deg, #1B2351 0%, #47C0D2 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", textShadow: "0px 4px 4px #00000040" },
     bodyLarge: { fontFamily: "var(--font-poppins)", fontSize: 32, fontWeight: 700, lineHeight: 1.2 },
     bodyMedium: { fontFamily: "Inter, sans-serif", fontSize: 16, fontWeight: 500, lineHeight: "100%", textAlign: "center" },
     captionLarge: { fontFamily: "var(--font-poppins)", fontSize: 24, fontWeight: 700, lineHeight: 1.2 },
     captionMedium: { fontFamily: "var(--font-poppins)", fontSize: 12, fontWeight: 600, lineHeight: 1.2 },
-    captionSmall: { fontFamily: "var(--font-poppins)", fontSize: 8, fontWeight: 400, lineHeight: 1.2,color:"black" },
-    inputLabel:{fontFamily: "var(--font-inter)",fontWeight: 400,fontSize: "13px",lineHeight: "100%",color: "#1B2351"},
-    inputError:{fontFamily: "var(--font-inter)",fontWeight: 400,fontSize: "10px",lineHeight: "24px"},
-    link:{fontFamily: "var(--font-inter)",fontSize:16,fontWeight:500,cursor:"pointer"},
-    lato:{fontFamily: "var(--font-lato)",fontSize:14,fontWeight:500}
-   
+    captionSmall: { fontFamily: "var(--font-poppins)", fontSize: 8, fontWeight: 400, lineHeight: 1.2, color: "black" },
+    inputLabel: { fontFamily: "var(--font-inter)", fontWeight: 400, fontSize: "13px", lineHeight: "100%", color: "#1B2351" },
+    inputError: { fontFamily: "var(--font-inter)", fontWeight: 400, fontSize: "10px", lineHeight: "24px" },
+    subTitle: { fontFamily: "var(--font-inter)", fontWeight: 400, fontSize: "24px", lineHeight: "24px" },
+    link: { fontFamily: "var(--font-inter)", fontSize: 16, fontWeight: 500, cursor: "pointer" },
+    lato: { fontFamily: "var(--font-lato)", fontSize: 14, fontWeight: 500 }
+
   },
 
   buttonSizes: {

@@ -1,74 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import { Button, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/material";
-import ToastItem from "@/components/ui/toaster/Toast-Item";
-import NotificationList from "@/features/notifications/components/NotificationList";
+import Hero from "@/features/home/components/Hero";
+import TopBrands from "@/features/home/components/TopBrands";
+import OffersSection from "@/features/home/components/OffersSection";
+import ReelsSection from "@/features/home/components/ReelsSection";
+import CategoriesSection from "@/features/home/components/CategoriesSection";
+import FavoritesSection from "@/features/home/components/FavoritesSection";
+import DownloadBanner from "@/features/home/components/DownloadBanner";
+
 export default function HomePage() {
-  const [openSuccess, setOpenSuccess] = useState(false);
-  const [openInfo, setOpenInfo] = useState(false);
-  const [openError, setOpenError] = useState(false);
-  const [openWarning, setOpenWarning] = useState(false); // ✅ الحالة الجديدة للـ warning
-
-  const handleShowSuccess = () => setOpenSuccess(true);
-  const handleCloseSuccess = () => setOpenSuccess(false);
-
-  const handleShowInfo = () => setOpenInfo(true);
-  const handleCloseInfo = () => setOpenInfo(false);
-
-  const handleShowError = () => setOpenError(true);
-  const handleCloseError = () => setOpenError(false);
-
-  const handleShowWarning = () => setOpenWarning(true); // ✅ فتح warning
-  const handleCloseWarning = () => setOpenWarning(false); // ✅ غلق warning
-
   return (
-    <>
-      <main
-        style={{
-          padding: 100,
-          height: "70%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="titleSpecial" color="initial" fontSize={"50px"}>
-          {" "}
-          COMMING SOON .
-        </Typography>
-   
-
-        {/* ✅ التوستات */}
-        <ToastItem
-          open={openSuccess}
-          onClose={handleCloseSuccess}
-          message="this is an success message"
-          type="success"
-        />
-
-        <ToastItem
-          open={openInfo}
-          onClose={handleCloseInfo}
-          message="this is an info message"
-          type="info"
-        />
-
-        <ToastItem
-          open={openWarning}
-          onClose={handleCloseWarning}
-          message="this is an warning message"
-          type="warning"
-        />
-
-        <ToastItem
-          open={openError}
-          onClose={handleCloseError}
-          message="this is an error message"
-          type="error"
-        />
-      </main>
-    </>
+    <Box sx={{ width: "100%", overflowX: "hidden" }}>
+      <Hero />
+      <TopBrands />
+      <OffersSection />
+      <ReelsSection />
+      <CategoriesSection />
+      <FavoritesSection />
+      <DownloadBanner />
+    </Box>
   );
 }

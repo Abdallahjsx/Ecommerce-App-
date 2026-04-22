@@ -16,7 +16,7 @@
       display: flex;
       gap: 24px;
       justify-content: center ;
-      align-items: start ;
+      align-items: flex-start ;
       margin-bottom: 32px;
 }
 

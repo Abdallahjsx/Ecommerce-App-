@@ -12,6 +12,10 @@ export default function BackgroundShapeImage() {
         height: "100%",
         width: "100%",
         position: "absolute",
+        top: 0,
+        left: 0,
+        pointerEvents: "none",
+        zIndex: 0,
       }}
     >
       <img

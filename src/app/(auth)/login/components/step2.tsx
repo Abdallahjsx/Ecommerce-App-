@@ -20,10 +20,10 @@ export default function LoginForm() {
   const router = useRouter();
   const t = useTheme();
   const { error, isPending, data, mutate, isSuccess } = useLogin();
-  
+
   useEffect(() => {
     if (!isSuccess) return;
- 
+
     router.push("/home");
     // console.log(data.data.token);
   }, [isSuccess]);
@@ -79,6 +79,8 @@ export default function LoginForm() {
         </Gradient_Button>
       </form>
       <Typography
+      component={"a"}
+      href="/forget-password"
         sx={{
           textAlign: "center",
           textDecoration: "underline",

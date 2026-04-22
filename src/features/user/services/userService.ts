@@ -6,6 +6,13 @@ export async function logoutUser() {
   return res.data;
 }
 
+// 🔹 Get User Info
+export async function getUserInfo() {
+  const res = await apiCall.get("/api/Auth/UserInfo");
+  return res.data;
+}
+
+
 
 
 
