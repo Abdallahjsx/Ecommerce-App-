@@ -20,7 +20,7 @@ export default function ReelsSection() {
             <Typography variant="caption" sx={{ color: "#47C0D2", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase" }}>
               DISCOVER NEW STYLES
             </Typography>
-            <Typography variant="h3" sx={{ color: "white", fontWeight: 900, fontSize: { xs: "36px", md: "48px" }, mt: 1 }}>
+            <Typography variant="h3" sx={{ color: "white", fontWeight: 400, fontSize: { xs: "36px", md: "48px" }, mt: 1 }}>
               Watch Reels
             </Typography>
           </Box>
