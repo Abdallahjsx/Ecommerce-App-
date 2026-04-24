@@ -1,99 +1,203 @@
 "use client";
-import { useContext } from "react";
+import { useState } from "react";
 import { useToaster } from "@/providers/ToasterProvider";
 import { Box, Container, Typography, useTheme } from "@mui/material";
 import BackgroundShapeImage from "@/components/ui/BackgroundShape/BackgroundShapeImage";
 import CartProductCard from "@/components/ui/cards/CartProductCard";
 import EmptyCart from "@/features/cart/components/EmptyCart";
 import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
-import { useState } from "react";
+import ConfirmationModal from "@/components/ui/dialog/confirmationModal";
 
-type CartProduct = {
-  id: number;
-  name: string;
-  category: string;
-  size: string;
-  color: string;
-  price: number;
-  image: string;
-  quantity: number;
-};
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getCart, updateCart, clearCart } from "@/features/cart/services";
 
 export default function CartPage() {
   const theme = useTheme();
   const { showToast } = useToaster();
+  const queryClient = useQueryClient();
 
-  const [cartItems, setCartItems] = useState<CartProduct[]>([
-    {
-      id: 1,
-      name: "Ultraboost Light Running Shoes",
-      category: "Running Shoes",
-      size: "L",
-      color: "Gray",
-      price: 200,
-      image: "/assets/images/Light Running Shoes.png",
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: "Ultraboost Light Running Shoes",
-      category: "Running Shoes",
-      size: "L",
-      color: "Gray",
-      price: 200,
-      image: "/assets/images/Light Running Shoes.png",
-      quantity: 1,
-    },
-    {
-      id: 3,
-      name: "Ultraboost Light Running Shoes",
-      category: "Running Shoes",
-      size: "L",
-      color: "Gray",
-      price: 200,
-      image: "/assets/images/Light Running Shoes.png",
-      quantity: 1,
-    },
-    {
-      id: 4,
-      name: "Ultraboost Light Running Shoes",
-      category: "Running Shoes",
-      size: "L",
-      color: "Gray",
-      price: 200,
-      image: "/assets/images/Light Running Shoes.png",
-      quantity: 1,
-    },
-  ]);
+  const [openClearModal, setOpenClearModal] = useState(false);
 
-  const handleDelete = (id: number) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  // 🔹 GET Cart
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["cart"],
+    queryFn: getCart,
+  });
+
+  // ✅ mapping (رجعنا data.data + fallback)
+  const cartItems =
+    (data?.data?.cartItems ?? []).map((item: any) => ({
+      productId: item.productId,
+      name: item.productName,
+      category: "",
+      size: item.size,
+      color: item.color,
+      price: item.productPrice,
+      image: item.productMediaUrl
+        ? `https://alluvo-api-stating.runasp.net/${item.productMediaUrl}`
+        : "/assets/images/placeholder.png",
+      quantity: item.quantity,
+    }));
+
+  // 🔥 UPDATE Cart (Optimistic)
+  const updateMutation = useMutation({
+    mutationFn: updateCart,
+
+    onMutate: async (newData: any) => {
+      await queryClient.cancelQueries({ queryKey: ["cart"] });
+
+      const previousCart = queryClient.getQueryData(["cart"]);
+
+      queryClient.setQueryData(["cart"], (old: any) => {
+        if (!old) return old;
+
+        const updatedItems = (old.data?.cartItems ?? [])
+          .map((item: any) => {
+            const updated = newData.find(
+              (x: any) =>
+                x.productId === item.productId &&
+                x.color === item.color &&
+                x.size === item.size
+            );
+
+            if (!updated) return item;
+
+            return {
+              ...item,
+              quantity: updated.quantity,
+            };
+          })
+          .filter((item: any) => item.quantity > 0);
+
+        return {
+          ...old,
+          data: {
+            ...old.data,
+            cartItems: updatedItems,
+          },
+        };
+      });
+
+      return { previousCart };
+    },
+
+    onError: (_err, _newData, context) => {
+      if (context?.previousCart) {
+        queryClient.setQueryData(["cart"], context.previousCart);
+      }
+      showToast("Something went wrong", "error");
+    },
+
+    onSuccess: () => {
+      showToast("Cart updated", "success");
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+  });
+
+  // 🔥 CLEAR Cart (Optimistic)
+  const clearCartMutation = useMutation({
+    mutationFn: clearCart,
+
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ["cart"] });
+
+      const previousCart = queryClient.getQueryData(["cart"]);
+
+      queryClient.setQueryData(["cart"], (old: any) => {
+        if (!old) return old;
+
+        return {
+          ...old,
+          data: {
+            ...old.data,
+            cartItems: [],
+          },
+        };
+      });
+
+      return { previousCart };
+    },
+
+    onError: (_err, _data, context) => {
+      if (context?.previousCart) {
+        queryClient.setQueryData(["cart"], context.previousCart);
+      }
+      showToast("Failed to clear cart", "error");
+    },
+
+    onSuccess: () => {
+      showToast("Cart cleared successfully", "success");
+      setOpenClearModal(false);
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+  });
+
+  // ➕ Increase
+  const handleIncrease = (item: any) => {
+    if (updateMutation.isPending) return;
+
+    updateMutation.mutate([
+      {
+        productId: item.productId,
+        quantity: item.quantity + 1,
+        change: 0,
+        color: item.color,
+        size: item.size,
+      },
+    ]);
   };
 
-  const handleIncrease = (id: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
-      ),
-    );
+  // ➖ Decrease
+  const handleDecrease = (item: any) => {
+    if (item.quantity === 1 || updateMutation.isPending) return;
+
+    updateMutation.mutate([
+      {
+        productId: item.productId,
+        quantity: item.quantity - 1,
+        change: 0,
+        color: item.color,
+        size: item.size,
+      },
+    ]);
   };
 
-  const handleDecrease = (id: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-            ...item,
-            quantity: item.quantity > 1 ? item.quantity - 1 : 1,
-          }
-          : item,
-      ),
-    );
+  // ❌ Remove
+  const handleDelete = (item: any) => {
+    if (updateMutation.isPending) return;
+
+    updateMutation.mutate([
+      {
+        productId: item.productId,
+        quantity: 0,
+        change: 0,
+        color: item.color,
+        size: item.size,
+      },
+    ]);
   };
 
-  const total = cartItems.reduce((sum, item) => {
-    return sum + item.price * item.quantity;
-  }, 0);
+  // ✅ total
+  const total = cartItems.reduce(
+    (acc: number, item: any) => acc + item.price * item.quantity,
+    0
+  );
+
+  // ✅ loading
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  // ✅ error يظهر بس لو فعلاً مفيش data
+  if (isError && !data?.data) {
+    return <div>Failed to load cart</div>;
+  }
 
   return (
     <Box
@@ -116,9 +220,6 @@ export default function CartPage() {
         }}
       >
         <Typography
-          onClick={() => {
-            showToast("this is a test message for error", "error") // you can remove it it is just for test 
-          }}
           sx={{
             width: "136px",
             height: "77px",
@@ -149,7 +250,6 @@ export default function CartPage() {
               gap: 4,
             }}
           >
-            {/* Products */}
             <Box
               sx={{
                 flex: 1,
@@ -158,18 +258,20 @@ export default function CartPage() {
                 gap: "14px",
               }}
             >
-              {cartItems.map((item) => (
+              {cartItems.map((item: any) => (
                 <CartProductCard
-                  key={item.id}
+                  key={item.productId}
                   product={item}
-                  onDelete={() => handleDelete(item.id)}
-                  onIncrease={() => handleIncrease(item.id)}
-                  onDecrease={() => handleDecrease(item.id)}
+                  onDelete={() => handleDelete(item)}
+                  onIncrease={() => handleIncrease(item)}
+                  onDecrease={() => handleDecrease(item)}
+                  disabled={
+                    updateMutation.isPending || clearCartMutation.isPending
+                  }
                 />
               ))}
             </Box>
 
-            {/* Summary */}
             <Box
               sx={{
                 mt: { xs: 4, lg: 38 },
@@ -211,28 +313,39 @@ export default function CartPage() {
                   </Box>
                 </Typography>
 
-                <Box
-                  sx={{
-                    width: { xs: "150px", sm: "179px" },
-                    height: { xs: "44px", sm: "48px" },
-                    display: "flex",
-                  }}
-                >
-                  <Gradient_Button
-                    variant="primary"
-                    sx={{
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  >
-                    checkout
-                  </Gradient_Button>
+                <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+                  <Box sx={{ width: "150px", height: "48px" }}>
+                    <Gradient_Button sx={{ width: "100%", height: "100%" }}>
+                      checkout
+                    </Gradient_Button>
+                  </Box>
+
+                  <Box sx={{ width: "150px", height: "48px" }}>
+                    <Gradient_Button
+                      onClick={() => setOpenClearModal(true)}
+                      disabled={clearCartMutation.isPending}
+                      sx={{ width: "100%", height: "100%" }}
+                    >
+                      Clear Cart
+                    </Gradient_Button>
+                  </Box>
                 </Box>
               </Box>
             </Box>
           </Box>
         )}
       </Container>
+
+      <ConfirmationModal
+        open={openClearModal}
+        onClose={() => setOpenClearModal(false)}
+        onConfirm={() => clearCartMutation.mutate()}
+        isPending={clearCartMutation.isPending}
+        message="Clear Cart"
+        subMessage="You are about to remove all items from your cart."
+        actionLabel="Clear"
+        isPendingLabel="Clearing Cart..."
+      />
     </Box>
   );
 }

@@ -5,17 +5,20 @@ import { useTheme } from "@mui/material/styles";
 
 type WishlistProduct = {
   id: number;
+  productId: number;
   name: string;
   category: string;
   image: string;
+  isLiked: boolean; // ✅ الجديد
 };
 
 type Props = {
   product: WishlistProduct;
-  onRemove: (id: number) => void;
+  onRemove: (productId: number) => void;
+  disabled?: boolean;
 };
 
-export default function WishlistProductCard({ product, onRemove }: Props) {
+export default function WishlistProductCard({ product, onRemove, disabled }: Props) {
   const theme = useTheme();
 
   return (
@@ -25,7 +28,7 @@ export default function WishlistProductCard({ product, onRemove }: Props) {
         maxWidth: { xs: "100%", sm: "860px" },
         height: { xs: "auto", sm: "152px" },
         display: "flex",
-        flexDirection: { xs: "column", sm: "row" }, 
+        flexDirection: { xs: "column", sm: "row" },
         alignItems: { xs: "center", sm: "flex-start" },
         gap: "10px",
         mx: "auto",
@@ -38,19 +41,20 @@ export default function WishlistProductCard({ product, onRemove }: Props) {
           "linear-gradient(90deg, rgba(27, 35, 81, 0.08) 0%, rgba(71, 192, 210, 0.08) 100%)",
       }}
     >
-      {/* Love icon */}
+      {/* ❤️ Love icon */}
       <Box
         component="img"
         src="/assets/icons/Love-icon.svg"
         alt="love"
-        onClick={() => onRemove(product.id)}
+        onClick={() => !disabled && onRemove(product.productId)}
         sx={{
           width: 28,
           height: 28,
           position: "absolute",
           top: 16,
           right: 16,
-          cursor: "pointer",
+          cursor: disabled ? "not-allowed" : "pointer",
+          opacity: disabled ? 0.5 : 1,
         }}
       />
 
@@ -91,7 +95,7 @@ export default function WishlistProductCard({ product, onRemove }: Props) {
           flexShrink: 0,
           height: "auto",
           marginLeft: { xs: 0, sm: "8px" },
-          textAlign: { xs: "center", sm: "left" }, // 👈 عشان يبقى شكله مظبوط في الموبايل
+          textAlign: { xs: "center", sm: "left" },
         }}
       >
         <Typography
@@ -103,7 +107,7 @@ export default function WishlistProductCard({ product, onRemove }: Props) {
             letterSpacing: "0.5px",
             color: "#1E1E1E",
             whiteSpace: "nowrap",
-            overflow: "hidden", // 👈 عشان ellipsis تشتغل
+            overflow: "hidden",
             textOverflow: "ellipsis",
             marginTop: { xs: "10px", sm: "19px" },
           }}

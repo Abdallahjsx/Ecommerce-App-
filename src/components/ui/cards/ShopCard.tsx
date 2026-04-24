@@ -3,10 +3,16 @@
 import { Gradient_Button } from "@/components/ui/gradientButton";
 import { Button, Typography, IconButton, Rating } from "@mui/material";
 import { Box, Stack } from "@mui/material";
-import { useState } from "react";
 import { useToggleToWishlist } from "@/features/wishlist/hooks/useToggleToWishlist.hook";
-import { OutlineHeartIcon, FilledHeartIcon, StarIcon, OfferIcon } from "../../../features/brandProfile/Icons";
+import { useWishlist } from "@/features/wishlist/hooks/useWishlist.hook";
+import {
+  OutlineHeartIcon,
+  FilledHeartIcon,
+  StarIcon,
+  OfferIcon,
+} from "../../../features/brandProfile/Icons";
 import { useRouter } from "next/navigation";
+
 export type Product = {
   id: string;
   name: string;
@@ -21,7 +27,8 @@ export type Product = {
   hasDiscount?: boolean;
   isSale?: boolean;
   isInWishlist?: boolean;
-}
+};
+
 export default function ShopCard({
   name,
   category,
@@ -36,13 +43,19 @@ export default function ShopCard({
   isSale = false,
   isInWishlist,
   id,
-  onAddToCart
+  onAddToCart,
 }: Product & { onAddToCart: () => void }) {
   const router = useRouter();
-  const [isLiked, setIsLiked] = useState(isInWishlist)
-  const { mutate: toggleToWishlist } = useToggleToWishlist(() => {
-    setIsLiked(!isLiked)
-  })
+
+  // ✅ mutation
+  const { mutate: toggleToWishlist, isPending } = useToggleToWishlist();
+
+  // ✅ wishlist data
+  const { data: wishlist = [] } = useWishlist();
+
+  // ✅ liked state from cache
+  const isLiked = wishlist.some((item) => item.productId === Number(id));
+
   return (
     <Box
       sx={{
@@ -57,8 +70,8 @@ export default function ShopCard({
         border: "1px solid rgba(0, 0, 0, 0.03)",
         cursor: "pointer",
       }}
-      onClick={(e) => {
-        router.push(`/products/${id}`)
+      onClick={() => {
+        router.push(`/products/${id}`);
       }}
     >
       {/* Badge */}
@@ -114,7 +127,7 @@ export default function ShopCard({
         </Box>
       )}
 
-      {/* Product Image Container */}
+      {/* Image */}
       <Box
         sx={{
           width: "100%",
@@ -171,23 +184,13 @@ export default function ShopCard({
           direction="row"
           justifyContent="space-between"
           alignItems="center"
-          sx={{ mb: { xs: 1, md: 1.5 } }}
         >
           <Stack direction="row" alignItems="center" spacing={0.5}>
             <StarIcon
               sx={{ fontSize: { xs: "12px", md: "14px" }, color: "#47C0D2" }}
             />
-            <Typography
-              sx={{
-                fontSize: { xs: "10px", md: "12px" },
-                color: "#1B2351",
-                fontWeight: 500,
-              }}
-            >
-              {rating.toFixed(1)}{" "}
-              <span style={{ color: "rgba(27, 35, 81, 0.5)" }}>
-                ({reviewsCount})
-              </span>
+            <Typography sx={{ fontSize: { xs: "10px", md: "12px" } }}>
+              {rating.toFixed(1)} ({reviewsCount})
             </Typography>
           </Stack>
 
@@ -202,80 +205,31 @@ export default function ShopCard({
           </Typography>
         </Stack>
 
-        <Stack
-          direction="row"
-          alignItems="center"
-          spacing={1}
-          sx={{ mb: { xs: 1.5, md: 2 } }}
-        >
-          <Typography
-            sx={{
-              fontSize: { xs: "18px", md: "22px" },
-              fontWeight: 800,
-              color: "#1B2351",
-            }}
-          >
-            ${price}
-          </Typography>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography sx={{ fontWeight: 800 }}>${price}</Typography>
           {hasDiscount && originalPrice && (
-            <Typography
-              sx={{
-                fontSize: { xs: "12px", md: "14px" },
-                color: "rgba(27, 35, 81, 0.4)",
-                textDecoration: "line-through",
-              }}
-            >
+            <Typography sx={{ textDecoration: "line-through" }}>
               ${originalPrice}
             </Typography>
           )}
         </Stack>
 
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack direction="row" spacing={1}>
           <Gradient_Button
-            variant="primary"
-            sx={{
-              flexGrow: 1,
-              borderRadius: "8px",
-              py: { xs: 0.5, md: 1 },
-              fontSize: { xs: "12px", md: "14px" },
-              fontWeight: 600,
-              textTransform: "none",
-              height: { xs: "32px", md: "40px" },
-              "& .MuiTypography-root": {
-                fontSize: { xs: "12px !important", md: "14px !important" },
-              },
-            }}
-            onClick={(e) => {
-              e?.stopPropagation?.();
-              onAddToCart()
+            onClick={(e: React.MouseEvent | any) => {
+              e.stopPropagation();
+              onAddToCart();
             }}
           >
-            <Typography
-              sx={{
-                fontSize: "inherit",
-                fontWeight: "inherit",
-                color: "inherit",
-              }}
-            >
-              + Add To Cart
-            </Typography>
+            + Add To Cart
           </Gradient_Button>
 
+          {/* ❤️ Wishlist */}
           <IconButton
-            sx={{
-              border: "1px solid #F3F4F6",
-              borderRadius: "8px",
-              p: { xs: 0.5, md: 1 },
-              width: { xs: "32px", md: "40px" },
-              height: { xs: "32px", md: "40px" },
-              "& svg": {
-                width: { xs: 16, md: 20 },
-                height: { xs: 16, md: 20 },
-              },
-            }}
-            onClick={(e) => {
-              toggleToWishlist(id)
-              e?.stopPropagation?.();
+            disabled={isPending}
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
+              if (!isPending) toggleToWishlist(Number(id));
             }}
           >
             {isLiked ? <FilledHeartIcon /> : <OutlineHeartIcon />}

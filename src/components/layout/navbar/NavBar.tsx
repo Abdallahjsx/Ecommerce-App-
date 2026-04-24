@@ -30,11 +30,13 @@ export default function NavBar() {
   const isDesktop = useMediaQuery("(min-width:900px)");
   const { user } = useUser();
 
-
   const token = useSelector((state: RootState) => state.auth.token);
   const dispatch = useAppDispatch();
 
-  const [loggedIn, setLoggedIn] = useState(token !== null);
+  // ✅ FIX Hydration
+  const [mounted, setMounted] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
   const [shown, setShown] = useState(false);
   const [openedNotifications, setOpenNotifications] = useState(false);
   const [userCard, setUserCard] = useState(false);
@@ -84,20 +86,43 @@ export default function NavBar() {
     setLoggedIn(token !== null);
   }, [token]);
 
+  // 👇 optional sync token من localStorage
   useEffect(() => {
-    function detection() {
-      const storedToken = localStorage.getItem("token");
-      if (storedToken !== null) {
-        dispatch(setToken(storedToken));
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      dispatch(setToken(storedToken));
+    }
+  }, [dispatch]);
+
+  // 👇 close dropdowns
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target as Node)
+      ) {
+        setOpenNotifications(false);
+      }
+      if (
+        userCardRef.current &&
+        !userCardRef.current.contains(event.target as Node)
+      ) {
+        setUserCard(false);
       }
     }
 
-    window.addEventListener("storage", detection);
+    // window.addEventListener("storage", detection);
 
     return () => {
-      window.removeEventListener("storage", detection);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dispatch]);
+  }, [openedNotifications, userCard]);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // ❗ مهم جدًا
+  if (!mounted) return null;
 
   return (
     <Box
@@ -258,8 +283,8 @@ export default function NavBar() {
                     }}
                   >
                     <Avatar
-                      style={{ width: "100%", height: "100%" }}
                       src={user?.profileImageUrl || "/assets/images/user-img.png"}
+                      style={{ width: "100%", height: "100%" }}
                     />
                   </div>
                   {userCard && (
@@ -272,14 +297,13 @@ export default function NavBar() {
             ) : (
               <Typography
                 component={"a"}
-                color={t.tokens.typographyColors.title}
                 href="/login"
-                fontFamily={"poppins"}
                 variant="subtitle1"
                 sx={{
                   display: ["none", "none", "block"],
                   fontSize: "16px",
                   fontWeight: 500,
+                  cursor: "pointer",
                   "&:hover": {
                     color: t.palette.secondary.main,
                   },
@@ -291,15 +315,11 @@ export default function NavBar() {
 
             {/* Language */}
             <Typography
-              fontFamily={"poppins"}
               variant="subtitle1"
               sx={{
                 fontSize: "16px",
                 fontWeight: 700,
                 cursor: "pointer",
-                "&:hover": {
-                  color: t.palette.secondary.main,
-                },
               }}
             >
               {isDesktop ? "ع" : "عربي"}

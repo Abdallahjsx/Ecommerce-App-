@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 type CartProduct = {
-  id: number;
+  productId: number;
   name: string;
   category: string;
   size: string;
@@ -19,6 +19,7 @@ type CartProductCardProps = {
   onDelete: () => void;
   onIncrease: () => void;
   onDecrease: () => void;
+  disabled?: boolean;
 };
 
 export default function CartProductCard({

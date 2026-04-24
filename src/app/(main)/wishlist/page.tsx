@@ -1,66 +1,35 @@
 "use client";
 
 import { Box, Container, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
 import BackgroundShapeImage from "@/components/ui/BackgroundShape/BackgroundShapeImage";
 import EmptyWishlist from "@/features/wishlist/components/EmptyWishlist";
 import WishlistProductCard from "@/components/ui/cards/WishlistProductCard";
+import { useWishlist } from "@/features/wishlist/hooks/useWishlist.hook";
+import { useToggleToWishlist } from "@/features/wishlist/hooks/useToggleToWishlist.hook";
+import { WishlistItem } from "@/features/wishlist/types";
+import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
+import { useToaster } from "@/providers/ToasterProvider";
+import { useEffect } from "react"; // ✅ جديد
 
 export default function WishlistPage() {
   const theme = useTheme();
+  const { showToast } = useToaster();
 
-  // ✅ بقت State بدل ما كانت ثابتة
-  const [wishlistProducts, setWishlistProducts] = useState([
-    {
-      id: 1,
-      name: "Ultraboost Light Running Shoes",
-      category: "Running Shoes",
-      image: "/assets/images/Light Running Shoes.png",
-    },
-    {
-      id: 2,
-      name: "Ultraboost Light Running Shoes",
-      category: "Running Shoes",
-      image: "/assets/images/Light Running Shoes.png",
-    },
-    {
-      id: 3,
-      name: "Ultraboost Light Running Shoes",
-      category: "Running Shoes",
-      image: "/assets/images/Light Running Shoes.png",
-    },
-    {
-      id: 4,
-      name: "Ultraboost Light Running Shoes",
-      category: "Running Shoes",
-      image: "/assets/images/Light Running Shoes.png",
-    },
-    {
-      id: 5,
-      name: "Ultraboost Light Running Shoes",
-      category: "Running Shoes",
-      image: "/assets/images/Light Running Shoes.png",
-    },
-    {
-      id: 6,
-      name: "Ultraboost Light Running Shoes",
-      category: "Running Shoes",
-      image: "/assets/images/Light Running Shoes.png",
-    },
-    {
-      id: 7,
-      name: "Ultraboost Light Running Shoes",
-      category: "Running Shoes",
-      image: "/assets/images/Light Running Shoes.png",
-    },
-  ]);
+  const {
+    data: wishlistProducts = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useWishlist();
 
-  // ✅ دي اللي بتشيل المنتج لما نضغط الهارت
-  const handleRemove = (id: number) => {
-    setWishlistProducts((prev) =>
-      prev.filter((item) => item.id !== id)
-    );
-  };
+  const { mutate: toggleWishlist, isPending } = useToggleToWishlist();
+
+  // ✅ toast هنا بدل JSX
+  useEffect(() => {
+    if (isError) {
+      showToast("Failed to load wishlist", "error");
+    }
+  }, [isError, showToast]);
 
   return (
     <Box
@@ -71,7 +40,6 @@ export default function WishlistPage() {
         overflow: "hidden",
       }}
     >
-      {/* Background */}
       <BackgroundShapeImage />
 
       <Container
@@ -105,25 +73,44 @@ export default function WishlistPage() {
           Wishlist
         </Typography>
 
-        {/* Condition */}
-        {wishlistProducts.length === 0 ? (
-          <EmptyWishlist />
-        ) : (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "20px",
-            }}
-          >
-            {wishlistProducts.map((product) => (
-              <WishlistProductCard
-                key={product.id}
-                product={product}
-                onRemove={handleRemove}   // 👈 ده المهم
-              />
-            ))}
+        {/* ✅ Loading */}
+        {isLoading && <Typography>Loading...</Typography>}
+
+        {/* ❌ Error */}
+        {isError && (
+          <Box textAlign="center" mt={5}>
+            <Typography mb={2}>Something went wrong</Typography>
+
+            <Gradient_Button onClick={() => refetch()}>
+              Retry
+            </Gradient_Button>
           </Box>
+        )}
+
+        {/* ✅ Data */}
+        {!isLoading && !isError && (
+          <>
+            {wishlistProducts.length === 0 ? (
+              <EmptyWishlist />
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "20px",
+                }}
+              >
+                {wishlistProducts.map((product: WishlistItem) => (
+                  <WishlistProductCard
+                    key={product.id}
+                    product={product}
+                    onRemove={() => toggleWishlist(Number(product.productId))}
+                    disabled={isPending}
+                  />
+                ))}
+              </Box>
+            )}
+          </>
         )}
       </Container>
     </Box>

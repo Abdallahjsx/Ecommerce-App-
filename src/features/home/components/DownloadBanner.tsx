@@ -58,7 +58,6 @@ export default function DownloadBanner() {
                 sx={{
                   color: "#47C0D2",
                   fontWeight: 800,
-
                   textTransform: "uppercase",
                   fontSize: "11px",
                 }}

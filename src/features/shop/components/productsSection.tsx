@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Typography } from "@mui/material";
 import { Gradient_Button } from "@/components/ui/gradientButton";
 import { GridIcon, ListIcon, SortIcon } from "@/iconsComponents/all";
