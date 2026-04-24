@@ -17,7 +17,7 @@ export default function DownloadBanner() {
         <Box
           sx={{
             width: "100%",
-            backgroundColor: "#000B2A",
+            backgroundColor: "#040C3C",
             borderRadius: { xs: "32px", md: "48px" },
             overflow: { xs: "visible", md: "hidden" },
             position: "relative",

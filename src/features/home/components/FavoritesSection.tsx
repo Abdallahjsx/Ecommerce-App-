@@ -38,14 +38,19 @@ export default function FavoritesSection() {
         {/* Header - Perfectly Centered */}
         <Stack
           spacing={2}
-          alignItems="center"
-          sx={{ mb: 12, textAlign: "center" }}
+          direction={"column"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          sx={{ mb: 12 }}
+          width={"100%"}
         >
           <Typography 
+          width={"100%"}
+          textAlign={"center"}
             variant="h2" 
             sx={{ 
               color: "#040C3C", 
-              fontWeight: 400, 
+              fontWeight: 800, 
               fontSize: { xs: "36px", md: "48px" },
               fontFamily: "var(--font-manrope)",
               letterSpacing: "-0.5px"
@@ -54,14 +59,16 @@ export default function FavoritesSection() {
             Our Favorites
           </Typography>
           <Typography 
+          width={"100%"}  
+          textAlign={"center"}   
             sx={{ 
               color: "rgba(4, 12, 60, 0.5)", 
-              maxWidth: "500px", 
               fontSize: "16px",
               fontWeight: 500,
               lineHeight: 1.6,
               textAlign: 'center'
             }}
+            
           >
             Hand-picked by our editorial team for exceptional quality and timeless design.
           </Typography>

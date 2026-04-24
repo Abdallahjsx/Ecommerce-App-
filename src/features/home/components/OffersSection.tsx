@@ -28,7 +28,7 @@ const OFFERS_DATA = [
     title: "UP TO 40%",
     subTitle: "Ultraboost Collection",
     buttonText: "Shop the Collection",
-    bannerImage: "/assets/images/shoes2.png", 
+    bannerImage: "/assets/images/shoes2.png",
     accentColor: "#1B2351",
     bgGradient: "linear-gradient(90deg, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0.4) 100%, rgba(20, 20, 20, 0.1) 100%)",
   }
@@ -38,11 +38,11 @@ export default function OffersSection() {
   const router = useRouter();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
-  
+
   // States
   const [mainOfferIndex, setMainOfferIndex] = useState(0);
   const [productIndex, setProductIndex] = useState(0);
-  
+
   // Data Fetching (fetching all offers for simplicity, then we can filter)
   const { data: allProducts, loading } = useProducts({ HaveOffer: true, PageSize: 20 });
 
@@ -50,7 +50,7 @@ export default function OffersSection() {
 
   // Logic for responsive card count in the inner slider
   const visibleCount = isDesktop ? 2 : 1.5;
-  
+
   // Filter products for the active offer if possible, or just slice for demo
   const displayProducts = useMemo(() => {
     if (!allProducts) return [];
@@ -87,20 +87,20 @@ export default function OffersSection() {
       <Container maxWidth="lg">
         {/* Header with Integrated Navigation */}
         <Stack direction="row" justifyContent="space-between" alignItems="flex-end" sx={{ mb: 6 }}>
-          <Stack spacing={1}>
-            <Typography variant="h2" sx={{ fontWeight: 400, color: "#1B2351", fontSize: { xs: "32px", md: "48px" }, fontFamily: "var(--font-manrope)" }}>
+          <Stack spacing={1} mx={"auto"}>
+            <Typography textAlign={"center"} variant="h2" sx={{ fontWeight: 400, color: "#1B2351", fontSize: { xs: "32px", md: "48px" }, fontFamily: "var(--font-manrope)" }}>
               Today's Offers
             </Typography>
-            <Typography variant="body1" sx={{ fontWeight: 400,color: "rgba(27, 35, 81, 0.4)", fontSize: "16px" }}>
+            <Typography variant="body1" sx={{ fontWeight: 400, color: "#46464F", fontSize: "18px" }}>
               Limited time editorial exclusives for our community.
             </Typography>
           </Stack>
 
           {/* Main Offers Navigation Arrows (Under/Near Header) */}
           <Stack direction="row" spacing={1.5} sx={{ mb: 1 }}>
-            <IconButton 
-              onClick={prevMainOffer} 
-              sx={{ 
+            <IconButton
+              onClick={prevMainOffer}
+              sx={{
                 border: "1px solid rgba(27, 35, 81, 0.1)",
                 backgroundColor: "white",
                 "&:hover": { backgroundColor: "#f0f0f0" }
@@ -108,9 +108,9 @@ export default function OffersSection() {
             >
               <ChevronLeftIcon />
             </IconButton>
-            <IconButton 
-              onClick={nextMainOffer} 
-              sx={{ 
+            <IconButton
+              onClick={nextMainOffer}
+              sx={{
                 border: "1px solid rgba(27, 35, 81, 0.1)",
                 backgroundColor: "white",
                 "&:hover": { backgroundColor: "#f0f0f0" }
@@ -163,11 +163,11 @@ export default function OffersSection() {
                 >
                   {/* Brand Header */}
                   <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 4 }}>
-                    <Box 
-                      sx={{ 
-                        width: 48, height: 48, 
-                        backgroundColor: "white", 
-                        borderRadius: "50%", 
+                    <Box
+                      sx={{
+                        width: 48, height: 48,
+                        backgroundColor: "white",
+                        borderRadius: "50%",
                         display: "flex", alignItems: "center", justifyContent: "center",
                       }}
                     >
@@ -176,11 +176,11 @@ export default function OffersSection() {
                       </Typography>
                     </Box>
 
-                    <Typography 
-                      sx={{ 
-                        color: "white", 
-                        fontWeight: 700, 
-                        fontSize: "18px", 
+                    <Typography
+                      sx={{
+                        color: "white",
+                        fontWeight: 700,
+                        fontSize: "18px",
                         fontFamily: "var(--font-manrope)",
                         letterSpacing: "0.5px"
                       }}
@@ -231,10 +231,10 @@ export default function OffersSection() {
                       Featured items in offer
                     </Typography>
                     <Stack direction="row" spacing={1}>
-                      <IconButton 
-                        onClick={prevProduct} 
-                        disabled={productIndex === 0} 
-                        sx={{ 
+                      <IconButton
+                        onClick={prevProduct}
+                        disabled={productIndex === 0}
+                        sx={{
                           width: 31, height: 31,
                           border: "1px solid rgba(4, 12, 60, 0.1)",
                           p: 0,
@@ -243,10 +243,10 @@ export default function OffersSection() {
                       >
                         <ChevronLeftIcon />
                       </IconButton>
-                      <IconButton 
-                        onClick={nextProduct} 
-                        disabled={productIndex >= maxProductIndex} 
-                        sx={{ 
+                      <IconButton
+                        onClick={nextProduct}
+                        disabled={productIndex >= maxProductIndex}
+                        sx={{
                           width: 31, height: 31,
                           border: "1px solid rgba(4, 12, 60, 0.1)",
                           p: 0,
@@ -268,14 +268,14 @@ export default function OffersSection() {
                       whileTap={{ cursor: "grabbing" }}
                     >
                       {displayProducts.map((product) => (
-                        <Box 
-                          key={product.id} 
-                          sx={{ 
+                        <Box
+                          key={product.id}
+                          sx={{
                             minWidth: "192px",
                             width: "192px",
                             height: "276px",
-                            backgroundColor: "white", 
-                            borderRadius: "16px", 
+                            backgroundColor: "white",
+                            borderRadius: "16px",
                             p: "16px",
                             boxShadow: "0px 1px 2px rgba(0,0,0,0.05)",
                             display: "flex",
@@ -297,10 +297,10 @@ export default function OffersSection() {
                               overflow: "hidden"
                             }}
                           >
-                            <img 
-                              src={product.mediaUrl} 
-                              alt={product.name} 
-                              style={{ width: "90%", height: "90%", objectFit: "contain", pointerEvents: "none" }} 
+                            <img
+                              src={product.mediaUrl}
+                              alt={product.name}
+                              style={{ width: "90%", height: "90%", objectFit: "contain", pointerEvents: "none" }}
                             />
                           </Box>
 

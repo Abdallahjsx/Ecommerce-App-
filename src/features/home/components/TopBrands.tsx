@@ -14,15 +14,16 @@ const brands = [
 
 export default function TopBrands() {
   return (
-    <Container maxWidth="xl" sx={{ py: 22 }}>
-      <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 4 }}>
-        <Typography variant="h5" sx={{ fontWeight: 600,fontSize:'24px', color: "#1B2351", whiteSpace: "nowrap" }}>
+    <Box sx={{ py: 10 }} mx={{ sm: 4, md: 8 }}>
+      <Stack px={'40px'} direction="row" alignItems="center" spacing={2} sx={{ mb: 4 }}>
+        <Typography variant="h5" sx={{ fontWeight: 600, fontSize: '24px', color: "#1B2351", whiteSpace: "nowrap" }}>
           Top Brands
         </Typography>
         <Box sx={{ height: "2px", width: "100%", backgroundColor: "#F3F4F6" }} />
       </Stack>
 
       <Stack
+        px={'40px'}
         direction="row"
         spacing={2}
         sx={{
@@ -89,6 +90,6 @@ export default function TopBrands() {
           </Paper>
         ))}
       </Stack>
-    </Container>
+    </Box>
   );
 }

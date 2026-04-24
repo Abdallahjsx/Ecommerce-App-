@@ -9,18 +9,18 @@ export default function ReelsSection() {
 
   return (
     <Box sx={{ py: 12, backgroundColor: "#000B2A", overflow: "hidden" }}>
-      <Container maxWidth="xl">
+      <Box mx={{ sm: "8px", md: "16px", lg: "40px" }}>
         <Stack
           direction="row"
           alignItems="flex-end"
           justifyContent="space-between"
-          sx={{ mb: 10 }}
+          sx={{ mb: 10, px: 4 }}
         >
           <Box>
             <Typography variant="caption" sx={{ color: "#47C0D2", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase" }}>
               DISCOVER NEW STYLES
             </Typography>
-            <Typography variant="h3" sx={{ color: "white", fontWeight: 400, fontSize: { xs: "36px", md: "48px" }, mt: 1 }}>
+            <Typography variant="h3" sx={{ color: "white", fontWeight: 800, fontSize: { xs: "36px", md: "48px" }, mt: 1 }}>
               Watch Reels
             </Typography>
           </Box>
@@ -53,9 +53,9 @@ export default function ReelsSection() {
         >
           {loading ? (
             Array.from({ length: 5 }).map((_, i) => (
-              <Box 
-                key={i} 
-                sx={{ 
+              <Box
+                key={i}
+                sx={{
                   minWidth: "280px",
                   transform: i % 2 === 1 ? "translateY(60px)" : "none"
                 }}
@@ -72,9 +72,9 @@ export default function ReelsSection() {
             <Typography color="error">Failed to load reels</Typography>
           ) : (
             reels.map((reel, index) => (
-              <Box 
-                key={reel.reelId} 
-                sx={{ 
+              <Box
+                key={reel.reelId}
+                sx={{
                   minWidth: "280px",
                   // Staggered layout: every second item is moved down
                   transform: index % 2 === 1 ? "translateY(60px)" : "none",
@@ -94,7 +94,7 @@ export default function ReelsSection() {
             ))
           )}
         </Stack>
-      </Container>
+      </Box>
     </Box>
   );
 }
