@@ -1,11 +1,12 @@
 'use client';
 import React from 'react';
 import ToastItem from './Toast-Item';
+import { ToastType } from './types';
 
 interface Toast {
   id: number;
   message: string;
-  type: 'success' | 'info' | 'error' | 'warning';
+  type: ToastType;
   open: boolean;
   onClose: () => void;
 }

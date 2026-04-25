@@ -3,16 +3,17 @@ import React from "react";
 import Image from "next/image";
 import { Snackbar, Alert, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { keyframes } from '@mui/system'; // ✅ استدعاء keyframes
+import { keyframes } from '@mui/system';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import { ToastType } from "./types";
 
 interface ToastProps {
-  open: boolean;
+  open: boolean;  
   onClose: () => void;
   message: string;
-  type?: "success" | "info" | "error" | "warning"; // ✅ أضفنا نوع التحذير
+  type?: ToastType;
 }
 
-// ✅ تعريف Keyframes للخط السفلي (progress bar)
 const progressBar = keyframes`
   0% { transform: scaleX(0); transform-origin: left; }
   100% { transform: scaleX(1); transform-origin: left; }
@@ -30,43 +31,56 @@ export default function ToastItem({
   const isInfo = type === "info";
   const isError = type === "error";
   const isWarning = type === "warning";
+  const isNotification = type === "notification";
 
   const bgColor = isSuccess
     ? theme.tokens?.backgroundColors?.success || "#EDFFF6"
     : isInfo
-    ? theme.tokens?.backgroundColors?.info || "#DDEEFD"
-    : isError
-    ? theme.tokens?.alerts?.errorBox?.background ||
-      "var(--Colors-Background-Danger, #FEE2E2)"
-    : theme.tokens?.backgroundColors?.warning ||
-      "var(--Colors-Background-Warning, #FEF3C7)";
+      ? theme.tokens?.backgroundColors?.info || "#DDEEFD"
+      : isError
+        ? theme.tokens?.alerts?.errorBox?.background ||
+        "var(--Colors-Background-Danger, #FEE2E2)"
+        : isWarning
+          ? theme.tokens?.backgroundColors?.warning ||
+          "var(--Colors-Background-Warning, #FEF3C7)"
+          : isNotification
+            ? "#F0F9FF" // Light blue for notifications
+            : "white";
 
   const textColor = isSuccess
     ? theme.tokens?.typographyColors?.success || "#10B981"
     : isInfo
-    ? theme.tokens?.typographyColors?.info || "#4A90E2"
-    : isError
-    ? theme.tokens?.alerts?.errorMessage?.color ||
-      "var(--Colors-Text-Danger, #EF4444)"
-    : theme.tokens?.typographyColors?.warning ||
-      "var(--Colors-Text-Warning, #F59E0B)";
+      ? theme.tokens?.typographyColors?.info || "#4A90E2"
+      : isError
+        ? theme.tokens?.alerts?.errorMessage?.color ||
+        "var(--Colors-Text-Danger, #EF4444)"
+        : isWarning
+          ? theme.tokens?.typographyColors?.warning ||
+          "var(--Colors-Text-Warning, #F59E0B)"
+          : isNotification
+            ? theme.palette.primary.main
+            : "primary.main";
 
   const lineColor = isSuccess
     ? theme.tokens?.alerts?.successLine?.color || "#10B981"
     : isInfo
-    ? theme.tokens?.alerts?.infoLine?.color || "#4A90E2"
-    : isError
-    ? theme.tokens?.alerts?.errorLine?.borderColor ||
-      "var(--Colors-Icon-Danger, #EF4444)"
-    : "var(--Colors-Icon-Warning, #F59E0B)";
+      ? theme.tokens?.alerts?.infoLine?.color || "#4A90E2"
+      : isError
+        ? theme.tokens?.alerts?.errorLine?.borderColor ||
+        "var(--Colors-Icon-Danger, #EF4444)"
+        : isWarning
+          ? "var(--Colors-Icon-Warning, #F59E0B)"
+          : isNotification
+            ? theme.palette.secondary.main
+            : "secondary.main";
 
   const iconSrc = isSuccess
     ? "/assets/icons/success-icon.svg"
     : isInfo
-    ? "/assets/icons/info-icon.svg"
-    : isError
-    ? "/assets/icons/error-icon.svg"
-    : "/assets/icons/warning-icon.svg";
+      ? "/assets/icons/info-icon.svg"
+      : isError
+        ? "/assets/icons/error-icon.svg"
+        : "/assets/icons/warning-icon.svg";
 
   return (
     <Snackbar
@@ -82,36 +96,44 @@ export default function ToastItem({
               (isSuccess
                 ? theme.tokens?.alerts?.successBox?.width
                 : isInfo
-                ? theme.tokens?.alerts?.infoBox?.width
-                : isError
-                ? theme.tokens?.alerts?.errorBox?.width
-                : theme.tokens?.alerts?.warningBox?.width) || 300,
+                  ? theme.tokens?.alerts?.infoBox?.width
+                  : isError
+                    ? theme.tokens?.alerts?.errorBox?.width
+                    : isWarning
+                      ? theme.tokens?.alerts?.warningBox?.width
+                      : theme.tokens?.alerts?.infoBox?.width) || 300,
             height:
               (isSuccess
                 ? theme.tokens?.alerts?.successBox?.height
                 : isInfo
-                ? theme.tokens?.alerts?.infoBox?.height
-                : isError
-                ? theme.tokens?.alerts?.errorBox?.height
-                : theme.tokens?.alerts?.warningBox?.height) || 56,
+                  ? theme.tokens?.alerts?.infoBox?.height
+                  : isError
+                    ? theme.tokens?.alerts?.errorBox?.height
+                    : isWarning
+                      ? theme.tokens?.alerts?.warningBox?.height
+                      : theme.tokens?.alerts?.infoBox?.height) || 56,
             borderRadius: theme.tokens?.buttons?.borderRadius || "8px",
             padding:
               (isSuccess
                 ? theme.tokens?.alerts?.successBox?.padding
                 : isInfo
-                ? theme.tokens?.alerts?.infoBox?.padding
-                : isError
-                ? theme.tokens?.alerts?.errorBox?.padding
-                : theme.tokens?.alerts?.warningBox?.padding) || "16px",
+                  ? theme.tokens?.alerts?.infoBox?.padding
+                  : isError
+                    ? theme.tokens?.alerts?.errorBox?.padding
+                    : isWarning
+                      ? theme.tokens?.alerts?.warningBox?.padding
+                      : theme.tokens?.alerts?.infoBox?.padding) || "16px",
             background: bgColor,
             boxShadow:
               (isSuccess
                 ? theme.tokens?.alerts?.successBox?.boxShadow
                 : isInfo
-                ? theme.tokens?.alerts?.infoBox?.boxShadow
-                : isError
-                ? theme.tokens?.alerts?.errorBox?.boxShadow
-                : theme.tokens?.alerts?.warningBox?.boxShadow) ||
+                  ? theme.tokens?.alerts?.infoBox?.boxShadow
+                  : isError
+                    ? theme.tokens?.alerts?.errorBox?.boxShadow
+                    : isWarning
+                      ? theme.tokens?.alerts?.warningBox?.boxShadow
+                      : theme.tokens?.alerts?.infoBox?.boxShadow) ||
               "0px 1px 2px -1px #1018281A, 0px 1px 3px 0px #1018281A",
             display: "flex",
             alignItems: "center",
@@ -119,45 +141,55 @@ export default function ToastItem({
               (isSuccess
                 ? theme.tokens?.alerts?.successBox?.gap
                 : isInfo
-                ? theme.tokens?.alerts?.infoBox?.gap
-                : isError
-                ? theme.tokens?.alerts?.errorBox?.gap
-                : theme.tokens?.alerts?.warningBox?.gap) || "10px",
+                  ? theme.tokens?.alerts?.infoBox?.gap
+                  : isError
+                    ? theme.tokens?.alerts?.errorBox?.gap
+                    : isWarning
+                      ? theme.tokens?.alerts?.warningBox?.gap
+                      : theme.tokens?.alerts?.infoBox?.gap) || "10px",
             fontSize:
               (isSuccess
                 ? theme.tokens?.alerts?.successMessage?.fontSize
                 : isInfo
-                ? theme.tokens?.alerts?.infoMessage?.fontSize
-                : isError
-                ? theme.tokens?.alerts?.errorMessage?.fontSize
-                : theme.tokens?.alerts?.warningMessage?.fontSize) || 16,
+                  ? theme.tokens?.alerts?.infoMessage?.fontSize
+                  : isError
+                    ? theme.tokens?.alerts?.errorMessage?.fontSize
+                    : isWarning
+                      ? theme.tokens?.alerts?.warningMessage?.fontSize
+                      : theme.tokens?.alerts?.infoMessage?.fontSize) || 16,
             fontWeight:
               (isSuccess
                 ? theme.tokens?.alerts?.successMessage?.fontWeight
                 : isInfo
-                ? theme.tokens?.alerts?.infoMessage?.fontWeight
-                : isError
-                ? theme.tokens?.alerts?.errorMessage?.fontWeight
-                : theme.tokens?.alerts?.warningMessage?.fontWeight) || 500,
+                  ? theme.tokens?.alerts?.infoMessage?.fontWeight
+                  : isError
+                    ? theme.tokens?.alerts?.errorMessage?.fontWeight
+                    : isWarning
+                      ? theme.tokens?.alerts?.warningMessage?.fontWeight
+                      : theme.tokens?.alerts?.infoMessage?.fontWeight) || 500,
             color: textColor,
             position: "relative",
             overflow: "hidden",
           }}
           icon={
-            <Image
-              src={iconSrc}
-              alt={
-                isSuccess
-                  ? "Success icon"
-                  : isInfo
-                  ? "Info icon"
-                  : isError
-                  ? "Error icon"
-                  : "Warning icon"
-              }
-              width={24}
-              height={24}
-            />
+            isNotification ? (
+              <NotificationsActiveIcon sx={{ color: lineColor, fontSize: 24 }} />
+            ) : (
+              <Image
+                src={iconSrc}
+                alt={
+                  isSuccess
+                    ? "Success icon"
+                    : isInfo
+                      ? "Info icon"
+                      : isError
+                        ? "Error icon"
+                        : "Warning icon"
+                }
+                width={24}
+                height={24}
+              />
+            )
           }
         >
           {message}

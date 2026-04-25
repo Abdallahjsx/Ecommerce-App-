@@ -1,8 +1,7 @@
 'use client';
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import ToastContainer from '@/components/ui/toaster/ToastContainer';
-
-export type ToastType = 'success' | 'info' | 'error' | 'warning';
+import { ToastType } from '@/components/ui/toaster/types';
 
 type ToastData = {
   id: number;

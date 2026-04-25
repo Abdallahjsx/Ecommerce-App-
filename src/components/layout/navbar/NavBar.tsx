@@ -21,17 +21,70 @@ import { routes } from "@/config/routes";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/features/user/hooks/useUser";
 import { useUnreadNotificationCount } from "@/features/notifications/hooks/useNotifications.hook";
+import useSignalRConnection from "@/libs/signalRConntection";
+import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/toaster/hooks/useToast";
 import CloseIcon from '@mui/icons-material/Close';
+import { NotificationType } from "@/features/notifications/types";
+
 
 
 export default function NavBar() {
   const t = useTheme();
+  const { showToast } = useToast();
   const isDesktop = useMediaQuery("(min-width:900px)");
   const isMobile = useMediaQuery('(max-width:450px)');
   const { user, isLoggedIn } = useUser();
 
   const dispatch = useAppDispatch();
   const { data: count, isSuccess } = useUnreadNotificationCount(!!isLoggedIn);
+  const queryClient = useQueryClient();
+  const connection = useSignalRConnection();
+
+  useEffect(() => {
+    if (connection) {
+      const startConnection = async () => {
+        try {
+          if (connection.state === "Disconnected") {
+            await connection.start();
+            console.log("Connected to SignalR");
+
+            connection.on("ReceiveNotification", (message: NotificationType) => {
+              showToast(message.message, "notification");
+              queryClient.refetchQueries({
+                queryKey: ["notifications"],
+              });
+            });
+
+            connection.on("UpdateUnreadCount", (count: number | string) => {
+              queryClient.setQueryData(["unread-count"], (oldData: any) => {
+                return {
+                  ...oldData,
+                  data: oldData.data + 1
+                }
+              });
+
+
+            });
+          }
+        } catch (err) {
+          console.error("SignalR Connection Error: ", err);
+        }
+      };
+
+      startConnection();
+
+      return () => {
+        connection.off("ReceiveNotification");
+        connection.off("UpdateUnreadCount");
+        // We don't necessarily want to stop the connection here if other components use it,
+        // but since this is the NavBar (singleton-ish), it's probably okay.
+        // However, the hook already handles stopping on token change/unmount.
+      };
+    }
+  }, [connection, queryClient]);
+
+
 
   // ✅ FIX Hydration
   const [mounted, setMounted] = useState(false);
@@ -312,52 +365,3 @@ export default function NavBar() {
     </Box>
   );
 }
-// isLoggedIn && isSuccess &&
-// <div style={{ position: "relative" }}>
-//   <div
-//     style={{
-//       position: "relative",
-//       cursor: "pointer",
-//       display: "flex",
-//       justifyContent: "center",
-//       alignItems: "center",
-//       padding: "5px",
-//     }}
-//     onClick={() => {
-//       setOpenNotifications(true);
-//       setUserCard(false)
-//     }}
-//   >
-//     <BellIcon />
-//     <Box
-//       sx={{
-//         position: "absolute",
-//         top: "1px",
-//         right: "3px",
-//         backgroundColor: "#47C0D2",
-//         borderRadius: "50%",
-//         width: "15px",
-//         height: "15px",
-//         display: "flex",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         color: "white",
-//         padding: "3px",
-//       }}
-//     >
-//       <Typography variant="body2" sx={{ color: "white", fontSize: "12px" }}>
-//         {count?.data}
-//       </Typography>
-//     </Box>
-//   </div>
-//   {openedNotifications && (
-//     <Box ref={notificationRef} sx={{
-//       position: "absolute",
-//       right: "28px",
-//       top: "50px",
-//     }}>
-
-//       <NotificationList />
-//     </Box>
-//   )}
-// </div>

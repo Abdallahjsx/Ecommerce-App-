@@ -9,13 +9,15 @@ import { useGetNotifications, useClearAll, useMarkAsRead, useMarkAllAsRead, useR
 import { useAppSelector } from "@/Redux/hooks";
 import { NotificationType } from "../types";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 export default function NotificationList() {
   const isMobile = useMediaQuery('(max-width:450px)');
   const [activeTab, setActiveTab] = useState("all");
   const token = useAppSelector((state) => state.auth.token);
 
-  const { data: notifications, isLoading, error } = useGetNotifications(!!token);
+  const { data: notifications, isFetching, error } = useGetNotifications(!!token);
   const { mutate: markAllAsRead } = useMarkAllAsRead();
   const { mutate: clearAll } = useClearAll();
   const { mutate: markAsRead } = useMarkAsRead();
@@ -31,6 +33,7 @@ export default function NotificationList() {
       setFilteredNotifications(filtered);
     }
   }, [notifications, activeTab])
+
 
 
 
@@ -189,7 +192,7 @@ export default function NotificationList() {
           alignItems: "center",
           mx: "auto",
         }}>
-          <Typography
+          {isFetching ? <CircularProgress size={24} thickness={4} sx={{ color: "primary.main" }} /> : <Typography
             sx={(theme) => ({
               fontSize: "14px",
               fontWeight: 500,
@@ -197,7 +200,7 @@ export default function NotificationList() {
             })}
           >
             {activeTab === "unread" ? "You don't have any Unread Notifications!" : "You don't have any Notifications!"}
-          </Typography>
+          </Typography>}
         </Box>}
         <Stack direction={'column'} sx={{
           maxHeight: '500px',
