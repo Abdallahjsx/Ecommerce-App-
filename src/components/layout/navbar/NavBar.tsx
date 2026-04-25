@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Link from "next/link";
+import Modal from "@mui/material/Modal";
 
 import SideBarList from "../sideBar/SideBarList";
 import styles from "./navbar.module.css";
@@ -12,31 +13,28 @@ import BagIcon from "@/iconsComponents/BagIcon";
 import Shape from "../../../../public/assets/images/nav-bar-shape.png";
 
 import { useAppDispatch } from "@/Redux/store";
-import { setToken } from "@/Redux/slices/authSlice";
 
 import NotificationList from "@/features/notifications/components/NotificationList";
 import UserCard from "@/features/user/components/userCard";
 
-import { useSelector } from "react-redux";
-import { RootState } from "@/Redux/store";
 import { routes } from "@/config/routes";
-import { truncate } from "fs";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/features/user/hooks/useUser";
+import { useUnreadNotificationCount } from "@/features/notifications/hooks/useNotifications.hook";
+import CloseIcon from '@mui/icons-material/Close';
 
 
 export default function NavBar() {
   const t = useTheme();
   const isDesktop = useMediaQuery("(min-width:900px)");
-  const { user } = useUser();
+  const isMobile = useMediaQuery('(max-width:450px)');
+  const { user, isLoggedIn } = useUser();
 
-  const token = useSelector((state: RootState) => state.auth.token);
   const dispatch = useAppDispatch();
+  const { data: count, isSuccess } = useUnreadNotificationCount(!!isLoggedIn);
 
   // ✅ FIX Hydration
   const [mounted, setMounted] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-
   const [shown, setShown] = useState(false);
   const [openedNotifications, setOpenNotifications] = useState(false);
   const [userCard, setUserCard] = useState(false);
@@ -46,15 +44,10 @@ export default function NavBar() {
   const pathname = usePathname();
   const isActive = (path: string) => {
     if (path === "/") {
-      return pathname === "/";
+      return pathname === "/home";
     }
-    // Remove trailing slash for comparison if necessary, but usually pathname is controlled
     return pathname === path || pathname.startsWith(path + "/");
   };
-  // useEffect(() => {
-  //   setWidth(window.innerWidth);
-  // }, []);
-
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -71,52 +64,17 @@ export default function NavBar() {
       }
     }
     if (openedNotifications) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("click", handleClickOutside);
     }
     if (userCard) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("click", handleClickOutside);
     }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, [notificationRef, openedNotifications, userCard, userCardRef]);
 
-  useEffect(() => {
-    setLoggedIn(token !== null);
-  }, [token]);
-
-  // 👇 optional sync token من localStorage
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      dispatch(setToken(storedToken));
-    }
-  }, [dispatch]);
-
-  // 👇 close dropdowns
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        notificationRef.current &&
-        !notificationRef.current.contains(event.target as Node)
-      ) {
-        setOpenNotifications(false);
-      }
-      if (
-        userCardRef.current &&
-        !userCardRef.current.contains(event.target as Node)
-      ) {
-        setUserCard(false);
-      }
-    }
-
-    // window.addEventListener("storage", detection);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [openedNotifications, userCard]);
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -140,7 +98,7 @@ export default function NavBar() {
       <Box
         className={styles.header}
         style={{ backgroundColor: t.tokens.backgroundColors.main }}
-        padding={["16px 28px", "16px 28px", "0px 80px"]}
+        padding={["16px 28px", "16px 28px", "0px 40px", "0px 80px"]}
       >
         <img
           src={Shape.src}
@@ -151,7 +109,7 @@ export default function NavBar() {
         {/* Logo and menu */}
         <div style={{ display: "flex", alignItems: "center" }}>
           <IconButton
-            sx={{ display: ["block", "block", "block", "none"] }}
+            sx={{ display: ["block", "block", "none"] }}
             onClick={() => setShown(!shown)}
           >
             <img
@@ -174,11 +132,11 @@ export default function NavBar() {
         {/* Links */}
         <Box
           className={styles.links}
-          sx={{ display: ["none", "none", "none", "flex"] }}
+          sx={{ display: ["none", "none", "flex"] }}
         >
           <ul>
             {routes.map((link, index) => {
-              if (link.private && !loggedIn) return null;
+              if (link.private && !isLoggedIn) return null;
 
               const active = isActive(link.path);
 
@@ -213,7 +171,7 @@ export default function NavBar() {
         {/* Actions */}
         <div className={styles.actions}>
           <div style={{ display: "flex", gap: 25, alignItems: "center" }}>
-            {loggedIn ? (
+            {isLoggedIn && isSuccess ? (
               <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
                 {/* Bell */}
                 <div style={{ position: "relative" }}>
@@ -228,6 +186,7 @@ export default function NavBar() {
                     }}
                     onClick={() => {
                       setOpenNotifications(true);
+                      setUserCard(false)
                     }}
                   >
                     <BellIcon />
@@ -244,55 +203,63 @@ export default function NavBar() {
                         justifyContent: "center",
                         alignItems: "center",
                         color: "white",
-                        fontSize: "12px",
+                        padding: "3px",
                       }}
                     >
-                      {3}
+                      <Typography variant="body2" sx={{ color: "white", fontSize: "12px" }}>
+                        {count?.data}
+                      </Typography>
                     </Box>
                   </div>
-                  {openedNotifications && (
-                    <div ref={notificationRef}>
+                  {openedNotifications && !isMobile && (
+                    <Box ref={notificationRef} sx={{
+                      position: "absolute",
+                      right: "0px",
+                      top: "50px",
+                    }}>
+
                       <NotificationList />
-                    </div>
+                    </Box>
                   )}
                 </div>
 
-                {/* Bag */}
-                <Link href="/cart">
-                  <div
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    <BagIcon />
-                  </div>
-                </Link>
+                {isDesktop &&
+                  <>
+                    <Link href="/cart">
+                      <div
+                        style={{
+                          cursor: "pointer",
+                        }}
+                      >
+                        <BagIcon />
+                      </div>
+                    </Link>
 
-                {/* Avatar */}
-                <div
-                  style={{ position: "relative", cursor: "pointer" }}
-                  onClick={() => {
-                    setUserCard(true);
-                    setOpenNotifications(false);
-                  }}
-                >
-                  <div
-                    className={styles.roundedImg}
-                    style={{
-                      border: `1px solid ${t.tokens.separatingColors.border}`,
-                    }}
-                  >
-                    <Avatar
-                      src={user?.profileImageUrl || "/assets/images/user-img.png"}
-                      style={{ width: "100%", height: "100%" }}
-                    />
-                  </div>
-                  {userCard && (
-                    <div ref={userCardRef}>
-                      <UserCard setUserCard={setUserCard} />
+                    <div
+                      style={{ position: "relative", cursor: "pointer" }}
+                      onClick={() => {
+                        setUserCard(true);
+                        setOpenNotifications(false);
+                      }}
+                    >
+                      <div
+                        className={styles.roundedImg}
+                        style={{
+                          border: `1px solid ${t.tokens.separatingColors.border}`,
+                        }}
+                      >
+                        <Avatar
+                          src={user?.profileImageUrl || "/assets/images/user-img.png"}
+                          style={{ width: "100%", height: "100%" }}
+                        />
+                      </div>
+                      {userCard && (
+                        <div ref={userCardRef}>
+                          <UserCard setUserCard={setUserCard} />
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
+                  </>}
               </div>
             ) : (
               <Typography
@@ -314,7 +281,7 @@ export default function NavBar() {
             )}
 
             {/* Language */}
-            <Typography
+            {isDesktop && <Typography
               variant="subtitle1"
               sx={{
                 fontSize: "16px",
@@ -323,12 +290,74 @@ export default function NavBar() {
               }}
             >
               {isDesktop ? "ع" : "عربي"}
-            </Typography>
+            </Typography>}
           </div>
         </div>
+
+
+
+
+
+
       </Box>
 
-      <SideBarList shown={shown} loggedIn={loggedIn} />
+      <Modal open={openedNotifications && isMobile} onClose={() => setOpenNotifications(false)} sx={{ p: '10px' }}>
+        <Box sx={{ position: "relative" }}>
+          <CloseIcon onClick={() => setOpenNotifications(false)} sx={{ position: "absolute", top: "16px", right: "16px", cursor: "pointer", zIndex: 5555 }} />
+          <NotificationList />
+        </Box>
+      </Modal>
+
+      <SideBarList shown={shown} loggedIn={isLoggedIn} />
     </Box>
   );
 }
+// isLoggedIn && isSuccess &&
+// <div style={{ position: "relative" }}>
+//   <div
+//     style={{
+//       position: "relative",
+//       cursor: "pointer",
+//       display: "flex",
+//       justifyContent: "center",
+//       alignItems: "center",
+//       padding: "5px",
+//     }}
+//     onClick={() => {
+//       setOpenNotifications(true);
+//       setUserCard(false)
+//     }}
+//   >
+//     <BellIcon />
+//     <Box
+//       sx={{
+//         position: "absolute",
+//         top: "1px",
+//         right: "3px",
+//         backgroundColor: "#47C0D2",
+//         borderRadius: "50%",
+//         width: "15px",
+//         height: "15px",
+//         display: "flex",
+//         justifyContent: "center",
+//         alignItems: "center",
+//         color: "white",
+//         padding: "3px",
+//       }}
+//     >
+//       <Typography variant="body2" sx={{ color: "white", fontSize: "12px" }}>
+//         {count?.data}
+//       </Typography>
+//     </Box>
+//   </div>
+//   {openedNotifications && (
+//     <Box ref={notificationRef} sx={{
+//       position: "absolute",
+//       right: "28px",
+//       top: "50px",
+//     }}>
+
+//       <NotificationList />
+//     </Box>
+//   )}
+// </div>

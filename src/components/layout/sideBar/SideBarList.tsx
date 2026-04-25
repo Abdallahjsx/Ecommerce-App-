@@ -26,7 +26,7 @@ export default function SideBarList({
   return (
     <Box
       sx={{
-        display: { xs: "block", lg: "none" },
+        display: { xs: "block", md: "none" },
         position: "fixed",
         left: `${shown ? "0px" : "-100vw"}`,
         zIndex: -11,

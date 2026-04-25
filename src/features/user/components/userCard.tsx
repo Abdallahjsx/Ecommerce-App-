@@ -67,97 +67,73 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
       />
 
       {/* Profile Image (Avatar) */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: "24px",
-          right: "24px",
-          zIndex: 2,
-        }}
-      >
-        <Avatar
-          src={user?.profileImageUrl || "/assets/images/user-img.png"}
-          sx={{
-            width: 80,
-            height: 80,
-            border: `2px solid ${theme.palette.background.paper}`,
-            boxShadow: theme.shadows[2],
-          }}
-        />
-      </Box>
 
 
       {/* محتوى البروفايل */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: "26px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "323px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "12px",
-          zIndex: 2,
-        }}
-      >
-        {/* الاسم */}
-        <Typography
-          sx={{
-            ...theme.typography.bodyMedium,
-            color: theme.tokens.typographyColors.body,
-            fontWeight: 500,
-            textAlign: "left",
-          }}
-        >
-          {loading ? "Loading..." : user ? `${user.firstName} ${user.lastName}` : "Welcome"}
-        </Typography>
+      <Box display={'flex'} alignItems={"flex-start"} justifyContent={"space-between"} px={'24px'}>
 
-        {/* الرقم + Edit */}
         <Box
           sx={{
+            width: "323px",
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            flexDirection: "column",
+            gap: "12px",
+            zIndex: 2,
           }}
         >
+          {/* الاسم */}
           <Typography
             sx={{
               ...theme.typography.bodyMedium,
               color: theme.tokens.typographyColors.body,
-              fontWeight: 400,
+              fontWeight: 500,
+              textAlign: "left",
             }}
           >
-            {user?.phoneNumber || ""}
+            {loading ? "Loading..." : user ? `${user.firstName} ${user.lastName}` : "Welcome"}
           </Typography>
 
-          <Typography
-            onClick={() => {
-              router.push("/myProfile");
-              setUserCard?.(false);
-            }}
+          {/* الرقم + Edit */}
+          <Box
             sx={{
-              fontFamily: "Font Type, sans-serif",
-              fontWeight: 400,
-              fontSize: "16px",
-              lineHeight: "24px",
-              textDecoration: "underline",
-              color: "#3E548D",
-              cursor: "pointer",
-              "&:hover": { opacity: 0.8 },
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            Edit
-          </Typography>
+            <Typography
+              sx={{
+                ...theme.typography.bodyMedium,
+                color: theme.tokens.typographyColors.body,
+                fontWeight: 400,
+              }}
+            >
+              {user?.email || ""}
+            </Typography>
+
+
+
+          </Box>
+
+        </Box>
+        <Box
+        >
+          <Avatar
+            src={user?.profileImageUrl || "/assets/images/user-img.png"}
+            sx={{
+              width: 80,
+              height: 80,
+              border: `2px solid ${theme.palette.background.paper}`,
+              boxShadow: theme.shadows[2],
+            }}
+          />
         </Box>
       </Box>
 
       {/* الخط الفاصل الأول */}
       <Box
         sx={{
-          position: "absolute",
-          top: "95px",
-          left: 0,
+          mt: '10px',
           width: "407px",
           height: "0px",
           border: `1px solid ${theme.tokens.separatingColors.separator}`,
@@ -168,10 +144,6 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
       {/* Personal info + My Orders + Favorites */}
       <Box
         sx={{
-          position: "absolute",
-          top: "110px",
-          left: "50%",
-          transform: "translateX(-50%)",
           width: "407px",
           height: "168px",
           display: "flex",
@@ -244,7 +216,7 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
           //   backgroundColor: theme.tokens.backgroundColors.danger,
           //   cursor: "pointer",
           // }
-          
+
         }}
       >
         {/* الشمال: اللوج أوت */}
@@ -254,10 +226,10 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
             alignItems: "center",
             gap: "16px",
             cursor: "pointer",
-            
+
           }}
           onClick={handleLogout} // <<< 4) هنا فقط ضفت onClick
-          
+
         >
           <Image
             src="/assets/icons/log-out-icon.svg"
