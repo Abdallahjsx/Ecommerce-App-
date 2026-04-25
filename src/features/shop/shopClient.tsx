@@ -83,7 +83,7 @@ export default function ShopClient() {
             <AddToCartDialog
                 onAdd={(productId, color, size, quantity) => {
                     if (token) {
-                        addToCart([{ productId, color, size, quantity }]);
+                        addToCart([{ productId: Number(productId), color, size, quantity }]);
                     } else {
                         router.push("/login");
                     }

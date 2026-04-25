@@ -77,9 +77,6 @@ export default function NavBar() {
       return () => {
         connection.off("ReceiveNotification");
         connection.off("UpdateUnreadCount");
-        // We don't necessarily want to stop the connection here if other components use it,
-        // but since this is the NavBar (singleton-ish), it's probably okay.
-        // However, the hook already handles stopping on token change/unmount.
       };
     }
   }, [connection, queryClient]);
