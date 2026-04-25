@@ -20,7 +20,8 @@ type Props<T> = {
   customSx?: SxProps<Theme>;
   hideLabel?: boolean;
   multiline?: boolean;  
-  rows?: number;    
+  rows?: number;  
+  disabled?: boolean;  
 };
 
 export default function TextInput<T>({
@@ -58,13 +59,13 @@ export default function TextInput<T>({
         <TextField
           name={name as string}
           value={myform.values[name as keyof typeof myform.values] ?? ""}
-
           onChange={myform.handleChange}
           onBlur={myform.handleBlur}
           type={type}
           placeholder={placeholder}
           variant="outlined"
           multiline={multiline}  
+         
           rows={rows}             
           sx={{
             width: "100%",
