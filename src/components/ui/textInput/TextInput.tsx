@@ -45,7 +45,10 @@ export default function TextInput<T>({
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  const error = myform.errors[name] && myform.touched[name];
+
   const isPassword = type === "password";
+  const isPhoneNumber = type === "tel";
   const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
   return (
@@ -53,9 +56,9 @@ export default function TextInput<T>({
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "10px",
+        gap: "2px",
         opacity: 1,
-        marginBottom: 20,
+        marginBottom: "0px",
       }}
     >
       {/* Label */}
@@ -94,7 +97,15 @@ export default function TextInput<T>({
                   </InputAdornment>
                 ),
               }
-              : undefined
+              : isPhoneNumber ? {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Typography variant="body1" color="primary">
+                      +20
+                    </Typography>
+                  </InputAdornment>
+                ),
+              } : undefined
           }
           sx={{
             width: "100%",
@@ -103,7 +114,16 @@ export default function TextInput<T>({
               backgroundColor: "white",
               boxShadow: "0px 4px 4px 0px #00000040",
               "& fieldset": {
-                border: "none",
+                border: '1px solid #bdbdbdff',
+                borderColor: error ? "red" : "#bdbdbdff"
+              },
+              "&:hover fieldset": {
+                border: '1px solid',
+                borderColor: error ? "red" : "#1B2351"
+              },
+              "&:focus fieldset": {
+                border: '1px solid',
+                borderColor: error ? "red" : "#1B2351 !important"
               },
             },
             "& input:-webkit-autofill": {

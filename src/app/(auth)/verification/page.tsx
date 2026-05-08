@@ -1,8 +1,7 @@
 "use client";
-import { Container } from "@mui/system";
+import { Box, Container } from "@mui/system";
 import React, { useState } from "react";
-import Step1 from "./components/EnterOtpStep";
-import Step2 from "./components/NewPasswordStep";
+import EnterOtpStep from "./components/EnterOtpStep";
 import { Suspense } from "react";
 
 export default function Verification() {
@@ -11,7 +10,8 @@ export default function Verification() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Container
+      <Box
+        flexGrow={1}
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -19,26 +19,12 @@ export default function Verification() {
           justifyContent: "center",
           paddingBottom: "80px",
           gap: "42px",
+          width: "80%",
+          mx: "auto",
         }}
       >
-        {step === 1 && (
-          <Step1
-            setStep={() => setStep(2)} // من Verify Code إلى New Password
-          />
-        )}
-
-        {step === 2 && (
-          <Step2
-            setStep={setStep} // علشان Step2 تقدر تروح Step3 من جوه Formik
-          />
-        )}
-
-        {step === 3 && (
-          <Step2
-            setStep={setStep} // علشان زرار Home يرجع Step1
-          />
-        )}
-      </Container>
+        <EnterOtpStep />
+      </Box>
     </Suspense>
   );
 }

@@ -14,13 +14,13 @@ export default function Layout({
   return (
     <Box
       sx={{
-        minHeight: "100%",
+        minHeight: "100vh",
         width: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         background: t.palette.gradients.primary,
-        overflow: "hidden",
+        overflowX: "hidden",
       }}
     >
       <Box
@@ -34,25 +34,31 @@ export default function Layout({
           right: "0px",
           overflow: "hidden",
           pointerEvents: "none",
+
         }}
       ></Box>
       <Box
         sx={{
           zIndex: 1,
-          minWidth: ["100vw", "100vw", "42vw"],
-          minHeight: ["100vh", "100vh", "58vh"],
+          minWidth: ["100vw", "100vw", "40vw"],
           backgroundColor: t.tokens.backgroundColors.main,
           margin: ["0px", "0px", "35px"],
-          borderRadius: ["0px", "13px", "13px"],
+          borderRadius: ["0px", "0px", "13px"],
           display: "flex",
           justifyContent: "center",
-          overflow: "hidden",
+          overflow: "auto",
+          minHeight: ["100vh", "100vh", "auto"],
+
         }}
       >
-        <div style={{ width: "100%" }}>
+        <Box sx={{
+          width: "100%", display: "flex",
+          flexDirection: "column",
+          gap: ["70px", "20px", "0px"],
+        }}>
           <AlluvoLogo />
           {children}
-        </div>
+        </Box>
       </Box>
     </Box>
   );

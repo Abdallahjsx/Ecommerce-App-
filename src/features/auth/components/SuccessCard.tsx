@@ -2,7 +2,7 @@
 
 import { Box } from "@mui/material";
 
-export default function NotificationList() {
+export default function SuccessCard() {
   return (
     <Box
       sx={{
@@ -14,7 +14,7 @@ export default function NotificationList() {
         position: "relative",
 
         // الجريدينت البوردر
-        "&::before": {
+        "&::before": {  
           content: '""',
           position: "absolute",
           inset: 0,

@@ -8,8 +8,9 @@ import { Gradient_Button } from "@/components/ui/gradientButton";
 import Typography from "@mui/material/Typography";
 import Social from "@/components/ui/sharedFormContent/shared";
 import { useLogin } from "@/features/auth/hooks/useLogin";
-
+import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
+import ErrorBox from "@/components/ui/special/errorBox";
 
 import * as Yup from "yup";
 export type LoginFormValues = {
@@ -19,7 +20,7 @@ export type LoginFormValues = {
 export default function LoginForm() {
   const router = useRouter();
   const t = useTheme();
-  const { error, isPending, data, mutate, isSuccess } = useLogin();
+  const { error, isPending, data, mutate, isSuccess, isError, errorMessage } = useLogin();
 
   useEffect(() => {
     if (!isSuccess) return;
@@ -40,7 +41,7 @@ export default function LoginForm() {
         .required(`Password Is Rrequired`)
         .min(7, `Password must be at least 7 characters long`),
     }),
-    onSubmit: (values) => {},
+    onSubmit: (values) => { },
   });
   return (
     <div
@@ -53,34 +54,42 @@ export default function LoginForm() {
       }}
     >
       <form>
-        <TextInput
-          myform={myForm}
-          label="Email"
-          type="email"
-          name={"email"}
-          placeholder="Enter your email"
-        />
-        <TextInput
-          myform={myForm}
-          label="Password"
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-        />
-        <Gradient_Button
-          disabled={!myForm.isValid || isPending}
-          size="large"
-          variant="primary"
-          onClick={() => {
-            mutate(myForm.values);
-          }}
-        >
-          {isPending ? "loging in ..." : "Login"}
-        </Gradient_Button>
+        <Box display={"flex"} flexDirection={"column"} gap={2}>
+          <TextInput
+            myform={myForm}
+            label="Email"
+            type="email"
+            name={"email"}
+            placeholder="Enter your email"
+          />
+          <TextInput
+            myform={myForm}
+            label="Password"
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+          />
+          <Box mt={"20px"}>
+            <Gradient_Button
+              disabled={isPending}
+              size="large"
+              variant="primary"
+              onClick={() => {
+                mutate(myForm.values);
+              }}
+            >
+              {isPending ? <CircularProgress size={30} sx={{ color: "white", p: "5px" }} /> : "Login"}
+            </Gradient_Button>
+          </Box>
+          {isError && (
+            <ErrorBox errorMessage={errorMessage && errorMessage !== " " ? errorMessage : "Something went wrong. Please try again later."} />
+          )}
+
+        </Box>
       </form>
       <Typography
-      component={"a"}
-      href="/forget-password"
+        component={"a"}
+        href="/forgot-password"
         sx={{
           textAlign: "center",
           textDecoration: "underline",
@@ -93,7 +102,7 @@ export default function LoginForm() {
         Forget Password?
       </Typography>
 
-      {error && (
+      {/* {error && (
         <p
           style={{
             color: "red",
@@ -104,7 +113,7 @@ export default function LoginForm() {
         >
           {error.response?.data?.message.en || "Something went wrong"}
         </p>
-      )}
+      )} */}
 
       <Social />
       <Box sx={{ marginTop: "10px", textAlign: "center" }}>

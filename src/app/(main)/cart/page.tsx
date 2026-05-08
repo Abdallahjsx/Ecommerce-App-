@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToaster } from "@/providers/ToasterProvider";
 import { Box, Container, Typography, useTheme } from "@mui/material";
 import BackgroundShapeImage from "@/components/ui/BackgroundShape/BackgroundShapeImage";
@@ -7,6 +7,8 @@ import CartProductCard from "@/components/ui/cards/CartProductCard";
 import EmptyCart from "@/features/cart/components/EmptyCart";
 import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
 import ConfirmationModal from "@/components/ui/dialog/confirmationModal";
+import { useAppSelector } from "@/Redux/store";
+import { useRouter } from "next/navigation";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getCart, updateCart, clearCart } from "@/features/cart/services";
@@ -15,6 +17,9 @@ export default function CartPage() {
   const theme = useTheme();
   const { showToast } = useToaster();
   const queryClient = useQueryClient();
+  const router = useRouter();
+  const token = useAppSelector((state) => state.auth.token);
+
 
   const [openClearModal, setOpenClearModal] = useState(false);
 
@@ -188,6 +193,7 @@ export default function CartPage() {
     (acc: number, item: any) => acc + item.price * item.quantity,
     0
   );
+
 
   // ✅ loading
   if (isLoading) {

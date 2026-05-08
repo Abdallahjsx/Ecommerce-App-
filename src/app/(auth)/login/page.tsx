@@ -11,13 +11,15 @@ export default function Login() {
   const [step, setStep] = useState(1);
   const [role, setRole] = useState("");
   return (
-    <Container
+    <Box
       sx={{
+        flexGrow: 1,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: "42px",
         width: ["100%", "100%", "75%"],
+        margin: "auto",
       }}
     >
       {step === 1 ? (
@@ -29,6 +31,6 @@ export default function Login() {
       ) : (
         <LoginForm />
       )}
-    </Container>
+    </Box>
   );
 }

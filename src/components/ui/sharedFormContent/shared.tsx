@@ -16,7 +16,7 @@ export default function Social() {
           width: "100%",
           display: "flex",
           flexDirection: "row",
-          margin: "40px 0px",
+          margin: "10px 0px",
         }}
       >
         <Divider

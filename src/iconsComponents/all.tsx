@@ -173,3 +173,106 @@ export function RightArrowIcon({ fill, width, height, ...props }: React.SVGProps
         </svg>
     );
 }
+export function CalendarIcon({ fill, ...props }: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.5 2.5C1.23478 2.5 0.98043 2.60536 0.792893 2.79289C0.605357 2.98043 0.5 3.23478 0.5 3.5V12.5C0.5 12.7652 0.605357 13.0196 0.792893 13.2071C0.98043 13.3946 1.23478 13.5 1.5 13.5H12.5C12.7652 13.5 13.0196 13.3946 13.2071 13.2071C13.3946 13.0196 13.5 12.7652 13.5 12.5V3.5C13.5 3.23478 13.3946 2.98043 13.2071 2.79289C13.0196 2.60536 12.7652 2.5 12.5 2.5H10.5" stroke="#1B2351" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M3.5 0.5V4.5" stroke="#1B2351" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M10.5 0.5V4.5" stroke="#1B2351" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M3.5 2.5H8.5" stroke="#1B2351" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M9.5 8H4.5" stroke="#1B2351" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M7 5.5V10.5" stroke="#1B2351" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+
+    );
+}
+export function AddIcon({ fill, ...props }: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.5781 23.1544C17.8332 23.2924 23.0158 18.3335 23.1538 12.0784C23.2917 5.82337 18.3329 0.640768 12.0778 0.50278C5.8227 0.364791 0.640091 5.32367 0.502103 11.5787C0.364114 17.8338 5.323 23.0164 11.5781 23.1544Z" stroke="#1B2351" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M11.9434 6.60107L11.7127 17.0557" stroke="#1B2351" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M6.60156 11.7134L17.0562 11.944" stroke="#1B2351" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+
+
+    );
+}
+export function PhoneIcon({ fill, color, ...props }: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16.3668 13.3594C15.7465 12.7344 14.2441 11.8223 13.5152 11.4547C12.566 10.9766 12.4879 10.9375 11.7418 11.4918C11.2441 11.8617 10.9133 12.1922 10.3309 12.068C9.74844 11.9437 8.48281 11.2434 7.37461 10.1387C6.26641 9.03398 5.52539 7.73164 5.40078 7.15117C5.27617 6.5707 5.61211 6.24375 5.97852 5.74492C6.49492 5.0418 6.45586 4.92461 6.01445 3.97539C5.67031 3.23711 4.73164 1.74883 4.1043 1.13164C3.4332 0.46875 3.4332 0.585938 3.00078 0.765625C2.82476 0.839685 2.65249 0.921634 2.48397 1.01147C2.31546 1.10131 2.1514 1.19865 1.9918 1.30352C1.3668 1.71875 1.01992 2.06367 0.777344 2.58203C0.534766 3.10039 0.425781 4.31562 1.67852 6.59141C2.93125 8.86719 3.81016 10.0309 5.6293 11.8449C7.44844 13.659 8.84727 14.6344 10.8922 15.7812C13.4219 17.198 14.3922 16.9219 14.9121 16.6797C15.432 16.4375 15.7785 16.0937 16.1945 15.4688C16.2997 15.3094 16.3972 15.1456 16.4873 14.9773C16.5773 14.8089 16.6594 14.6368 16.7336 14.4609C16.9137 14.0301 17.0309 14.0301 16.3668 13.3594Z" stroke={color || "#136EBF"} strokeWidth="1.25" />
+        </svg>
+
+
+
+    );
+}
+export function QuestionMarkIcon({ fill, color, ...props }: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clipPath="url(#clip0_1_11380)">
+                <mask id="mask0_1_11380" style={{ "maskType": "luminance" }} maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                    <rect width="20" height="20" fill="white" />
+                </mask>
+                <g mask="url(#mask0_1_11380)">
+                    <path d="M10 3.125C8.10152 3.125 6.48107 3.79621 5.13864 5.13864C3.79621 6.48107 3.125 8.10152 3.125 10C3.125 11.8985 3.79621 13.5189 5.13864 14.8614C6.48107 16.2038 8.10152 16.875 10 16.875C11.8985 16.875 13.5189 16.2038 14.8614 14.8614C16.2038 13.5189 16.875 11.8985 16.875 10C16.875 8.10152 16.2038 6.48107 14.8614 5.13864C13.5189 3.79621 11.8985 3.125 10 3.125Z" stroke={color || "#136EBF"} strokeWidth="1.25" />
+                    <path d="M7.8125 7.90195C7.8125 7.90195 7.84531 7.21836 8.57695 6.62969C9.01094 6.28008 9.53125 6.17891 10 6.17188C10.427 6.16641 10.8082 6.23711 11.0363 6.3457C11.427 6.53164 12.1875 6.98555 12.1875 7.95078C12.1875 8.96641 11.5234 9.42773 10.7668 9.93516C10.0102 10.4426 9.80469 10.9934 9.80469 11.5625" stroke={color || "#136EBF"} strokeWidth="1.09375" strokeLinecap="round" />
+                    <circle cx="9.76562" cy="13.5938" r="0.78125" fill={color || "#136EBF"} />
+                </g>
+            </g>
+            <defs>
+                <clipPath id="clip0_1_11380">
+                    <rect width="20" height="20" fill="white" />
+                </clipPath>
+            </defs>
+        </svg>
+
+
+
+
+    );
+}
+export function TimerIcon2({ fill, color, ...props }: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clipPath="url(#clip0_1_11342)">
+                <mask id="mask0_1_11342" style={{ maskType: "luminance" }} maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+                    <rect width="16" height="16" fill="white" />
+                </mask>
+                <g mask="url(#mask0_1_11342)">
+                    <path d="M8 2C4.6875 2 2 4.6875 2 8C2 11.3125 4.6875 14 8 14C11.3125 14 14 11.3125 14 8C14 4.6875 11.3125 2 8 2Z" stroke={color || "#1B2351"} />
+                    <path d="M8 4V8.5H11" stroke={color || "#1B2351"} strokeLinecap="round" strokeLinejoin="round" />
+                </g>
+            </g>
+            <defs>
+                <clipPath id="clip0_1_11342">
+                    <rect width="16" height="16" fill="white" />
+                </clipPath>
+            </defs>
+        </svg>
+
+
+
+    );
+}
+export function GradientCloseIcon({ fill, color, ...props }: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M0.625 2.1875L2.1875 0.625L6.25 4.6875L10.3125 0.625L11.875 2.1875L7.8125 6.25L11.875 10.3125L10.3125 11.875L6.25 7.8125L2.1875 11.875L0.625 10.3125L4.6875 6.25L0.625 2.1875Z" fill="url(#paint0_linear_1_11992)" stroke="url(#paint1_linear_1_11992)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+            <defs>
+                <linearGradient id="paint0_linear_1_11992" x1="0.625" y1="6.25" x2="11.875" y2="6.25" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#1B2351" />
+                    <stop offset="1" stop-color="#47C0D2" />
+                </linearGradient>
+                <linearGradient id="paint1_linear_1_11992" x1="0.625" y1="6.25" x2="11.875" y2="6.25" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#1B2351" />
+                    <stop offset="1" stop-color="#47C0D2" />
+                </linearGradient>
+            </defs>
+        </svg>
+
+
+
+
+    );
+}

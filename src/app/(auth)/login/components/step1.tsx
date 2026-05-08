@@ -5,12 +5,13 @@ export default function PickRole({ setStep }: { setStep: () => void }) {
   return (
     <Box
       sx={{
+        minHeight: "60vh",
         width: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: "60px",
-        paddingBottom: "260px",
+        // paddingBottom: "50px",
       }}
     >
       <Box>

@@ -10,6 +10,9 @@ import { WishlistItem } from "@/features/wishlist/types";
 import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
 import { useToaster } from "@/providers/ToasterProvider";
 import { useEffect } from "react"; // ✅ جديد
+import { useAppSelector } from "@/Redux/store";
+import { redirect } from "next/navigation";
+
 
 export default function WishlistPage() {
   const theme = useTheme();
@@ -31,7 +34,10 @@ export default function WishlistPage() {
     }
   }, [isError, showToast]);
 
+  const token = useAppSelector((state) => state.auth.token);
+
   return (
+
     <Box
       sx={{
         position: "relative",

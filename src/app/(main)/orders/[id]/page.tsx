@@ -9,9 +9,11 @@ export async function generateStaticParams() {
 }
 
 export default function OrderDetailsPage() {
+
   return (
     <>
       <OrderHeader />
     </>
+
   );
 }

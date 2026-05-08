@@ -12,26 +12,26 @@ import { FormikProps } from "formik";
 import { ChangeEvent, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+import { Dayjs } from "dayjs";
+import { CalendarIcon } from "@/iconsComponents/all";
 
-export interface DateInputProps {
-  name: string;
-  label: string;
-  placeholder?: string;
-  error?: string;
-  myform?: FormikProps<any>;
-}
+export type DateInputProps =
+  {
+    value: Dayjs | null,
+    onChange: (value: Dayjs | null) => void,
+    error: boolean | undefined,
+    helperText: string | undefined,
+    myform: FormikProps<any> | null,
+    name: string
+  }
 
 export default function DateInput({
-  name,
-  label,
-  placeholder = "DD/MM/YYYY",
-  error,
-  myform,
+  value, onChange, error, helperText, myform, name
 }: DateInputProps) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
 
-  const fieldValue = myform ? myform.values[name] : undefined;
+  // const fieldValue = myform ? myform.values[name] : undefined;
   const fieldError = myform
     ? (myform.touched[name] && myform.errors[name]) || ""
     : error;
@@ -44,12 +44,12 @@ export default function DateInput({
         gap: "10px",
         opacity: 1,
         marginBottom: 20,
-        width: "278px",
+        width: "100%",
       }}
     >
       {/* Label */}
       <Typography variant="inputLabel" color="primary">
-        {label}
+        Date of Birth
       </Typography>
 
       {/* ✅ DatePicker */}
@@ -57,69 +57,55 @@ export default function DateInput({
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        value={fieldValue ? dayjs(fieldValue) : null}
-        onChange={(value) => {
+        value={value}
+        onChange={(newValue) => {
           if (myform) {
-            myform.setFieldValue(name, value ? value.toISOString() : "");
+            myform.setFieldValue(name, newValue);
+          } else {
+            onChange(newValue);
           }
         }}
-        enableAccessibleFieldDOMStructure={false}
         slots={{
-          textField: (params) => {
-            // ✅ ناخد فقط الخصائص الآمنة
-            const { inputProps, InputProps, ...rest } = params;
-            return (
-              <TextField
-                {...rest}
-                inputProps={inputProps}
-                InputProps={{
-                  ...InputProps,
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={() => setOpen(true)}>
-                        <img
-                          src={"/assets/icons/calendar-icon.svg"}
-                          alt="calendar icon"
-                          width={20}
-                          height={20}
-                        />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                name={name}
-                placeholder={placeholder}
-                error={!!fieldError}
-                fullWidth
-                variant="outlined"
-                value={fieldValue}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  if (myform) myform.handleChange(e);
-                }}
-                onBlur={myform ? myform.handleBlur : undefined}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                    backgroundColor: "white",
-                    boxShadow: "0px 4px 4px 0px #00000040",
-                    "& fieldset": { border: "none" },
-                  },
-                  "& input": { paddingRight: "40px" },
-                }}
-              />
-            );
-          },
+          openPickerIcon: CalendarIcon,
         }}
-      />
+        slotProps={{
+          textField: {
+            name,
+            placeholder: "MM/DD/YYYY",
+            error: !!fieldError,
+            fullWidth: true,
+            variant: "outlined",
+            onBlur: myform ? myform.handleBlur : undefined,
+            sx: {
+              "& .mui-kivzo8-MuiPickersInputBase-root-MuiPickersOutlinedInput-root": {
+                borderRadius: "8px",
+                backgroundColor: "white",
+                boxShadow: "0px 4px 4px 0px #00000040",
+                "& fieldset": {
+                  border: '1px solid #bdbdbdff',
+                  borderColor: error ? "red" : "#bdbdbdff"
+                },
+                "&:hover fieldset": {
+                  border: '1px solid',
+                  borderColor: error ? "red" : "#1B2351"
+                },
+                "&:focus fieldset": {
+                  border: '1px solid',
+                  borderColor: error ? "red" : "#1B2351 !important"
+                },
+              }
+            },
+          },
+        }} />
 
       {/* Error Message */}
-      {fieldError && (
+      {error && (
         <Typography
           color={theme.tokens?.typographyColors?.danger || "red"}
           variant="inputError"
           sx={{ padding: "0 8px", marginTop: "4px" }}
         >
-          {fieldError as string}
+          {helperText}
         </Typography>
       )}
     </div>

@@ -76,7 +76,9 @@ export default function Gradient_Button({
         boxShadow: "0px 2px 2px 0px #00000040",
       },
       "&.Mui-disabled": {
-        background: theme.tokens.buttons.disabledBg,
+        background: isDanger
+          ? "linear-gradient(90deg, #892727 0%, #EF4444 100%)"
+          : theme.tokens.buttons.disabledBg,
         color: theme.tokens.buttons.disabledText,
         boxShadow: "none",
       },

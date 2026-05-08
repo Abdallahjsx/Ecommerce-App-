@@ -3,6 +3,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
 import filtersReducer from "./slices/shopFiltersSlice";
 import addToCartDialogReducer from "./slices/addTocartDialogSlice";
+import otpVerificationReducer from "./slices/otpVerificationSlice";
 import {
   persistStore,
   persistReducer,
@@ -13,25 +14,23 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage"; 
+import storage from "redux-persist/lib/storage";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   filters: filtersReducer,
   addToCartDialog: addToCartDialogReducer,
+  otpVerification: otpVerificationReducer,
 });
-
 
 const persistConfig = {
   key: "root",
-  whitelist: ["auth"],
+  whitelist: ["auth", "otpVerification"],
   storage,
 };
 
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -43,9 +42,7 @@ export const store = configureStore({
     }),
 });
 
-
 export const persistor = persistStore(store);
-
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

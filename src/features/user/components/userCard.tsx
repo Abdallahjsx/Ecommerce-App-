@@ -4,9 +4,11 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { logoutUser } from "@/features/user/services/userService";
 import { useDispatch } from "react-redux";
 import { clearToken } from "@/Redux/slices/authSlice";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useUser } from "../hooks/useUser";
 import { Avatar } from "@mui/material";
+import { useLogout } from "@/features/auth/hooks/useLogin";
+
 
 
 export default function UserCard({ setUserCard }: { setUserCard: (value: boolean) => void }) {
@@ -14,22 +16,9 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
   const dispatch = useDispatch();
   const router = useRouter();
   const { user, loading } = useUser();
+  const pathname = usePathname();
 
-  const handleLogout = async () => {
-    try {
-      await logoutUser(); // استدعاء الـ endpoint
-    } catch (error) {
-      console.log("Logout failed:", error);
-    }
-
-    dispatch(clearToken()); // مسح token من redux
-
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("token"); // مسح token من localStorage
-    }
-
-    router.push("/home");
-  };
+  const { mutate: logout } = useLogout()
 
   return (
     <Box
@@ -228,7 +217,7 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
             cursor: "pointer",
 
           }}
-          onClick={handleLogout} // <<< 4) هنا فقط ضفت onClick
+          onClick={() => { logout() }} // <<< 4) هنا فقط ضفت onClick
 
         >
           <Image

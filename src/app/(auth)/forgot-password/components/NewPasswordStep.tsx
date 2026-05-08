@@ -9,37 +9,20 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // ✅ أضفنا السطر ده
 import { useFormik } from "formik";
+import { useResetNewPassword } from "@/features/auth/hooks/useForgetPassword";
+import { useAppSelector, useAppDispatch } from "@/Redux/store";
+import { setEmail, setVerifiedUser } from "@/Redux/slices/otpVerificationSlice";
+import ErrorBox from "@/components/ui/special/errorBox";
+import { CircularProgress } from "@mui/material";
 
-export default function ResetPasswordTextBox({
-  setStep,
-}: {
-  setStep: (step: number) => void;
-}) {
+
+
+export default function ResetPasswordTextBox() {
+  const dispatch = useAppDispatch();
+  const { mutate: resetNewPassword, errorMessage, isError, isPending, isSuccess } = useResetNewPassword(callBackOnSuccess);
   const theme = useTheme();
   const [openSuccess, setOpenSuccess] = useState(false); // ✅ مودال النجاح
   const router = useRouter(); // ✅ أضفنا السطر ده
-  const myForm = useFormik({
-    validateOnMount: true,
-    initialValues: {
-      password: "",
-      confirmPassword: "",
-    },
-    validationSchema: Yup.object({
-      password: Yup.string()
-        .matches(
-          /^(?=.*[A-Z])(?=.*[!@#$%^&])(?=(?:.*\d){3,}).{7,}$/,
-          "Password must have 7+ chars, 1 uppercase, 1 special char, and 3+ numbers"
-        )
-        .required("Password is required"),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password")], "Passwords must match")
-        .required("Please confirm your password"),
-    }),
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
-  // ✅ Validation Schema
   const validationSchema = Yup.object({
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
@@ -48,49 +31,62 @@ export default function ResetPasswordTextBox({
       .oneOf([Yup.ref("password")], "Passwords must match")
       .required("Please confirm your password"),
   });
+  const myForm = useFormik({
+    validateOnMount: true,
+    initialValues: {
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: () => {
+    },
+  });
+  // ✅ Validation Schema
 
+  function callBackOnSuccess() {
+  }
   return (
     <Box
       sx={{
-        width: "336px",
+        marginBottom: "50px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: "8px",
-        marginTop: "25px",
-        position: "relative",
+        width: "70%",
+        mx: "auto"
       }}
     >
-      {/* 🔹 Title */}
-      <Typography
-        sx={{
-          fontFamily: "Inter, sans-serif",
-          fontWeight: 600,
-          fontSize: "25px",
-          lineHeight: "100%",
-          textAlign: "center",
-          color: theme.palette.primary.main,
-        }}
-      >
-        Reset password
-      </Typography>
+      <Box >
+        {/* 🔹 Title */}
+        <Typography
+          sx={{
+            fontFamily: "Inter, sans-serif",
+            fontWeight: 600,
+            fontSize: "25px",
+            lineHeight: "100%",
+            textAlign: "center",
+            color: theme.palette.primary.main,
+          }}
+        >
+          Reset password
+        </Typography>
 
-      {/* 🔹 Subtitle */}
-      <Typography
-        sx={{
-          fontFamily: "Inter, sans-serif",
-          fontWeight: 300,
-          fontSize: "16px",
-          lineHeight: "36px",
-          textAlign: "center",
-          color: theme.tokens.buttonsColors.label,
-          whiteSpace: "nowrap",
-        }}
-      >
-        Please enter your new password
-      </Typography>
-
+        {/* 🔹 Subtitle */}
+        <Typography
+          sx={{
+            fontFamily: "Inter, sans-serif",
+            fontWeight: 300,
+            fontSize: "16px",
+            lineHeight: "36px",
+            textAlign: "center",
+            color: theme.tokens.buttonsColors.label,
+            whiteSpace: "nowrap",
+          }}
+        >
+          Please enter your new password
+        </Typography>
+      </Box>
       {/* 🔹 Formik Form */}
 
       <form
@@ -122,6 +118,9 @@ export default function ResetPasswordTextBox({
         />
 
         {/* ✅ Save Button */}
+        {isError && (
+          <ErrorBox errorMessage={errorMessage && errorMessage !== " " ? errorMessage : "Something went wrong. Please try again later."} />
+        )}
         <Box
           sx={{
             display: "flex",
@@ -132,20 +131,20 @@ export default function ResetPasswordTextBox({
         >
           <Box
             sx={{
-              gridColumn: "1 / span 2",
-              width: "354px",
-              mt: "-20px",
+              width: "100%",
             }}
           >
-            <Gradient_Button type="submit" size="large">
-              Save
+            <Gradient_Button disabled={isPending || !myForm.isValid} size="large" onClick={() => {
+              resetNewPassword(myForm.values.password);
+            }}>
+              {isPending ? <CircularProgress size={30} sx={{ color: "white", p: "5px" }} /> : "Save"}
             </Gradient_Button>
           </Box>
         </Box>
       </form>
 
       {/* ✅ Success Modal */}
-      <Modal open={openSuccess} onClose={() => setOpenSuccess(false)}>
+      <Modal open={isSuccess} onClose={() => setOpenSuccess(false)}>
         <Box
           sx={{
             width: "479px",
@@ -212,7 +211,9 @@ export default function ResetPasswordTextBox({
               size="large"
               onClick={() => {
                 setOpenSuccess(false);
-                router.push("/login"); // ✅ هنا بيروح لصفحة login
+                router.push("/home");
+                dispatch(setVerifiedUser(false));
+
               }}
             >
               Home
