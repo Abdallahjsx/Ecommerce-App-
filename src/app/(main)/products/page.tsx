@@ -27,7 +27,7 @@ function ProductsContent() {
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
         {/* Breadcrumbs */}
         <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 4 }}>
-          <Link href="/home" passHref legacyBehavior>
+          <Link href="/" passHref legacyBehavior>
             <MuiLink underline="hover" color="inherit" sx={{ display: 'flex', alignItems: 'center' }}>
               Home
             </MuiLink>
@@ -66,7 +66,7 @@ function ProductsContent() {
             <Typography variant="body1" sx={{ color: "text.secondary", mb: 4 }}>
               We're having trouble loading the products right now. This might be due to a temporary server issue.
             </Typography>
-            <Link href="/home" passHref style={{ textDecoration: 'none' }}>
+            <Link href="/" passHref style={{ textDecoration: 'none' }}>
               <Gradient_Button variant="primary" sx={{ px: 4, height: 48 }}>
                 Back to Home
               </Gradient_Button>

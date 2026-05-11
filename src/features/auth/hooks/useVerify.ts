@@ -8,6 +8,9 @@ export function useVerify(callBackOnSuccess: (data: any) => void) {
     onSuccess: (data: any) => {
       setErrorMessage("");
       callBackOnSuccess(data.data.token);
+      if (typeof window !== "undefined") {
+        document.cookie = `token=${data.data.token}; path=/; max-age=${60 * 60 * 24 * 7}`;
+      }
     },
     onError: (error: any) => {
       if (error.statusCode == 500) {

@@ -3,6 +3,8 @@ import { Box } from "@mui/material";
 import { useTheme, Typography, Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useUser } from "@/features/user/hooks/useUser";
+import { useState, useEffect } from "react";
 
 const optionsList: any = [
   { name: "Home", icon: "/assets/icons/home-icon.svg" },
@@ -16,13 +18,20 @@ const optionsList: any = [
 
 export default function SideBarList({
   shown,
-  loggedIn,
+
 }: {
   shown: boolean;
-  loggedIn: boolean;
+
 }) {
+  const [mounted, setMounted] = useState(false);
   const t = useTheme();
   const router = useRouter();
+  const { isLoggedIn } = useUser();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return null;
   return (
     <Box
       sx={{
@@ -32,7 +41,7 @@ export default function SideBarList({
         zIndex: -11,
         top: "70px",
         bottom: "-20px",
-        backdropFilter: `${shown ? `brightness(0.8)` : `brightness(8)`}`,
+        backdropFilter: "brightness(0.8)",
         transition: "all 0.5s ease",
         width: "100vw",
       }}
@@ -40,7 +49,7 @@ export default function SideBarList({
       <Box
         sx={{
           padding: "6px 20px 153px 12px",
-          display: { xs: "flex", lg: "none" },
+          // display: { xs: "flex", lg: "none" },
           flexDirection: "column",
           overflowY: "scroll",
           scrollbarWidth: "none",
@@ -49,7 +58,7 @@ export default function SideBarList({
           backgroundColor: t.tokens.backgroundColors.main,
         }}
       >
-        {!loggedIn ? (
+        {!isLoggedIn && (
           <div
             style={{
               padding: "9px 0px",
@@ -98,11 +107,9 @@ export default function SideBarList({
               </Button>
             </div>
           </div>
-        ) : (
-          <></>
         )}
-        <section
-          style={{
+        <Box
+          sx={{
             padding: "10px 10px 10px 0px",
             display: "flex",
             flexDirection: "column",
@@ -110,9 +117,9 @@ export default function SideBarList({
           }}
         >
           {optionsList.map((op: any, index: number) => (
-            <div
+            <Box
               key={index}
-              style={{
+              sx={{
                 display: "flex",
                 gap: "12px",
                 padding: "20px 0px",
@@ -124,10 +131,10 @@ export default function SideBarList({
               <Typography variant="link" color="primary">
                 {op.name}
               </Typography>
-            </div>
+            </Box>
           ))}
-        </section>
-        <section>
+        </Box>
+        <Box>
           <Typography
             fontSize={16}
             variant="titleSpecial"
@@ -144,7 +151,7 @@ export default function SideBarList({
               <img src={"/assets/images/button-playstore.png"} alt="" />
             </Button>
           </div>
-        </section>
+        </Box>
       </Box>
     </Box>
   );

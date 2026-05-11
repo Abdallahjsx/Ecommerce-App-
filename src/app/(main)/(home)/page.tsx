@@ -11,11 +11,18 @@ import DownloadBanner from "@/features/home/components/DownloadBanner";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/Redux/store";
 import { setStep } from "@/Redux/slices/otpVerificationSlice";
+import { setToken } from "@/Redux/slices/authSlice";
+import { useSearchParams } from "next/navigation";
+
 
 export default function HomePage() {
   // reset the register page 
   const dispatch = useAppDispatch()
+
+
   useEffect(() => {
+ 
+
     return () => {
       dispatch(setStep(1))
     }

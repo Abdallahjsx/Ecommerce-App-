@@ -12,6 +12,7 @@ import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import ErrorBox from "@/components/ui/special/errorBox";
 
+
 import * as Yup from "yup";
 export type LoginFormValues = {
   email: string;
@@ -25,7 +26,7 @@ export default function LoginForm() {
   useEffect(() => {
     if (!isSuccess) return;
 
-    router.push("/home");
+    router.push("/");
     // console.log(data.data.token);
   }, [isSuccess]);
 

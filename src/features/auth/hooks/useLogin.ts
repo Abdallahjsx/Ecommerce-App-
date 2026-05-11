@@ -7,6 +7,7 @@ import { useState } from "react";
 import { clearToken } from "@/Redux/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+
 export function useLogin() {
   const dispatch = useAppDispatch();
   const [errorMessage, setErrorMessage] = useState("");
@@ -16,12 +17,9 @@ export function useLogin() {
 
     onSuccess: (data) => {
       setErrorMessage("");
-      // ✅ التعديل بس هنا
-      if (typeof window !== "undefined") {
-        localStorage.setItem("token", data.data.token);
-      }
 
       dispatch(setToken(data.data.token));
+      document.cookie = `token=${data.data.token}; path=/; max-age=86400`;
     },
 
     onError: (error: any) => {
@@ -44,14 +42,10 @@ export function useLogout() {
 
     onSuccess: () => {
       setErrorMessage("");
-    //   if (
-    //     pathname.startsWith("/cart") ||
-    //     pathname.startsWith("/wishlist") ||
-    //     pathname.startsWith("/orders")
-    //   ) {
-    //     router.replace("/home");
-    //   }
+
       dispatch(clearToken());
+      document.cookie = `token=; path=/; max-age=0`;
+
     },
 
     onError: (error: any) => {

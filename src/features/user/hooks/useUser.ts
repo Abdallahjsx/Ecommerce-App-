@@ -5,7 +5,7 @@ import { getUserInfo } from "../services/userService";
 import { User, ApiResponse } from "../types";
 
 export function useUser() {
-  const token = useAppSelector((s: any) => s.auth?.token);
+  const token = useAppSelector((s: any) => s.auth?.token); 
 
   // لو مفيش توكن، رجّعي User = null ومتشغليش الـ API
   const { data, error, isLoading, refetch } = useQuery<ApiResponse<User>>({

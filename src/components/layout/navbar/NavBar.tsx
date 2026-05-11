@@ -26,6 +26,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/toaster/hooks/useToast";
 import CloseIcon from '@mui/icons-material/Close';
 import { NotificationType } from "@/features/notifications/types";
+import { cookies } from "next/headers";
 
 
 
@@ -35,7 +36,6 @@ export default function NavBar() {
   const isDesktop = useMediaQuery("(min-width:900px)");
   const isMobile = useMediaQuery('(max-width:450px)');
   const { user, isLoggedIn } = useUser();
-
   const dispatch = useAppDispatch();
   const { data: count, isSuccess } = useUnreadNotificationCount(!!isLoggedIn);
   const queryClient = useQueryClient();
@@ -93,9 +93,6 @@ export default function NavBar() {
 
   const pathname = usePathname();
   const isActive = (path: string) => {
-    if (path === "/") {
-      return pathname === "/home";
-    }
     return pathname === path || pathname.startsWith(path + "/");
   };
   useEffect(() => {
@@ -129,8 +126,7 @@ export default function NavBar() {
     setMounted(true);
   }, []);
 
-  // ❗ مهم جدًا
-  if (!mounted) return null;
+
 
   return (
     <Box
@@ -221,115 +217,117 @@ export default function NavBar() {
         {/* Actions */}
         <div className={styles.actions}>
           <div style={{ display: "flex", gap: 25, alignItems: "center" }}>
-            {isLoggedIn && isSuccess ? (
-              <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
-                {/* Bell */}
-                <div style={{ position: "relative" }}>
-                  <div
-                    style={{
-                      position: "relative",
-                      cursor: "pointer",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: "5px",
-                    }}
-                    onClick={() => {
-                      setOpenNotifications(true);
-                      setUserCard(false)
-                    }}
-                  >
-                    <BellIcon />
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        top: "1px",
-                        right: "3px",
-                        backgroundColor: "#47C0D2",
-                        borderRadius: "50%",
-                        width: "15px",
-                        height: "15px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        color: "white",
-                        padding: "3px",
-                      }}
-                    >
-                      <Typography variant="body2" sx={{ color: "white", fontSize: "12px" }}>
-                        {count?.data}
-                      </Typography>
-                    </Box>
-                  </div>
-                  {openedNotifications && !isMobile && (
-                    <Box ref={notificationRef} sx={{
-                      position: "absolute",
-                      right: "0px",
-                      top: "50px",
-                    }}>
-
-                      <NotificationList />
-                    </Box>
-                  )}
-                </div>
-
-                {isDesktop &&
-                  <>
-                    <Link href="/cart">
+            <Box sx={{ display: mounted ? 'block' : 'none' }}>
+              {
+                isLoggedIn && isSuccess ? (
+                  <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
+                    {/* Bell */}
+                    <div style={{ position: "relative" }}>
                       <div
                         style={{
+                          position: "relative",
                           cursor: "pointer",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          padding: "5px",
+                        }}
+                        onClick={() => {
+                          setOpenNotifications(true);
+                          setUserCard(false)
                         }}
                       >
-                        <BagIcon />
+                        <BellIcon />
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: "1px",
+                            right: "3px",
+                            backgroundColor: "#47C0D2",
+                            borderRadius: "50%",
+                            width: "15px",
+                            height: "15px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            color: "white",
+                            padding: "3px",
+                          }}
+                        >
+                          <Typography variant="body2" sx={{ color: "white", fontSize: "12px" }}>
+                            {count?.data}
+                          </Typography>
+                        </Box>
                       </div>
-                    </Link>
+                      {openedNotifications && !isMobile && (
+                        <Box ref={notificationRef} sx={{
+                          position: "absolute",
+                          right: "0px",
+                          top: "50px",
+                        }}>
 
-                    <div
-                      style={{ position: "relative", cursor: "pointer" }}
-                      onClick={() => {
-                        setUserCard(true);
-                        setOpenNotifications(false);
-                      }}
-                    >
-                      <div
-                        className={styles.roundedImg}
-                        style={{
-                          border: `1px solid ${t.tokens.separatingColors.border}`,
-                        }}
-                      >
-                        <Avatar
-                          src={user?.profileImageUrl || "/assets/images/user-img.png"}
-                          style={{ width: "100%", height: "100%" }}
-                        />
-                      </div>
-                      {userCard && (
-                        <div ref={userCardRef}>
-                          <UserCard setUserCard={setUserCard} />
-                        </div>
+                          <NotificationList />
+                        </Box>
                       )}
                     </div>
-                  </>}
-              </div>
-            ) : (
-              <Typography
-                component={"a"}
-                href="/login"
-                variant="subtitle1"
-                sx={{
-                  display: ["none", "none", "block"],
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  cursor: "pointer",
-                  "&:hover": {
-                    color: t.palette.secondary.main,
-                  },
-                }}
-              >
-                Login
-              </Typography>
-            )}
 
+                    {isDesktop &&
+                      <>
+                        <Link href="/cart">
+                          <div
+                            style={{
+                              cursor: "pointer",
+                            }}
+                          >
+                            <BagIcon />
+                          </div>
+                        </Link>
+
+                        <div
+                          style={{ position: "relative", cursor: "pointer" }}
+                          onClick={() => {
+                            setUserCard(true);
+                            setOpenNotifications(false);
+                          }}
+                        >
+                          <div
+                            className={styles.roundedImg}
+                            style={{
+                              border: `1px solid ${t.tokens.separatingColors.border}`,
+                            }}
+                          >
+                            <Avatar
+                              src={user?.profileImageUrl || "/assets/images/user-img.png"}
+                              style={{ width: "100%", height: "100%" }}
+                            />
+                          </div>
+                          {userCard && (
+                            <div ref={userCardRef}>
+                              <UserCard setUserCard={setUserCard} />
+                            </div>
+                          )}
+                        </div>
+                      </>}
+                  </div>
+                ) : (
+                  <Typography
+                    component={"a"}
+                    href="/login"
+                    variant="subtitle1"
+                    sx={{
+                      display: ["none", "none", "block"],
+                      fontSize: "16px",
+                      fontWeight: 500,
+                      cursor: "pointer",
+                      "&:hover": {
+                        color: t.palette.secondary.main,
+                      },
+                    }}
+                  >
+                    Login
+                  </Typography>
+                )}
+            </Box>
             {/* Language */}
             {isDesktop && <Typography
               variant="subtitle1"
@@ -358,7 +356,7 @@ export default function NavBar() {
         </Box>
       </Modal>
 
-      <SideBarList shown={shown} loggedIn={isLoggedIn} />
+      <SideBarList shown={shown} />
     </Box>
   );
 }

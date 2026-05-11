@@ -16,7 +16,7 @@ export default function GuardedLayout({
 
     useEffect(() => {
         if (!token) {
-            router.replace("/home");
+            router.replace("/");
         } else {
             setAuthorized(true);
         }

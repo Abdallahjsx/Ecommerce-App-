@@ -211,7 +211,7 @@ export default function ResetPasswordTextBox() {
               size="large"
               onClick={() => {
                 setOpenSuccess(false);
-                router.push("/home");
+                router.push("/");
                 dispatch(setVerifiedUser(false));
 
               }}

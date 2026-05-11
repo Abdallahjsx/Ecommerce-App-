@@ -19,7 +19,7 @@ type interest = {
 export default function Interests() {
     const router = useRouter()
     const handleComplete = () => {
-        router.replace("/home")
+        router.replace("/")
     }
     const [interestIds, setInterestIds] = useState<number[]>([])
     const { data: interests, isLoading, isError } = useInterests()
