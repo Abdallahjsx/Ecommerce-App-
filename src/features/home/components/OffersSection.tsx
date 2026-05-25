@@ -298,7 +298,7 @@ export default function OffersSection() {
                             }}
                           >
                             <img
-                              src={product.mediaUrl}
+                              src={product.mediaUrls[0]}
                               alt={product.name}
                               style={{ width: "90%", height: "90%", objectFit: "contain", pointerEvents: "none" }}
                             />

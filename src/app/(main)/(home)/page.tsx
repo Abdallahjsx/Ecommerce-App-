@@ -32,10 +32,10 @@ export default function HomePage() {
       <Hero />
       <TopBrands />
       <OffersSection />
-      <ReelsSection />
+      {/* <ReelsSection /> */}
       <CategoriesSection />
-      <FavoritesSection />
-      <DownloadBanner />
+      {/* <FavoritesSection /> */}
+      {/* <DownloadBanner /> */}
     </Box>
   );
 }

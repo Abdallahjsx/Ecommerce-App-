@@ -7,13 +7,13 @@ import { useUser } from "@/features/user/hooks/useUser";
 import { useState, useEffect } from "react";
 
 const optionsList: any = [
-  { name: "Home", icon: "/assets/icons/home-icon.svg" },
-  { name: "Shop", icon: "/assets/icons/shop-icon.svg" },
-  { name: "Reels", icon: "/assets/icons/reels-icon.svg" },
-  { name: "Orders", icon: "/assets/icons/cart-icon.svg" },
-  { name: "Favorites", icon: "/assets/icons/heart-icon.svg" },
-  { name: "Contact Us", icon: "/assets/icons/phone-icon.svg" },
-  { name: "FAQs", icon: "/assets/icons/question-mark-icon.svg" },
+  { name: "Home", icon: "/assets/icons/home-icon.svg", path: "/" },
+  { name: "Shop", icon: "/assets/icons/shop-icon.svg", path: "/shop" },
+  // { name: "Reels", icon: "/assets/icons/reels-icon.svg" },
+  // { name: "Orders", icon: "/assets/icons/cart-icon.svg", path: "/orders" },
+  { name: "Favorites", icon: "/assets/icons/heart-icon.svg", path: "/wishlist" },
+  { name: "Contact Us", icon: "/assets/icons/phone-icon.svg", path: "/support/contact-us" },
+  { name: "FAQs", icon: "/assets/icons/question-mark-icon.svg", path: "/support/faq" },
 ];
 
 export default function SideBarList({
@@ -119,6 +119,7 @@ export default function SideBarList({
           {optionsList.map((op: any, index: number) => (
             <Box
               key={index}
+              onClick={() => router.push(op.path)}
               sx={{
                 display: "flex",
                 gap: "12px",
@@ -134,7 +135,7 @@ export default function SideBarList({
             </Box>
           ))}
         </Box>
-        <Box>
+        {/* <Box>
           <Typography
             fontSize={16}
             variant="titleSpecial"
@@ -151,7 +152,7 @@ export default function SideBarList({
               <img src={"/assets/images/button-playstore.png"} alt="" />
             </Button>
           </div>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

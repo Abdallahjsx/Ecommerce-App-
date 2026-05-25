@@ -36,6 +36,7 @@ export interface Product {
   category: Category;
   reviewsSummary: ReviewsSummary;
   isInWishlist: boolean;
+  mediaUrls: string[];
 }
 
 export interface ProductResponse {

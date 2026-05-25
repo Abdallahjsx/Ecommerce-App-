@@ -221,7 +221,7 @@ export default function NavBar() {
                 isLoggedIn && isSuccess ? (
                   <div style={{ display: "flex", gap: 9, alignItems: "center" }}>
                     {/* Bell */}
-                    <div style={{ position: "relative" }}>
+                    {/* <div style={{ position: "relative" }}>
                       <div
                         style={{
                           position: "relative",
@@ -268,7 +268,7 @@ export default function NavBar() {
                           <NotificationList />
                         </Box>
                       )}
-                    </div>
+                    </div> */}
 
                     {isDesktop &&
                       <>
@@ -328,7 +328,7 @@ export default function NavBar() {
                 )}
             </Box>
             {/* Language */}
-            {isDesktop && <Typography
+            {/* {isDesktop && <Typography
               variant="subtitle1"
               sx={{
                 fontSize: "16px",
@@ -337,7 +337,7 @@ export default function NavBar() {
               }}
             >
               {isDesktop ? "ع" : "عربي"}
-            </Typography>}
+            </Typography>} */}
           </div>
         </div>
 

@@ -39,8 +39,8 @@ export default function FilterationComponent({ categories, isLoading, allColors,
                 </Typography>
             </Box >
             <CustomDivider />
-            <AppliedFilters categories={categories}/>
-            <CustomDivider />
+            {/* <AppliedFilters categories={categories}/>
+            <CustomDivider /> */}
             <CategoryFilter categories={categories} />
             <CustomDivider />
             <StockStatusFilter />

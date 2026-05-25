@@ -141,7 +141,7 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
       >
         {[
           { icon: "person-icon.svg", text: "Personal information", to: '/myProfile' },
-          { icon: "orders-icon.svg", text: "My Orders", to: '/orders' },
+          // { icon: "orders-icon.svg", text: "My Orders", to: '/orders' },
           { icon: "favorite-icon.svg", text: "Favorites", to: '/wishlist' },
         ].map((item, i) => (
           <Box
@@ -240,7 +240,7 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
         </Box>
 
         {/* اليمين */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        {/* <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <Image
             src="/assets/icons/dark-mode-icon.svg"
             alt="dark mode"
@@ -253,7 +253,7 @@ export default function UserCard({ setUserCard }: { setUserCard: (value: boolean
             width={30}
             height={30}
           />
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

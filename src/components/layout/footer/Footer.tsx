@@ -30,7 +30,7 @@ export default function Footer() {
         >
           All your Favorites
         </Typography>
-        <Box
+        {/* <Box
           className={styles.ourAppLinks}
           sx={{ gap: ["16px", "16px", "24px"] }}
         >
@@ -55,7 +55,7 @@ export default function Footer() {
           >
             <img src={"/assets/images/google-play.png"} alt="Appstore" />
           </Link>
-        </Box>
+        </Box> */}
       </Box>
       <Box
         className={styles.footerContent}
@@ -134,7 +134,7 @@ export default function Footer() {
             >
               Order & Shopping Help
             </Typography>
-            {["Home", "Shop", "Reels"].map((val, index) => (
+            {["Home", "Shop"].map((val, index) => (
               <Typography
                 key={index}
                 variant="link"
@@ -215,7 +215,7 @@ export default function Footer() {
                 19000
               </Typography>
             </div>
-            <div className={styles.social}>
+            {/* <div className={styles.social}>
               {[
                 "/assets/icons/facebook-icon.svg",
                 "/assets/icons/linkedin-icon.svg",
@@ -237,7 +237,7 @@ export default function Footer() {
                   </div>
                 </Typography>
               ))}
-            </div>
+            </div> */}
           </div>
         </Box>
       </Box>

@@ -4,11 +4,11 @@ export const routes = [
         path: "/",
         private: false,
     },
-    {
-        title: "Reels",
-        path: "/reels",
-        private: false,
-    },
+    // {
+    //     title: "Reels",
+    //     path: "/reels",
+    //     private: false,
+    // },
     {
         title: "Shop",
         path: "/shop",
