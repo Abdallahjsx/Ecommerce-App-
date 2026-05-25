@@ -1,22 +1,38 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-
-export default function AddressCard() {
+import { CheckedIcon } from "@/iconsComponents/all";
+import type { AddressType } from "@/features/checkout/types";
+export default function AddressCard({ isSelected, address, index, onSelect }: { isSelected: boolean, address: AddressType, index: number, onSelect?: () => void }) {
+  const street = "Mo Nagieb"
+  const country = "Egypt"
+  const city = "tanta"
+  const phone = "+201205256393"
+  const building = "koko"
   return (
     <Box
       sx={{
         width: "100%",
-        minHeight: { xs: "auto", md: "196px" },
+        minWidth: { xs: "auto", md: "200px" },
+        minHeight: { xs: "auto", md: "230px" },
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
         padding: { xs: "16px", md: "24px" },
         borderRadius: "12px",
-        border: "2px solid #006874",
+        border: "2px solid ",
+        borderColor: isSelected ? "#1B2351" : "#c7c5d0a9",
         boxSizing: "border-box",
         gap: "16px",
+        boxShadow: isSelected ? "0 4px 10px rgba(0, 0, 0, 0.27)" : "none",
+        backgroundColor: isSelected ? "#fff" : "#d5d4d152",
+        cursor: !isSelected ? "pointer" : "default",
+        transition: "all 0.3s ease",
+        "&.hover": {
+          transform: "scale(1.02)",
+        }
       }}
+      onClick={onSelect}
     >
       <Box
         sx={{
@@ -32,7 +48,7 @@ export default function AddressCard() {
             gap: "6px",
           }}
         >
-          <Box
+          {address.isDefault && <Box
             sx={{
               width: "fit-content",
               backgroundColor: "#78EAFD",
@@ -52,7 +68,7 @@ export default function AddressCard() {
             >
               DEFAULT
             </Typography>
-          </Box>
+          </Box>}
 
           <Typography
             sx={{
@@ -63,11 +79,11 @@ export default function AddressCard() {
               color: "#1C1C18",
             }}
           >
-            Home
+            ADDRESS {index}
           </Typography>
         </Box>
 
-        <Box
+        {/* <Box
           sx={{
             width: { xs: "18px", md: "20px" },
             height: { xs: "18px", md: "20px" },
@@ -88,7 +104,8 @@ export default function AddressCard() {
               strokeLinejoin="round"
             />
           </svg>
-        </Box>
+        </Box> */}
+        {isSelected && <CheckedIcon fill="#47C0D2" width={"12px"} height={"12px"} />}
       </Box>
 
       <Box
@@ -107,7 +124,7 @@ export default function AddressCard() {
             color: "#46464F",
           }}
         >
-          24th Avenue, Building 12
+          {`${address.street ? `${address.street} st ` : ''}  ${address?.building ? ', ' + address.building + " building" : ''}`}
         </Typography>
 
         <Typography
@@ -119,7 +136,7 @@ export default function AddressCard() {
             color: "#46464F",
           }}
         >
-          Maadi, Cairo, Egypt
+          {address.city} {" "},{" "}{address.country}
         </Typography>
 
         <Typography
@@ -131,7 +148,7 @@ export default function AddressCard() {
             color: "#46464F",
           }}
         >
-          +20 100 123 4567
+          {address.phoneNumber}
         </Typography>
       </Box>
     </Box>

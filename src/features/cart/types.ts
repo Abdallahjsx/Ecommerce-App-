@@ -1,12 +1,12 @@
 // 🔹 Product داخل الكارت
 export type CartProduct = {
   productId: number;
-  name: string;
+  productName: string;
   category: string;
   size: string;
   color: string;
-  price: number;
-  image: string;
+  productPrice: number;
+  productMediaUrls: string[];
   quantity: number;
 };
 
@@ -21,7 +21,7 @@ export type CartResponse = {
 export type UpdateCartItem = {
   productId: number;
   quantity: number; // القيمة النهائية
-  change: number;   // دايمًا = 0
+  change: number; // دايمًا = 0
   color: string;
   size: string;
 };

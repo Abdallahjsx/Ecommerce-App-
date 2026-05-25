@@ -10,7 +10,7 @@ import { mainCategoryType } from '@/features/shop/types';
 
 
 
-export default function MenuElement<T>({ children, options, value, onSelect, getId, getLabel }: { children: React.ReactNode, options: T[], value: string | undefined, onSelect: (item: T) => void, getId: (item: T) => string, getLabel: (item: T) => string }) {
+export default function MenuElement<T>({ children, options, value, onSelect, getId, getLabel, sortOrder, sortBy }: { children: React.ReactNode, options: T[], value: string | undefined, onSelect: (item: T) => void, getId: (item: T) => string, getLabel: (item: T) => string, sortOrder?: string, sortBy?: string }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const t = useTheme()
     const open = Boolean(anchorEl);

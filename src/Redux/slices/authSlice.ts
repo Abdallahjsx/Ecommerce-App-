@@ -7,24 +7,18 @@ type authState = {
 const initialState: authState = {
   token: null,
 };
-const authSlice = createSlice({
-  name: "auth",
+const authAlluvoSlice = createSlice({
+  name: "authAlluvo",
   initialState,
   reducers: {
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
-      if (typeof window !== "undefined") {
-        localStorage.setItem("token", state.token);
-      }
     },
     clearToken: (state) => {
       state.token = null;
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("token");
-      }
     },
   },
 });
 
-export default authSlice.reducer;
-export const { setToken, clearToken } = authSlice.actions;
+export default authAlluvoSlice.reducer;
+export const { setToken, clearToken } = authAlluvoSlice.actions;

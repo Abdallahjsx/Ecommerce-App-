@@ -39,15 +39,22 @@ export const getCart = async () => {
     throw error;
   }
 };
+// get cart for use query
+export async function getCart2() {
+  const res = await apiCall.get("api/Cart");
+  return res.data;
+}
 
 // 🔹 Update Cart (increase / decrease / remove)
-export const updateCart = async (items: {
-  productId: number;
-  quantity: number;
-  change: number;
-  color: string;
-  size: string;
-}[]) => {
+export const updateCart = async (
+  items: {
+    productId: number;
+    quantity: number;
+    change: number;
+    color: string;
+    size: string;
+  }[],
+) => {
   const res = await apiCall.put("api/Cart", {
     items,
   });

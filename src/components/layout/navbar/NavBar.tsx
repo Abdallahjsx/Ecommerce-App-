@@ -26,7 +26,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/toaster/hooks/useToast";
 import CloseIcon from '@mui/icons-material/Close';
 import { NotificationType } from "@/features/notifications/types";
-import { cookies } from "next/headers";
 
 
 

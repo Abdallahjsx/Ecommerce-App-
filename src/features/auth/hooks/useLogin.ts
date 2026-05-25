@@ -19,7 +19,7 @@ export function useLogin() {
       setErrorMessage("");
 
       dispatch(setToken(data.data.token));
-      document.cookie = `token=${data.data.token}; path=/; max-age=86400`;
+      
     },
 
     onError: (error: any) => {

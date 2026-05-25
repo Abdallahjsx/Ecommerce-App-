@@ -5,12 +5,19 @@ import MenuElement from "@/components/ui/special/menuElement";
 import { sortOptionType } from "../types";
 import { useAppDispatch, useAppSelector } from "@/Redux/store";
 import { setSortItem } from "@/Redux/slices/shopFiltersSlice";
+import { useSearchParams, useRouter } from "next/navigation";
+
 
 export default function LargeScreensControllers({ viewMode, setViewMode, totalRecords }: {
     viewMode: "grid" | "list",
     setViewMode: (viewMode: "grid" | "list") => void,
     totalRecords?: number
 }) {
+    const searchParams = useSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
+    const sortBy = searchParams.get("sortBy");
+    const sortOrder = searchParams.get("sortOrder");
+    const router = useRouter();
     const dispatch = useAppDispatch()
     const { SortItem, mainCategory } = useAppSelector((state) => state.filters)
     const sortOptions: sortOptionType[] = [
@@ -22,6 +29,13 @@ export default function LargeScreensControllers({ viewMode, setViewMode, totalRe
         { label: "Year - Newest to Oldest", SortBy: "createdat", SortOrder: "desc" },
         { label: "Year - Oldest to Newest", SortBy: "createdat", SortOrder: "asc" }
     ];
+    const handleSelect = (option: sortOptionType) => {
+        console.log(option)
+        params.set("sortBy", option.SortBy);
+        params.set("sortOrder", option.SortOrder);
+        params.set("page", "1")
+        router.push(`?${params.toString()}`);
+    };
     return (
         <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} gap={"12px"}>
             <Box display={"flex"} flexGrow={1}>
@@ -55,9 +69,9 @@ export default function LargeScreensControllers({ viewMode, setViewMode, totalRe
                 </Gradient_Button>
             </Box>
             <Box>
-                <MenuElement<sortOptionType> options={sortOptions} value={SortItem?.label} getId={(item: sortOptionType) => item.label} getLabel={(item: sortOptionType) => item.label} onSelect={(item: sortOptionType) => {
+                <MenuElement<sortOptionType> options={sortOptions}  value={SortItem?.label} getId={(item: sortOptionType) => item.label} getLabel={(item: sortOptionType) => item.label} onSelect={(item: sortOptionType) => {
 
-                    dispatch(setSortItem(item))
+                    handleSelect(item)
 
                 }}>
                     <Gradient_Button variant="gradientBorder">

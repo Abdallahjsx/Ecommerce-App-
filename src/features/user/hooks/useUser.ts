@@ -5,13 +5,13 @@ import { getUserInfo } from "../services/userService";
 import { User, ApiResponse } from "../types";
 
 export function useUser() {
-  const token = useAppSelector((s: any) => s.auth?.token); 
+  const token = useAppSelector((state) => state?.authAlluvo?.token);
 
   // لو مفيش توكن، رجّعي User = null ومتشغليش الـ API
   const { data, error, isLoading, refetch } = useQuery<ApiResponse<User>>({
     queryKey: ["user", token],
     queryFn: () => getUserInfo(),
-    enabled: !!token, 
+    enabled: !!token,
     retry: false,
   });
 
@@ -24,9 +24,3 @@ export function useUser() {
     isLoggedIn: !!token,
   };
 }
-
-
-
-
-
-

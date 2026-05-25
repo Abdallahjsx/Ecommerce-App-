@@ -10,30 +10,52 @@ import { setMainCategory, setSearch } from "@/Redux/slices/shopFiltersSlice";
 import { useGetCategories } from "../hooks/useLookUps.hook";
 import { mainCategoryType } from "../types";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 
 export default function SearchBar({ categories, isLoading }: { categories: mainCategoryType[], isLoading: boolean }) {
     const t = useTheme()
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const { mainCategory, Search } = useAppSelector((state) => state.filters)
-    // const { data, isLoading, isFetching, isSuccess } = useGetCategories()
-    const [searchValue, setSearchValue] = useState<string>("")
-    const [value, setValue] = useState<string>("All")
-    useEffect(() => {
-        if (mainCategory?.length === 1) {
-            setValue(mainCategory[0].name)
-        } else if (mainCategory?.length === 0) {
-            setValue("All")
-        } else {
-            setValue("Customized")
-        }
-    }, [mainCategory])
+    const searchParams = useSearchParams()
+    const selectedCategories = searchParams.get("categoryId")?.split(",") || []
+    const search = searchParams.get("search") || ""
+    const params = new URLSearchParams(searchParams)
+    // const { mainCategory, Search } = useAppSelector((state) => state.filters)
+    const { token } = useAppSelector((state) => state.authAlluvo)
+    const [searchValue, setSearchValue] = useState<string>(search)
+    let value = "All"
+    if (selectedCategories?.length === 1) {
+        value = categories.find((category) => String(category.id) === selectedCategories[0])?.name || "All"
+    } else if (selectedCategories?.length > 1) {
+        value = "Customized"
+    }
     useEffect(() => {
         if (searchValue === '') {
-            dispatch(setSearch(""))
+            handleSearch()
         }
     }, [searchValue])
+    function handleCategorySelect(category: mainCategoryType) {
+        params.set("categoryId", category.id)
+        params.set("page", "1")
+        router.push(`?${params.toString()}`)
+    }
+
+
+
+
+    function handleSearch() {
+        if (searchValue.trim().length > 0) {
+            params.set("search", searchValue)
+            params.set("page", "1")
+            router.push(`?${params.toString()}`)
+        } else {
+            params.delete("search")
+            params.set("page", "1")
+            router.push(`?${params.toString()}`)
+        }
+
+    }
     if (isLoading) {
         return (
             <Box display={"flex"} justifyContent={"space-around"} alignItems={"stretch"} mb={"40px"} gap={"32px"} width={"100%"}>
@@ -49,7 +71,7 @@ export default function SearchBar({ categories, isLoading }: { categories: mainC
     return (
         <Box display={"flex"} justifyContent={"space-around"} alignItems={"stretch"} mb={"40px"} gap={"32px"}>
             <Box flexGrow={1} borderRadius={"4px"} height={"56px"} display={"flex"} justifyContent={"space-between"} bgcolor={"#ECEFF1"}>
-                <MenuElement<mainCategoryType> options={categories} value={value} onSelect={(item) => dispatch(setMainCategory([item]))} getId={(item: mainCategoryType) => item.id} getLabel={(item: mainCategoryType) => item.name}>
+                <MenuElement<mainCategoryType> options={categories} value={value} onSelect={(item) => handleCategorySelect(item)} getId={(item: mainCategoryType) => item.id} getLabel={(item: mainCategoryType) => item.name}>
                     <Box display={"flex"} alignItems={"center"} gap={"16px"} height={"100%"} padding={"10px 20px"} sx={{ cursor: "pointer" }}>
                         <Typography sx={{ textShadow: "none" }} fontFamily={"Inter"} variant="titleSpecial">{value}</Typography>
                         <ArrowDownIcon />
@@ -65,8 +87,7 @@ export default function SearchBar({ categories, isLoading }: { categories: mainC
                         <Divider orientation="vertical" variant="fullWidth" flexItem sx={{ bgcolor: "#7C7C7C" }} />
                     </Box>
                     <Box style={{ cursor: "pointer" }} mt={"5px"} onClick={() => {
-                        dispatch(setSearch(searchValue))
-
+                        handleSearch()
                     }}>
 
                         <SearchIcon width={"22px"} height={"22px"} />
@@ -74,7 +95,14 @@ export default function SearchBar({ categories, isLoading }: { categories: mainC
                     </Box>
                 </Box>
             </Box>
-            <Button onClick={() => router.push("/cart")} sx={{ width: "fit-content", bgcolor: t.palette.secondary.main, color: "white", borderRadius: "4px", padding: "16px 15px", display: { xs: "none", lg: "flex" } }}>
+            <Button onClick={() => {
+                if (token) {
+                    router.push("/cart")
+                } else {
+                    router.push("/login?redirectTo=/cart")
+                }
+            }
+            } sx={{ width: "fit-content", bgcolor: t.palette.secondary.main, color: "white", borderRadius: "4px", padding: "16px 15px", display: { xs: "none", lg: "flex" } }}>
                 <CartIcon />
                 <Typography color="white" variant="captionSmall" fontSize={"20px"} sx={{ textTransform: "none" }} ml={"10px"}>View Cart</Typography>
             </Button>

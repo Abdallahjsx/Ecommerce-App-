@@ -18,6 +18,7 @@ export function useGetNotifications(loggedIn: boolean) {
   });
 }
 export function useUnreadNotificationCount(loggedIn: boolean) {
+  console.log(loggedIn);
   return useQuery({
     queryKey: ["unread-count"],
     queryFn: () => getUnreadNotificationsCount(),

@@ -76,13 +76,22 @@ export default function CartProductCard({
       </Box>
 
       {/* Image */}
-      <Box
+      {/* <Box
         component="img"
-        src={product.image}
+        src={product?.productMediaUrls?.[0].trim()}
         alt={product.name}
         sx={{
           width: { xs: "100px", sm: "120px" },
           height: { xs: "100px", sm: "120px" },
+          objectFit: "contain",
+          flexShrink: 0,
+        }}
+      /> */}
+      <img src={process.env.NEXT_PUBLIC_BASE_API_URL + "/" + product?.image}
+        alt={product.name}
+        style={{
+          width: "100px",
+          height: "100px",
           objectFit: "contain",
           flexShrink: 0,
         }}

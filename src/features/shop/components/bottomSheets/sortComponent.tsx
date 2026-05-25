@@ -5,11 +5,15 @@ import { useTheme } from "@mui/material";
 import { Box, Typography, Stack } from "@mui/material";
 import { Gradient_Button } from "@/components/ui/gradientButton";
 import BottomSheet from "@/components/ui/special/bottomSheet";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SortComponent({ open, setOpen }: { open: boolean, setOpen: (open: boolean) => void }) {
     const t = useTheme()
-    const dispatch = useAppDispatch();
-    const { SortItem: sort } = useAppSelector((state) => state.filters);
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
+    const sortBy = searchParams.get("sortBy") || "name";
+    const sortOrder = searchParams.get("sortOrder") || "asc";
 
     const sortOptions: sortOptionType[] = [
         { label: "Alphabetically, A to Z", SortBy: "name", SortOrder: "asc" },
@@ -22,7 +26,12 @@ export default function SortComponent({ open, setOpen }: { open: boolean, setOpe
     ];
 
     const handleSelect = (option: sortOptionType) => {
-        dispatch(setSortItem(option));
+
+        params.set("sortBy", option.SortBy);
+        params.set("sortOrder", option.SortOrder);
+        params.set("page", "1")
+        router.push(`?${params.toString()}`);
+        // dispatch(setSortItem(option));
         setOpen(false);
     };
 
@@ -34,9 +43,9 @@ export default function SortComponent({ open, setOpen }: { open: boolean, setOpe
                     {sortOptions.map((option, index) => (
                         <SortingOptionElement
                             key={index}
-                            selected={sort?.label === option.label}
+                            selected={sortBy === option.SortBy && sortOrder === option.SortOrder}
                             option={option}
-                            onSelect={handleSelect}
+                            onSelect={(option) => handleSelect(option)}
                         />
                     ))}
                 </Stack>

@@ -10,8 +10,16 @@ import ColorFilter from "./filters/colorFilter";
 import SizeFilter from "./filters/sizeFilter";
 import { useState } from "react";
 import { mainCategoryType, colorType, sizeType } from "../types";
+import { useSearchParams } from "next/navigation";
+
 export default function FilterationComponent({ categories, isLoading, allColors, sizes }: { categories: mainCategoryType[], isLoading: boolean, allColors: colorType[], sizes: sizeType[] }) {
     const [selectedColor, setSelectedColor] = useState<string[]>([])
+ 
+
+    // const urlsearch = new URLSearchParams({
+
+    // })
+    // const mainCategoriesArray = urlsearch.get("categoryId") ? urlsearch.get("categoryId")?.split(",") : []
     if (isLoading) {
         return (
             <Box height={"80vh"} borderRadius={"4px"} overflow="hidden">
@@ -31,7 +39,7 @@ export default function FilterationComponent({ categories, isLoading, allColors,
                 </Typography>
             </Box >
             <CustomDivider />
-            <AppliedFilters />
+            <AppliedFilters categories={categories}/>
             <CustomDivider />
             <CategoryFilter categories={categories} />
             <CustomDivider />

@@ -2,11 +2,12 @@ import { Box, Typography } from "@mui/material"
 import { CloseIcon } from "@/iconsComponents/all";
 import CloasbleBox from "@/components/ui/special/closableBox";
 import { useAppDispatch, useAppSelector } from "@/Redux/store";
-import { clearAllFilters, removeColor, setMainCategory, setPriceRange, setStockStatus, setColors, setSearch, setSortItem, setSize } from "@/Redux/slices/shopFiltersSlice";
+import { clearAllFilters, removeColor, setMainCategory, setPriceRange, setStockStatus, setColors, setSearch, setSortItem, setSizesSelected } from "@/Redux/slices/shopFiltersSlice";
+import { mainCategoryType } from "../../types";
 
-export default function AppliedFilters({ smallScreen = false }: { smallScreen?: boolean }) {
+export default function AppliedFilters({ smallScreen = false, categories }: { smallScreen?: boolean, categories: mainCategoryType[] }) {
     const dispatch = useAppDispatch();
-    const { mainCategory, subCategories, priceRange, stockStatus, colors, Search, SortItem, size } = useAppSelector((state) => state.filters);
+    const { mainCategory, subCategories, priceRange, stockStatus, colors, Search, SortItem, sizesSelected } = useAppSelector((state) => state.filters);
     return (
 
         <Box>
@@ -29,9 +30,11 @@ export default function AppliedFilters({ smallScreen = false }: { smallScreen?: 
                     <CloasbleBox key={index} title={color.name} onClose={() => dispatch(removeColor(color))} />
                 ))}
                 {SortItem && <CloasbleBox title={SortItem.label} onClose={() => dispatch(setSortItem(null))} />}
-                {size && <CloasbleBox title={size.name} onClose={() => {
-                    dispatch(setSize(null))
-                }} />}
+                {sizesSelected && sizesSelected.length > 0 && sizesSelected.map((size, index) => (
+                    <CloasbleBox key={index} title={size.name} onClose={() => {
+                        dispatch(setSizesSelected(size))
+                    }} />
+                ))}
 
             </Box>
         </Box>

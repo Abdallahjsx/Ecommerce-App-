@@ -1,6 +1,6 @@
 "use client";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import authReducer from "./slices/authSlice";
+import authAlluvoReducer from "./slices/authSlice";
 import filtersReducer from "./slices/shopFiltersSlice";
 import addToCartDialogReducer from "./slices/addTocartDialogSlice";
 import otpVerificationReducer from "./slices/otpVerificationSlice";
@@ -18,7 +18,7 @@ import storage from "redux-persist/lib/storage";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 
 const rootReducer = combineReducers({
-  auth: authReducer,
+  authAlluvo: authAlluvoReducer,
   filters: filtersReducer,
   addToCartDialog: addToCartDialogReducer,
   otpVerification: otpVerificationReducer,
@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
   key: "root",
-  whitelist: ["auth", "otpVerification"],
+  whitelist: ["authAlluvo", "otpVerification"],
   storage,
 };
 

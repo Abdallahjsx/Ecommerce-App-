@@ -5,6 +5,8 @@ import { Button, Typography, IconButton, Rating } from "@mui/material";
 import { Box, Stack } from "@mui/material";
 import { useToggleToWishlist } from "@/features/wishlist/hooks/useToggleToWishlist.hook";
 import { useWishlist } from "@/features/wishlist/hooks/useWishlist.hook";
+import Tooltip from "@mui/material/Tooltip";
+import { CartIcon } from "@/iconsComponents/all";
 import {
   OutlineHeartIcon,
   FilledHeartIcon,
@@ -12,6 +14,7 @@ import {
   OfferIcon,
 } from "../../../features/brandProfile/Icons";
 import { useRouter } from "next/navigation";
+import { useTheme } from "@mui/material";
 
 export type Product = {
   id: string;
@@ -44,96 +47,54 @@ export default function ShopCard({
   isInWishlist,
   id,
   onAddToCart,
-}: Product & { onAddToCart: () => void }) {
+  viewMode,
+  isLoggedIn
+}: Product & { onAddToCart: () => void, viewMode: "grid" | "list", isLoggedIn: boolean }) {
+
   const router = useRouter();
 
   // ✅ mutation
   const { mutate: toggleToWishlist, isPending } = useToggleToWishlist();
-
-  // ✅ wishlist data
-  const { data: wishlist = [] } = useWishlist();
-
-  // ✅ liked state from cache
-  const isLiked = wishlist.some((item) => item.productId === Number(id));
+  function handleToggleWishlist(e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!isLoggedIn) {
+      router.push("/login");
+      return;
+    }
+    toggleToWishlist(Number(id));
+  }
+  const theme = useTheme();
 
   return (
     <Box
       sx={{
-        backgroundColor: "#E7E9E5",
+        backgroundColor: "#e7eae615",
         borderRadius: "16px",
         overflow: "hidden",
         boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.05)",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: viewMode === "grid" ? "column" : "row",
         width: "100%",
         position: "relative",
-        border: "1px solid rgba(0, 0, 0, 0.03)",
         cursor: "pointer",
+        border: `1px solid ${theme.tokens.separatingColors.border}`,
+        background:
+          "linear-gradient(90deg, rgba(27, 35, 81, 0.08) 0%, rgba(71, 192, 210, 0.08) 100%)",
       }}
       onClick={() => {
         router.push(`/products/${id}`);
       }}
     >
       {/* Badge */}
-      {(hasDiscount || isSale) && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: 10,
-            right: 10,
-            zIndex: 2,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {isSale && !discount ? (
-            <Box
-              sx={{
-                backgroundColor: "#47C0D2",
-                color: "white",
-                padding: "4px 12px",
-                borderRadius: "20px",
-                fontSize: "12px",
-                fontWeight: 600,
-                boxShadow: "0px 2px 8px rgba(0,0,0,0.1)",
-                mr: 2.5,
-                mt: 2.5,
-              }}
-            >
-              Sale
-            </Box>
-          ) : (
-            <Box sx={{ position: "relative" }}>
-              <OfferIcon
-                sx={{ width: 65, height: 60, transform: "scaleX(-1)" }}
-              />
-              <Typography
-                sx={{
-                  position: "absolute",
-                  top: "45%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%) rotate(31deg)",
-                  color: "white",
-                  fontSize: "12px",
-                  fontWeight: 700,
-                  pointerEvents: "none",
-                }}
-              >
-                {discount}
-              </Typography>
-            </Box>
-          )}
-        </Box>
-      )}
+
 
       {/* Image */}
       <Box
         sx={{
-          width: "100%",
-          pt: "85%",
+          width: viewMode === "grid" ? "100%" : "25%",
+          // pt: "85%",
           position: "relative",
-          backgroundColor: "#E7E9E5",
+          // backgroundColor: "red",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -142,19 +103,81 @@ export default function ShopCard({
         <img
           src={imageUrl}
           alt={name}
-          style={{
-            position: "absolute",
-            top: "5%",
-            left: "5%",
-            width: "90%",
-            height: "90%",
-            objectFit: "contain",
-          }}
+          width={250}
+          height={viewMode === "grid" ? 250 : 200}
+          style={{ width: "100%", }}
         />
+        <Box sx={{ position: "absolute", bottom: viewMode === "grid" ? -15 : "50%", right: viewMode === "grid" ? "50%" : -18, transform: viewMode === "grid" ? "translateX(50%)" : "translateY(50%)", background: "linear-gradient(135deg, #1B2351 0%, #47C0D2 70%), #FFFFFF", borderRadius: "50%", padding: "10px", width: "fit-content", height: "fit-content", display: "flex", justifyContent: "center", alignItems: "center" }} onClick={(e: React.MouseEvent | any) => {
+          e.stopPropagation();
+          onAddToCart();
+        }}>
+          <Tooltip title="Add to Cart">
+            <span style={{ width: "18px", height: "18px" }}>
+              <CartIcon width={"18"} height={"18"} />
+            </span>
+          </Tooltip>
+        </Box>
+        {(hasDiscount || isSale) && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: viewMode === "grid" ? "0" : "",
+              left: viewMode === "grid" ? "" : "0",
+              zIndex: 2,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {isSale && !discount ? (
+              <Box
+                sx={{
+                  backgroundColor: "#47C0D2",
+                  color: "white",
+                  padding: "4px 12px",
+                  borderRadius: "20px",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  boxShadow: "0px 2px 8px rgba(0,0,0,0.1)",
+                  mr: 2.5,
+                  mt: 2.5,
+                }}
+              >
+                Sale
+              </Box>
+            ) : (
+              <Box sx={{ position: "relative" }}>
+                <Box sx={{ rotate: viewMode === "grid" ? "0deg" : "305deg" }}>
+                  <OfferIcon
+                    sx={{ width: 20, height: 20, }}
+                  />
+                </Box>
+                <Typography
+
+                  sx={{
+                    position: "absolute",
+                    top: "45%",
+                    left: "50%",
+                    transform: `translate(-50%, -50%) rotate(${viewMode === "grid" ? "31deg" : "-25deg"})`,
+                    color: "white",
+                    fontSize: "18px",
+                    fontWeight: 500,
+                    pointerEvents: "none",
+                    fontFamily: "var(--font-cinzel)"
+
+                  }}
+                >
+                  {discount}
+                </Typography>
+              </Box>
+            )}
+          </Box>
+        )}
       </Box>
 
       {/* Content */}
-      <Box sx={{ p: { xs: 1.5, md: 2 } }}>
+      <Box sx={{ p: viewMode == "list" ? { xs: 3.5, md: 5 } : { xs: 1.5, md: 2 }, width: "100%" }}>
         <Typography
           sx={{
             color: "#1B2351",
@@ -185,14 +208,6 @@ export default function ShopCard({
           justifyContent="space-between"
           alignItems="center"
         >
-          <Stack direction="row" alignItems="center" spacing={0.5}>
-            <StarIcon
-              sx={{ fontSize: { xs: "12px", md: "14px" }, color: "#47C0D2" }}
-            />
-            <Typography sx={{ fontSize: { xs: "10px", md: "12px" } }}>
-              {rating.toFixed(1)} ({reviewsCount})
-            </Typography>
-          </Stack>
 
           <Typography
             sx={{
@@ -203,39 +218,89 @@ export default function ShopCard({
           >
             {status}
           </Typography>
+          {viewMode == "list" && <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+            {hasDiscount && originalPrice && (
+              <Typography sx={{ textDecoration: "line-through", fontSize: { xs: "11px", md: "13px" }, color: "rgba(27, 35, 81, 0.6)" }}>
+                ${originalPrice}
+              </Typography>
+            )}
+            <Typography sx={{ fontWeight: 800, fontSize: { xs: "16px", md: "20px" } }}>${price}</Typography>
+
+          </Box>}
         </Stack>
 
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Typography sx={{ fontWeight: 800 }}>${price}</Typography>
-          {hasDiscount && originalPrice && (
-            <Typography sx={{ textDecoration: "line-through" }}>
-              ${originalPrice}
-            </Typography>
-          )}
-        </Stack>
-
-        <Stack direction="row" spacing={1}>
-          <Gradient_Button
-            onClick={(e: React.MouseEvent | any) => {
-              e.stopPropagation();
-              onAddToCart();
-            }}
-          >
-            + Add To Cart
-          </Gradient_Button>
-
+        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+          {viewMode == "grid" && <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+            <Typography sx={{ fontWeight: 800 }}>${price}</Typography>
+            {hasDiscount && originalPrice && (
+              <Typography sx={{ textDecoration: "line-through" }}>
+                ${originalPrice}
+              </Typography>
+            )}
+          </Box>}
           {/* ❤️ Wishlist */}
-          <IconButton
+          {viewMode === "grid" && <IconButton
+            sx={{
+              backgroundColor: "#e7eae669",
+              borderRadius: "5px",
+              width: "fit-content",
+              height: "fit-content",
+              padding: "4px",
+              "&:hover": {
+                backgroundColor: "#e7eae669",
+              }
+            }}
             disabled={isPending}
             onClick={(e: React.MouseEvent) => {
               e.stopPropagation();
-              if (!isPending) toggleToWishlist(Number(id));
+              if (!isPending) handleToggleWishlist(e);
             }}
           >
-            {isLiked ? <FilledHeartIcon /> : <OutlineHeartIcon />}
-          </IconButton>
+            {isInWishlist ? <FilledHeartIcon /> : <OutlineHeartIcon />}
+          </IconButton>}
+
+        </Stack>
+
+        <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center" width={"100%"} >
+          <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+            <Rating
+              name="read-only"
+              size="small"
+              value={rating}
+              readOnly
+            />
+            <Typography sx={{ fontSize: { xs: "10px", md: "12px" }, fontWeight: 600 }}>
+              {rating.toFixed(1)}
+            </Typography>
+            <Typography sx={{ fontSize: { xs: "10px", md: "12px" }, fontWeight: 600 }}>
+              ({reviewsCount})
+            </Typography>
+          </Box>
+          {viewMode === "list" && <IconButton
+            sx={{
+              backgroundColor: "#e7eae669",
+              borderRadius: "5px",
+              width: "fit-content",
+              height: "fit-content",
+              padding: "4px",
+              "&:hover": {
+                backgroundColor: "#e7eae669",
+              }
+            }}
+            disabled={isPending}
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
+              if (!isPending) handleToggleWishlist(e);
+            }}
+          >
+            {isInWishlist ? <FilledHeartIcon /> : <OutlineHeartIcon />}
+          </IconButton>}
+
+
+
+
         </Stack>
       </Box>
-    </Box>
+    </Box >
   );
 }

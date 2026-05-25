@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 
 export default function ProductProfile({ product }: { product: ProductDetails }) {
   const theme = useTheme();
-  const token = useAppSelector((state) => state.auth.token);
+  const token = useAppSelector((state) => state.authAlluvo.token);
   const router = useRouter();
   const { mutate: addToCart } = useAddToCart();
   return (

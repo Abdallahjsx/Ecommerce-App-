@@ -1,33 +1,40 @@
 import { Stack, Typography } from "@mui/material";
 import { LeftArrowIcon, RightArrowIcon } from "@/iconsComponents/all";
 import { useTheme } from "@mui/material";
+import { useSearchParams, useRouter } from "next/navigation";
 
-export default function PaginationComponent({ pageIndex, setPageIndex, totalPages }: { pageIndex: number, setPageIndex: (pageIndex: number) => void, totalPages: number }) {
+export default function PaginationComponent({ totalPages }: { totalPages: number }) {
     const t = useTheme()
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const page = Number(searchParams.get("page") || 1);
+    const params = new URLSearchParams(searchParams.toString());
     function handleNext() {
-        if (pageIndex < totalPages) {
-            setPageIndex(pageIndex + 1)
+        if (page < totalPages) {
+            params.set("page", (page + 1).toString());
+            router.push(`/shop?${params.toString()}`);
         }
     }
     function handlePrevious() {
-        if (pageIndex > 1) {
-            setPageIndex(pageIndex - 1)
+        if (page > 1) {
+            params.set("page", (page - 1).toString());
+            router.push(`/shop?${params.toString()}`);
         }
     }
     return (
         <Stack direction={"row"} justifyContent={"center"} alignItems={"center"} gap={"12px"}>
             <BlueCircleButton disabled={false} onClick={() => { }}>
                 <Typography variant="inputLabel" color="white" fontSize={"20px"} >
-                    {pageIndex > 9 ? pageIndex : `0${pageIndex}`}
+                    {page > 9 ? page : `0${page}`}
                 </Typography>
             </BlueCircleButton>
             <Typography variant="inputLabel" color="black" fontSize={"14px"} >
                 of {totalPages}
             </Typography>
-            <BlueCircleButton onClick={handlePrevious} disabled={pageIndex === 1}>
+            <BlueCircleButton onClick={handlePrevious} disabled={page === 1}>
                 <LeftArrowIcon />
             </BlueCircleButton>
-            <BlueCircleButton onClick={handleNext} disabled={pageIndex === totalPages}>
+            <BlueCircleButton onClick={handleNext} disabled={page === totalPages}>
                 <RightArrowIcon />
             </BlueCircleButton>
         </Stack>

@@ -1,7 +1,7 @@
 
 import GuardedLayout from "@/components/layout/guardedLayout";
 
-export default function CartLayout({
+export default function CheckoutLayout({
     children,
 }: {
     children: React.ReactNode;

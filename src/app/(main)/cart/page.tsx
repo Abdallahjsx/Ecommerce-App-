@@ -18,7 +18,7 @@ export default function CartPage() {
   const { showToast } = useToaster();
   const queryClient = useQueryClient();
   const router = useRouter();
-  const token = useAppSelector((state) => state.auth.token);
+  const token = useAppSelector((state) => state.authAlluvo.token);
 
 
   const [openClearModal, setOpenClearModal] = useState(false);
@@ -38,9 +38,7 @@ export default function CartPage() {
       size: item.size,
       color: item.color,
       price: item.productPrice,
-      image: item.productMediaUrl
-        ? `https://alluvo-api-stating.runasp.net/${item.productMediaUrl}`
-        : "/assets/images/placeholder.png",
+      image: item.productMediaUrls[0],
       quantity: item.quantity,
     }));
 
@@ -321,18 +319,8 @@ export default function CartPage() {
 
                 <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
                   <Box sx={{ width: "150px", height: "48px" }}>
-                    <Gradient_Button sx={{ width: "100%", height: "100%" }}>
+                    <Gradient_Button sx={{ width: "100%", height: "100%" }} onClick={() => { router.push("/checkout") }}>
                       checkout
-                    </Gradient_Button>
-                  </Box>
-
-                  <Box sx={{ width: "150px", height: "48px" }}>
-                    <Gradient_Button
-                      onClick={() => setOpenClearModal(true)}
-                      disabled={clearCartMutation.isPending}
-                      sx={{ width: "100%", height: "100%" }}
-                    >
-                      Clear Cart
                     </Gradient_Button>
                   </Box>
                 </Box>

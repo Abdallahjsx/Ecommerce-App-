@@ -2,9 +2,11 @@
 
 import { Box, Typography, useTheme } from "@mui/material";
 import Gradient_Button from "@/components/ui/gradientButton/Gradient_Button";
+import { useRouter } from "next/navigation";
 
 export default function EmptyCart() {
   const theme = useTheme();
+  const router = useRouter();
 
   return (
     <Box
@@ -54,6 +56,7 @@ export default function EmptyCart() {
             height: { xs: "56px", md: "70px" },
             borderRadius: theme.tokens.buttons.borderRadius,
           }}
+          onClick={() => router.push("/shop")}
         >
           <Typography
             sx={{

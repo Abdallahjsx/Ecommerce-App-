@@ -11,6 +11,7 @@ import { useLogin } from "@/features/auth/hooks/useLogin";
 import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import ErrorBox from "@/components/ui/special/errorBox";
+import { useSearchParams } from "next/navigation";
 
 
 import * as Yup from "yup";
@@ -21,14 +22,24 @@ export type LoginFormValues = {
 export default function LoginForm() {
   const router = useRouter();
   const t = useTheme();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo");
   const { error, isPending, data, mutate, isSuccess, isError, errorMessage } = useLogin();
 
   useEffect(() => {
     if (!isSuccess) return;
 
-    router.push("/");
+    callBackOnSuccessToRedirect()
     // console.log(data.data.token);
   }, [isSuccess]);
+
+  function callBackOnSuccessToRedirect() {
+    if(redirectTo){
+      router.push(redirectTo)
+    }else{
+      router.push("/")
+    }
+  }
 
   const myForm = useFormik({
     validateOnMount: true,
@@ -116,7 +127,7 @@ export default function LoginForm() {
         </p>
       )} */}
 
-      <Social />
+      <Social redirectTo={redirectTo}/>
       <Box sx={{ marginTop: "10px", textAlign: "center" }}>
         <Typography variant="link" color="gray" fontSize={"11px"}>
           Don’t have an account?

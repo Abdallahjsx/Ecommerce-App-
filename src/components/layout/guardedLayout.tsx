@@ -9,7 +9,7 @@ export default function GuardedLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const token = useAppSelector((state) => state.auth.token);
+    const token = useAppSelector((state) => state.authAlluvo.token);
     const router = useRouter();
 
     const [authorized, setAuthorized] = useState(false);

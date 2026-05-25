@@ -206,7 +206,7 @@ export default function UserInfo() {
                 width: "100%"
               }}
             >
-              <Social />
+              <Social redirectTo={null} />
             </Box>
 
             {/* ✅ النص أسفل Social */}

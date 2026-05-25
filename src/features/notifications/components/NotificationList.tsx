@@ -15,7 +15,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 export default function NotificationList() {
   const isMobile = useMediaQuery('(max-width:450px)');
   const [activeTab, setActiveTab] = useState("all");
-  const token = useAppSelector((state) => state.auth.token);
+  const token = useAppSelector((state) => state.authAlluvo.token);
 
   const { data: notifications, isFetching, error } = useGetNotifications(!!token);
   const { mutate: markAllAsRead } = useMarkAllAsRead();

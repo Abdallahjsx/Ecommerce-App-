@@ -34,7 +34,7 @@ export default function WishlistPage() {
     }
   }, [isError, showToast]);
 
-  const token = useAppSelector((state) => state.auth.token);
+  const token = useAppSelector((state) => state.authAlluvo.token);
 
   return (
 

@@ -7,7 +7,7 @@ export type FiltersState = {
     subCategories: string[] | null;
     priceRange: number[] | null;
     stockStatus: string | null;
-    size: sizeType | null;
+    sizesSelected: sizeType[] | null;
     colors: colorType[] | null;
     Search: string | undefined;
     SortItem: sortOptionType | null

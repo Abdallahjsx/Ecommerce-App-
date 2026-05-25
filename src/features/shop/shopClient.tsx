@@ -17,35 +17,32 @@ import AddToCartDialog from "@/components/ui/dialog/addToCartDialog";
 import { useAddToCart } from "../cart/hooks/useAddToCart.hook";
 import { useRouter } from "next/navigation";
 import { useGetCategories, useGetColors, useGetSizes } from "./hooks/useLookUps.hook";
+import { mainCategoryType, colorType, sizeType } from "./types";
 
-export default function ShopClient() {
-    const filters = useAppSelector((state) => state.filters);
-    const token = useAppSelector((state) => state.auth.token);
+export default function ShopClient({ trialProducts, categories, colors, sizes, pageIndex }: { trialProducts: any, categories: mainCategoryType[], colors: colorType[], sizes: sizeType[], pageIndex: number }) {
+    // const filters = useAppSelector((state) => state.filters);
+    const token = useAppSelector((state) => state.authAlluvo.token);
     const t = useTheme()
     const router = useRouter();
-    const [pageIndex, setPageIndex] = useState<number>(1);
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-    const { data, isLoading, isFetching, isSuccess } = useGetProducts({ pageIndex });
-    const { data: categories, isLoading: categoriesLoading, isFetching: categoriesFetching, isSuccess: categoriesSuccess } = useGetCategories();
-    const { data: colors, isLoading: colorsLoading, isFetching: colorsFetching, isSuccess: colorsSuccess } = useGetColors();
-    const { data: sizes, isLoading: sizesLoading, isFetching: sizesFetching, isSuccess: sizesSuccess } = useGetSizes();
     const { mutateAsync: addToCart } = useAddToCart();
     const [openSorting, setOpenSorting] = useState<boolean>(false);
     const [openFilteration, setOpenFilteration] = useState<boolean>(false);
-    useEffect(() => {
-        setPageIndex(1);
-    }, [filters]);
+    // useEffect(() => {
+    //     setPageIndex(1);
+    // }, [filters]);
+    // console.log("meta", trialProducts?.meta)
 
-    const totalRecords = data?.data.meta.totalRecords;
+    const totalRecords = trialProducts?.meta.totalRecords;
     return (
         <Box minHeight={"100vh"} paddingX={{ xs: "16px", md: "80px" }} paddingY={{ xs: "16px", md: "20px" }} bgcolor={t.tokens.backgroundColors.main} overflow="hidden" position="relative">
             <BackgroundShapeImage />
 
             <Box position="relative" zIndex={1} height="100%" minHeight={"calc(100vh - 80px)"}>
-                <SearchBar categories={categories?.data} isLoading={categoriesLoading} />
+                <SearchBar categories={categories} isLoading={categories?.length === 0} />
                 <Grid container spacing={2} height={"100%"} >
                     <Grid size={{ xs: 0, lg: 3 }} display={{ xs: "none", lg: "block" }} >
-                        <FilterationComponent categories={categories?.data} isLoading={categoriesLoading || sizesLoading || colorsLoading} allColors={colors?.data} sizes={sizes?.data} />
+                        <FilterationComponent categories={categories} isLoading={categories?.length === 0 || colors?.length === 0 || sizes?.length === 0} allColors={colors} sizes={sizes} />
                     </Grid>
                     <Grid size={{ xs: 12, lg: 9 }} height={"100%"}  >
                         <Box display={"flex"} flexDirection={"column"} gap={"20px"} minHeight={"calc(100vh - 80px)"} >
@@ -56,11 +53,11 @@ export default function ShopClient() {
                                 <SmallScreensControllers viewMode={viewMode} setViewMode={setViewMode} setOpenSorting={setOpenSorting} setOpenFilteration={setOpenFilteration} totalRecords={totalRecords} />
                             </Box>
                             <Box height={"100%"} flexGrow={1}>
-                                {data && < ProductsSection viewMode={viewMode} products={data.data.data} pageIndex={pageIndex} />}
+                                {trialProducts && < ProductsSection viewMode={viewMode} products={trialProducts?.data} pageIndex={pageIndex} />}
                             </Box>
 
 
-                            {isLoading && <Grid container spacing={3}>
+                            {trialProducts?.data.length < 1 && <Grid container spacing={3}>
                                 {Array.from({ length: 8 }).map((_, i) => (
                                     <Grid key={i} size={{ xs: 6, sm: 4, md: 3 }}>
                                         <Skeleton variant="rectangular" width="100%" height={350} sx={{ borderRadius: "16px" }} />
@@ -72,13 +69,13 @@ export default function ShopClient() {
                         </Box>
                     </Grid>
                 </Grid>
-                {data && (data?.data.meta.hasNextPage || data?.data.meta.hasPreviousPage) && (
+                {trialProducts && (trialProducts?.meta.hasNextPage || trialProducts?.meta.hasPreviousPage) && (
                     <Stack mt="auto" pt="20px" direction={"row"} justifyContent={"flex-end"}>
-                        <PaginationComponent pageIndex={pageIndex} setPageIndex={setPageIndex} totalPages={Math.ceil(data.data.meta.totalRecords / 10)} />
+                        <PaginationComponent totalPages={trialProducts?.meta.totalPages} />
                     </Stack>
                 )}
             </Box>
-            <SmallScreenFilterationComponent open={openFilteration} setOpen={setOpenFilteration} categories={categories?.data} allColors={colors?.data} sizes={sizes?.data} />
+            <SmallScreenFilterationComponent open={openFilteration} setOpen={setOpenFilteration} categories={categories} allColors={colors} sizes={sizes} />
             <SortComponent open={openSorting} setOpen={setOpenSorting} />
             <AddToCartDialog
                 onAdd={(productId, color, size, quantity) => {

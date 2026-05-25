@@ -1,6 +1,6 @@
 "use client";
 
-import React,{useState} from "react";
+import React, { useState } from "react";
 import SocialLoginButton from "@/components/ui/socialLoginButton/SocialLoginButton";
 import Google from "../../../../public/assets/images/google-logo.png";
 import Tiktok from "../../../../public/assets/images/tiktok-logo.png";
@@ -8,13 +8,13 @@ import Divider from "@mui/material/Divider";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material";
 import { useRouter } from "next/navigation";
-export default function Social() {
+export default function Social({ redirectTo }: { redirectTo: string | null }) {
   const router = useRouter();
   const t = useTheme();
   const [googleClicked, setGoogleClicked] = useState(false);
   const [tiktokClicked, setTiktokClicked] = useState(false);
-  const googleAuthURL = `https://alluvo-api-stating.runasp.net/api/GoogleAuth/login?frontendLoginSuccessUrl=${encodeURIComponent("http://localhost:3000")}&frontendLoginFailUrl=${encodeURIComponent("http://localhost:3000/login")}`;
-  const tiktokAuthURL = `https://alluvo-api-stating.runasp.net/api/TikTokAuth/login?frontendLoginSuccessUrl=${encodeURIComponent("http://localhost:3000")}&frontendLoginFailUrl=${encodeURIComponent("http://localhost:3000/login")}`;
+  const googleAuthURL = `https://alluvo-api-stating.runasp.net/api/GoogleAuth/login?frontendLoginSuccessUrl=${encodeURIComponent(`http://localhost:3000${redirectTo ?? ""}`)}&frontendLoginFailUrl=${encodeURIComponent("http://localhost:3000/login")}`;
+  const tiktokAuthURL = `https://alluvo-api-stating.runasp.net/api/TikTokAuth/login?frontendLoginSuccessUrl=${encodeURIComponent(`http://localhost:3000${redirectTo ?? ""}`)}&frontendLoginFailUrl=${encodeURIComponent("http://localhost:3000/login")}`;
   return (
     <div style={{ width: "100%" }}>
       <Box
@@ -50,11 +50,11 @@ export default function Social() {
         <SocialLoginButton label="Sign in with Google" social={Google} onClick={() => {
           router.push(googleAuthURL);
           setGoogleClicked(true);
-        }} loading={googleClicked}/>
+        }} loading={googleClicked} />
         <SocialLoginButton label="Sign in with TikTok" social={Tiktok} onClick={() => {
           router.push(tiktokAuthURL);
           setTiktokClicked(true);
-        }} loading={tiktokClicked}/>
+        }} loading={tiktokClicked} />
       </Box>
     </div>
   );
