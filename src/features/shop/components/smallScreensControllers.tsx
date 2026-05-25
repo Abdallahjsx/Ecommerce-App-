@@ -48,7 +48,7 @@ export default function SmallScreensControllers({ setOpenSorting, setOpenFiltera
             </Stack>
             {/* Applied Filters */}
             <Stack direction={"column"}>
-                <AppliedFilters smallScreen={true} />
+                {/* <AppliedFilters smallScreen={true} /> */}
                 <Box mt={"14px"} display={"flex"} justifyContent={"flex-end"} gap={"12px"}>
                     <Gradient_Button variant={viewMode === "grid" ? "primary" : "regular"}
                         sx={{ boxShadow: "none", "&:active": { boxShadow: "none" }, width: "fit-content" }} onClick={() => { setViewMode("grid") }}>

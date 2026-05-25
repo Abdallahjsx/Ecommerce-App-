@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCategories, getColors, getSizes } from "../services";
+import { fetchCategories, fetchColors, fetchSizes } from "../services";
 export const useGetCategories = () => {
     return useQuery({
         queryKey: ["categories"],
-        queryFn: () => getCategories(),
+        queryFn: () => fetchCategories(),
     })
 }
 
 export const useGetColors = () => {
     return useQuery({
         queryKey: ["colors"],
-        queryFn: () => getColors(),
+        queryFn: () => fetchColors(),
         staleTime: Infinity,
         gcTime: Infinity,
     })
@@ -19,7 +19,7 @@ export const useGetColors = () => {
 export const useGetSizes = () => {
     return useQuery({
         queryKey: ["sizes"],
-        queryFn: () => getSizes(),
+        queryFn: () =>  fetchSizes(),
         staleTime: Infinity,
         gcTime: Infinity,
     })

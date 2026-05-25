@@ -21,11 +21,11 @@ export default function BrandTabs({
   setSelected,
 }: BrandTabsProps) {
   const tabsData = [
-    {
-      label: "Reels",
-      href: `/brandProfile/${brandId}/reels`,
-      icon: "/assets/icons/Reel.svg",
-    },
+    // {
+    //   label: "Reels",
+    //   href: `/brandProfile/${brandId}/reels`,
+    //   icon: "/assets/icons/Reel.svg",
+    // },
     {
       label: "Shop",
       href: `/brandProfile/${brandId}/shop`,

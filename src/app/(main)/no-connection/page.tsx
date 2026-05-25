@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import NavBar from "@/components/layout/navbar/NavBar";
 import Footer from "@/components/layout/footer/Footer";
-import BackgroundShapeImage from "../../components/ui/BackgroundShape/BackgroundShapeImage";
+import BackgroundShapeImage from "@/components/ui/BackgroundShape/BackgroundShapeImage";
  // ✅ نفس شكل الخلفية المستخدم في باقي الصفحات
 import { useTheme } from "@mui/material";
 

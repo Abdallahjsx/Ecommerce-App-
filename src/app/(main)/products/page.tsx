@@ -93,6 +93,10 @@ function ProductsContent() {
                     hasDiscount={product.haveOffer}
                     discount={`-${product.discountPercentage}%`}
                     onAddToCart={() => { }}
+                    isInWishlist={false}
+                    // onAddToWishlist={(e: any) => { console.log(e) }}
+                    viewMode="grid"
+                    isLoggedIn={true}
                   />
                 </Grid>
               ))}

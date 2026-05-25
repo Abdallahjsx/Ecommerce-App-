@@ -59,12 +59,18 @@ export default function Offers() {
                 }
                 hasDiscount={product.haveOffer}
                 isSale={product.haveOffer}
-                onAddToCart={() => {}}
+                onAddToCart={() => { }}
                 discount={
                   product.discountPercentage
                     ? `${product.discountPercentage}%`
                     : ""
                 }
+                isInWishlist={false}
+                // onAddToWishlist={(e: any) => { console.log(e) }}
+                viewMode="grid"
+                isLoggedIn={true}
+
+
               />
             </Grid>
           ))
