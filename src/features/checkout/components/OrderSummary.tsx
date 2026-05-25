@@ -232,7 +232,7 @@ function ProductItem({ product }: { product: OrderSummaryProduct }) {
     >
       <Box
         component="img"
-        src={`${process.env.NEXT_PUBLIC_BASE_API_URL}/${product.productImages?.[0]}`}
+        src={`${"https://dev.api.alluvo.life"}/${product.productImages?.[0]}`}
         sx={{
           width: "96px",
           height: "96px",

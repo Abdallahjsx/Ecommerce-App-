@@ -87,7 +87,7 @@ export default function CartProductCard({
           flexShrink: 0,
         }}
       /> */}
-      <img src={process.env.NEXT_PUBLIC_BASE_API_URL + "/" + product?.image}
+      <img src={"https://dev.api.alluvo.life" + "/" + product?.image}
         alt={product.name}
         style={{
           width: "100px",

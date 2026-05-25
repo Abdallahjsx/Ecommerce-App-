@@ -1,7 +1,7 @@
 import { apiCall } from "@/services/apiClient";
 import { getProductsShopParams, mainCategoryType } from "../types";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+const baseUrl = "https://dev.api.alluvo.life";
 
 function getCategoryIds(categories: mainCategoryType[]) {
   return categories.map((category) => category.id).join(",");
